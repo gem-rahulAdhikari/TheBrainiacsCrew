@@ -82,7 +82,7 @@ function httpGet(token) {
   console.log(obj.language_id);
   console.log(obj);
 
-  while (obj.status_id ==1) {
+  while (obj.status_id ==1 || obj.status_id ==2) {
   xmlHttpReq.open("GET", 'http://34.131.180.20/submissions/'+token+'?base64_encoded=false&fields=stdout,stderr,status_id,language_id,source_code', false);
   xmlHttpReq.send(null);
   obj = JSON.parse(xmlHttpReq.responseText);
@@ -108,14 +108,15 @@ select.onchange = function () {
         getValueFromServer(selectedValue);
 
     }
-    else if(selectedValue==="50")
-    {
-        getValueFromServer(selectedValue);
-    }
     else if(selectedValue==="62")
     {
         getValueFromServer(selectedValue);
     }
+    else if(selectedValue==="50")
+    {
+        getValueFromServer(selectedValue);
+    }
+    
    
   }
 
