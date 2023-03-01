@@ -13,6 +13,7 @@ function myFunction() {
   console.log("User pressed Enter!");
 }*/
 var globalId = null;
+var errorStatus=null;
 var div = document.getElementById("layout");
 let select = document.getElementById("dropdown");
 let select1 = document.getElementById("dropdown1");
@@ -26,9 +27,10 @@ button.addEventListener('click', function() {
     }
   );
 
-
+  
 
   dynamicdropdown();
+  //dynamiclanguagedropdown();
   
 
   //making dropdown dynamic using array--------
@@ -69,6 +71,34 @@ for (var key in hashMap) {
     console.log(key);
   }
 }
+//show the langauses dynamicall on dropdown
+
+/*function dynamiclanguagedropdown() {
+  fetch('http://34.131.180.20/languages/all')
+  .then(response => response.json())
+  .then(data => {
+    data.forEach(item => {
+      if(item.is_archived===true)
+      {
+    //  console.log(item.name);
+      var option = document.createElement("option");
+      option.text = item.name;
+      option.value = item.name;
+      select.add(option);
+      }
+     
+    });
+
+   
+  })
+  .catch(error => {
+    console.error(error);
+  });
+
+}*/
+
+
+
 
 
 
@@ -107,8 +137,11 @@ function submitCode()
       console.log("hello");
       let token = JSON.parse(xhr.responseText).token;
       var out=httpGet(token);
+     
       console.log(out);
-      document.getElementById("result").innerHTML = out;
+      
+     document.getElementById("result").innerHTML = out;
+      
     }
   });
 
@@ -126,8 +159,7 @@ function httpGet(token) {
   xmlHttpReq.send(null);
 
   let obj = JSON.parse(xmlHttpReq.responseText);
-  console.log(obj.status_id==1 );
-  console.log(obj.language_id);
+  
   console.log(obj);
 
   while (obj.status_id ==1 || obj.status_id ==2) {
@@ -136,6 +168,16 @@ function httpGet(token) {
   obj = JSON.parse(xmlHttpReq.responseText);
  // console.log(xmlHttpReq.responseText)
   }
+  console.log(obj.status_id);
+  if(obj.status_id!==1||obj.status_id!==2||obj.status_id!==3)
+  {
+  
+    errorStatus=Status(obj.status_id);
+    return errorStatus;
+  }
+  else
+  {
+  
   if(obj.stderr==null)
   {
     //setData(obj.langauge_id,obj.stdout);
@@ -149,8 +191,70 @@ function httpGet(token) {
    // setData(langauge_id,obj.stdout);
     return obj.stderr;
   }
+}
 
   
+}
+
+//fetch the status_id and output the result
+
+function Status(statusId)
+{
+  console.log("hello");
+  console.log(statusId.toString());
+  console.log("hello");
+  
+ if(statusId.toString()==="4")
+ {
+  //document.getElementById("result").innerHTML = "Wrong Answer";
+  var error1="Wrong Answer";
+  return error1
+ }
+ else if(statusId.toString()==="5")
+ {
+  //document.getElementById("result").innerHTML = "Time Limit Exceeded";
+  var error1="Time Limit Exceeded";
+  return error1
+ }
+ else if(statusId.toString()==="6")
+ {
+ 
+ // document.getElementById("result").innerHTML = "Compilation Error";
+ var error1="Compilation Error";
+  return error1
+ }
+ else if(statusId.toString()==="7")
+ {
+  document.getElementById("result").innerHTML = "Runtime Error (SIGSEGV)";
+ }
+ else if(statusId.toString()==="8")
+ {
+  document.getElementById("result").innerHTML = "Runtime Error (SIGXFSZ)";
+ }
+ else if(statusId.toString()==="9")
+ {
+  document.getElementById("result").innerHTML = "Runtime Error (SIGFPE)";
+ }
+ else if(statusId.toString()==="10")
+ {
+  document.getElementById("result").innerHTML = "Runtime Error (SIGABRT)";
+ }
+ else if(statusId.toString()==="11")
+ {
+  document.getElementById("result").innerHTML = "Runtime Error (NZEC)";
+ }
+ else if(statusId.toString()==="12")
+ {
+  document.getElementById("result").innerHTML = "Runtime Error (Other)";
+ }
+ else if(statusId.toString()==="13")
+ {
+  document.getElementById("result").innerHTML = "Internal Error";
+ }
+ else if(statusId.toString()==="14")
+ {
+  document.getElementById("result").innerHTML = "Exec Format Error";
+ }
 }
 
 //local storage concept
@@ -161,6 +265,8 @@ function httpGet(token) {
 //localStorage.setItem("50",JSON.stringify(string));
 
 
+
+//to fetch the code wrt to langauage from the dropdown.
 select.onchange = function () {
 
   fetch('http://34.131.180.20/languages/all')
