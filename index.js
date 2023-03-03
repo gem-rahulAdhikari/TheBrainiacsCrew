@@ -13,6 +13,7 @@ function myFunction() {
   console.log("User pressed Enter!");
 }*/
 var globalId = null;
+var statusIdG= null;
 var errorStatus=null;
 var div = document.getElementById("layout");
 let select = document.getElementById("dropdown");
@@ -68,7 +69,7 @@ for (var key in hashMap) {
     option.text = key;
     option.value = hashMap[key];
     select.add(option);
-    console.log(key);
+    
   }
 }
 //show the langauses dynamicall on dropdown
@@ -104,8 +105,8 @@ for (var key in hashMap) {
 
 function submitCode()
   {
-    console.log(document.getElementById("code_input").value);
-    console.log(document.querySelector(".language").value);
+  //  console.log(document.getElementById("code_input").value);
+  //  console.log(document.querySelector(".language").value);
 
 
   var data = JSON.stringify({
@@ -134,11 +135,11 @@ function submitCode()
     if(this.readyState === 4) {
       
       console.log(JSON.parse(xhr.responseText).token);
-      console.log("hello");
+      console.log("hello karan");
       let token = JSON.parse(xhr.responseText).token;
       var out=httpGet(token);
      
-      console.log(out);
+    //  console.log(out);
       
      document.getElementById("result").innerHTML = out;
       
@@ -160,7 +161,7 @@ function httpGet(token) {
 
   let obj = JSON.parse(xmlHttpReq.responseText);
   
-  console.log(obj);
+  //console.log(obj);
 
   while (obj.status_id ==1 || obj.status_id ==2) {
   xmlHttpReq.open("GET", 'http://34.131.180.20/submissions/'+token+'?base64_encoded=false&fields=stdout,stderr,status_id,language_id,source_code', false);
@@ -168,8 +169,9 @@ function httpGet(token) {
   obj = JSON.parse(xmlHttpReq.responseText);
  // console.log(xmlHttpReq.responseText)
   }
+  statusIdG=obj.status_id;
   console.log(obj.status_id);
-  if(obj.status_id!==1||obj.status_id!==2||obj.status_id!==3)
+  if(obj.status_id===4 || obj.status_id===5 || obj.status_id===6 || obj.status_id===7 || obj.status_id===8 || obj.status_id===9 || obj.status_id===10 || obj.status_id===11 || obj.status_id===13 || obj.status_id===14)
   {
   
     errorStatus=Status(obj.status_id);
@@ -177,9 +179,7 @@ function httpGet(token) {
   }
   else
   {
-  console.log("hello");
-  console.log("hello");
-  console.log("hello");
+ console.log("hello rahul");
   if(obj.stderr==null)
   {
     //setData(obj.langauge_id,obj.stdout);
@@ -202,9 +202,7 @@ function httpGet(token) {
 
 function Status(statusId)
 {
-  console.log("hello");
-  console.log(statusId.toString());
-  console.log("hello");
+ 
   
  if(statusId.toString()==="4")
  {
@@ -227,35 +225,51 @@ function Status(statusId)
  }
  else if(statusId.toString()==="7")
  {
-  document.getElementById("result").innerHTML = "Runtime Error (SIGSEGV)";
+ // document.getElementById("result").innerHTML = "Runtime Error (SIGSEGV)";
+ var error1="Runtime Error (SIGSEGV)";
+  return error1
  }
  else if(statusId.toString()==="8")
  {
-  document.getElementById("result").innerHTML = "Runtime Error (SIGXFSZ)";
+ // document.getElementById("result").innerHTML = "Runtime Error (SIGXFSZ)";
+ var error1="Runtime Error (SIGXFSZ)";
+  return error1
  }
  else if(statusId.toString()==="9")
  {
-  document.getElementById("result").innerHTML = "Runtime Error (SIGFPE)";
+  //document.getElementById("result").innerHTML = "Runtime Error (SIGFPE)";
+  var error1="Runtime Error (SIGFPE)";
+  return error1
  }
  else if(statusId.toString()==="10")
  {
-  document.getElementById("result").innerHTML = "Runtime Error (SIGABRT)";
+ // document.getElementById("result").innerHTML = "Runtime Error (SIGABRT)";
+ var error1="Runtime Error (SIGABRT)";
+  return error1
  }
  else if(statusId.toString()==="11")
  {
-  document.getElementById("result").innerHTML = "Runtime Error (NZEC)";
+  //document.getElementById("result").innerHTML = "Runtime Error (NZEC)";
+  var error1="Runtime Error (NZEC)";
+  return error1
  }
  else if(statusId.toString()==="12")
  {
-  document.getElementById("result").innerHTML = "Runtime Error (Other)";
+  //document.getElementById("result").innerHTML = "Runtime Error (Other)";
+  var error1="Runtime Error (Other)";
+  return error1
  }
  else if(statusId.toString()==="13")
  {
-  document.getElementById("result").innerHTML = "Internal Error";
+ // document.getElementById("result").innerHTML = "Internal Error";
+ var error1="Internal Error";
+  return error1
  }
  else if(statusId.toString()==="14")
  {
-  document.getElementById("result").innerHTML = "Exec Format Error";
+  //document.getElementById("result").innerHTML = "Exec Format Error";
+  var error1="Exec Format Error";
+  return error1
  }
 }
 
@@ -276,20 +290,18 @@ select.onchange = function () {
   .then(data=>{
     //handle the response data here
    
-  
-   
     const selectedIndex = select.selectedIndex;
       const selectedOption = select.options[selectedIndex];
       const selectedText = selectedOption.text;
-      console.log(selectedText);
+    
        
     data.forEach(item => {
       console.log(hashMap[selectedText]);
-     // console.log(item.name);
+    // console.log(item.name);
       if(item.name.toString() == hashMap[selectedText].toString())
       {
-      console.log(hashMap[selectedText]);
-      console.log(item.id);
+     // console.log(hashMap[selectedText]);
+    //  console.log(item.id);
       globalId=item.id;
       getValueFromServer(item.id.toString());
      // let selectedValue = select.value;
@@ -344,9 +356,14 @@ async function getValueFromServer(selectedValue) {
    //  console.log(key + " : " + data1[key]["id"]);
    // });
     
-    console.log(data[0][selectedValue]);
     const value1 = data[0][selectedValue]; // replace 'key' with the actual key you want to get the value for
+  //it is not able to change the text of textarea??????
+  
+  
+  
     result.innerHTML = value1;
+  
+  
   }
   
 
@@ -362,7 +379,7 @@ async function getValueFromServer(selectedValue) {
       const selectedIndex = select1.selectedIndex;
         const selectedOption = select1.options[selectedIndex];
         const selectedText = selectedOption.text;
-        console.log(selectedText);
+        
          
       data.forEach(item => {
        if(selectedText==="submission1")
