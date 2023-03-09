@@ -1,20 +1,8 @@
-/*const textarea = document.getElementById("floatingTextarea1");
 
-textarea.addEventListener("keydown", function(event) {
-  if (event.key === "Enter") {
-    // Call your function here
-    myFunction();
-    event.preventDefault();
-  }
-});
-
-function myFunction() {
-  // This is where you would put the code you want to run when the user presses Enter
-  console.log("User pressed Enter!");
-}*/
 var globalId = null;
 var statusIdG= null;
 var errorStatus=null;
+var submitResult = null;
 var div = document.getElementById("layout");
 let select = document.getElementById("dropdown");
 let select1 = document.getElementById("dropdown1");
@@ -23,43 +11,19 @@ $(document).ready(function(){
     $(".pills").hide();
   });
 const button = document.getElementById("Executebtn");
+const runbtn = document.getElementById("Runbtn");
 button.addEventListener('click', function() {
     submitCode()
     }
   );
 
-  
+  runbtn.addEventListener('click', function() {
+    RunCode()
+    }
+  );
 
   dynamicdropdown();
-  //dynamiclanguagedropdown();
   
-
-  //making dropdown dynamic using array--------
-  /*var options = ["Python", "Java", "C"];
-
-  for (var i = 0; i < options.length; i++) {
-    var option = document.createElement("option");
-    option.text = options[i];
-    select.add(option);
-  }*/
-
-  // Create a new Map object
-/*var hashMap = new Map();
-
-// Add key-value pairs to the hash map
-hashMap.set("Python", "Python (3.8.1)");
-hashMap.set("Java", "Java (OpenJDK 13.0.1)");
-hashMap.set("C", "C (GCC 9.2.0)");
-
-for (var key in hashMap) {
-  console.log(key);
-  
- /* if (hashMap.hasOwnProperty(key)) {
-    var option = document.createElement("option");
-    option.text = key;
-    option.value = hashMap[key];
-    select.add(option);
-  }*/
 
 var hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)" };
 
@@ -72,42 +36,105 @@ for (var key in hashMap) {
     
   }
 }
-//show the langauses dynamicall on dropdown
 
-/*function dynamiclanguagedropdown() {
+select.onchange =  function () {
+
   fetch('http://34.131.180.20/languages/all')
-  .then(response => response.json())
-  .then(data => {
-    data.forEach(item => {
-      if(item.is_archived===true)
-      {
-    //  console.log(item.name);
-      var option = document.createElement("option");
-      option.text = item.name;
-      option.value = item.name;
-      select.add(option);
-      }
-     
-    });
-
+  .then(response=>response.json())
+  .then(data=>{
+    //handle the response data here
    
+    const selectedIndex = select.selectedIndex;
+    const selectedOption = select.options[selectedIndex];
+    const selectedText = selectedOption.text;
+    
+       
+    data.forEach(item => {
+      //console.log(hashMap[selectedText]);
+    
+      if(item.name.toString() == hashMap[selectedText].toString())
+      {
+      globalId=item.id;
+      getValueFromServer(item.id.toString());
+     
+   }
+    });
   })
-  .catch(error => {
+  .catch(error=>{
+    //handle any error that occur during the api request.
     console.error(error);
-  });
+  })
 
-}*/
+}
+async function getValueFromServer(selectedValue) {
 
+let xmlHttpReq = new XMLHttpRequest();
+xmlHttpReq.open("GET", 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/language', false);
+xmlHttpReq.send(null);
 
-
-
+let obj = JSON.parse(xmlHttpReq.responseText);
+const value1 = obj[0][selectedValue];
+console.log(value1);
+const myTextarea = document.getElementById("code_input");
+myTextarea.value = value1;
+//result.innerHTML = value1;
+}
 
 
 function submitCode()
   {
-  //  console.log(document.getElementById("code_input").value);
-  //  console.log(document.querySelector(".language").value);
+  var data = JSON.stringify({
+    "source_code":document.getElementById("code_input").value,
+    "language_id": globalId,
+    "number_of_runs": null,
+    "stdin": null,
+    "expected_output": null,
+    "cpu_time_limit": null,
+    "cpu_extra_time": null,
+    "wall_time_limit": null,
+    "memory_limit": null,
+    "stack_limit": null,
+    "max_processes_and_or_threads": null,
+    "enable_per_process_and_thread_time_limit": null,
+    "enable_per_process_and_thread_memory_limit": null,
+    "max_file_size": null,
+    "enable_network": null
+  });
+ 
+  
+  var xhr = new XMLHttpRequest();
 
+
+  xhr.addEventListener("readystatechange", function() {
+    if(this.readyState === 4) {
+      
+      console.log(JSON.parse(xhr.responseText).token);
+      console.log("hello karan");
+      let token = JSON.parse(xhr.responseText).token;
+      var out=httpGet(token);
+     
+    //  console.log(out);
+      
+     document.getElementById("result").innerHTML = out;
+     submitResult=out;
+     updatetheval();
+
+      
+    }
+  });
+
+  xhr.open("POST", "http://34.131.180.20/submissions");
+  xhr.setRequestHeader("X-Auth-Token", "X-Auth-Token");
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.send(data);
+  //console.log(data);
+
+}
+
+function RunCode()
+  {
+  
 
   var data = JSON.stringify({
     "source_code":document.getElementById("code_input").value,
@@ -142,6 +169,8 @@ function submitCode()
     //  console.log(out);
       
      document.getElementById("result").innerHTML = out;
+     
+
       
     }
   });
@@ -182,15 +211,12 @@ function httpGet(token) {
  console.log("hello rahul");
   if(obj.stderr==null)
   {
-    //setData(obj.langauge_id,obj.stdout);
-    //console.log(obj.langauge_id);
-   // console.log(obj.stdout);
+   
     return obj.stdout;
   }
   else
   {
     console.log(obj.stderr);
-   // setData(langauge_id,obj.stdout);
     return obj.stderr;
   }
 }
@@ -198,7 +224,6 @@ function httpGet(token) {
   
 }
 
-//fetch the status_id and output the result
 
 function Status(statusId)
 {
@@ -206,193 +231,88 @@ function Status(statusId)
   
  if(statusId.toString()==="4")
  {
-  //document.getElementById("result").innerHTML = "Wrong Answer";
+  
   var error1="Wrong Answer";
   return error1
  }
  else if(statusId.toString()==="5")
  {
-  //document.getElementById("result").innerHTML = "Time Limit Exceeded";
+  
   var error1="Time Limit Exceeded";
   return error1
  }
  else if(statusId.toString()==="6")
  {
  
- // document.getElementById("result").innerHTML = "Compilation Error";
+ 
  var error1="Compilation Error";
   return error1
  }
  else if(statusId.toString()==="7")
  {
- // document.getElementById("result").innerHTML = "Runtime Error (SIGSEGV)";
+ 
  var error1="Runtime Error (SIGSEGV)";
   return error1
  }
  else if(statusId.toString()==="8")
  {
- // document.getElementById("result").innerHTML = "Runtime Error (SIGXFSZ)";
+ 
  var error1="Runtime Error (SIGXFSZ)";
   return error1
  }
  else if(statusId.toString()==="9")
  {
-  //document.getElementById("result").innerHTML = "Runtime Error (SIGFPE)";
+ 
   var error1="Runtime Error (SIGFPE)";
   return error1
  }
  else if(statusId.toString()==="10")
  {
- // document.getElementById("result").innerHTML = "Runtime Error (SIGABRT)";
+
  var error1="Runtime Error (SIGABRT)";
   return error1
  }
  else if(statusId.toString()==="11")
  {
-  //document.getElementById("result").innerHTML = "Runtime Error (NZEC)";
+  
   var error1="Runtime Error (NZEC)";
   return error1
  }
  else if(statusId.toString()==="12")
  {
-  //document.getElementById("result").innerHTML = "Runtime Error (Other)";
+  
   var error1="Runtime Error (Other)";
   return error1
  }
  else if(statusId.toString()==="13")
  {
- // document.getElementById("result").innerHTML = "Internal Error";
+ 
  var error1="Internal Error";
   return error1
  }
  else if(statusId.toString()==="14")
  {
-  //document.getElementById("result").innerHTML = "Exec Format Error";
+ 
   var error1="Exec Format Error";
   return error1
  }
 }
 
-//local storage concept
 
-//localStorage.setItem("71","print('hello world');");
-//const myString = `This is the first line.\nThis is the second line.`;
-//const string=`int main()\n{\nprintf("Hello World");\nreturn 0;\n}\n`;
-//localStorage.setItem("50",JSON.stringify(string));
-
-
-
-//to fetch the code wrt to langauage from the dropdown.
-select.onchange = function () {
-
-  fetch('http://34.131.180.20/languages/all')
-  .then(response=>response.json())
-  .then(data=>{
-    //handle the response data here
-   
-    const selectedIndex = select.selectedIndex;
-      const selectedOption = select.options[selectedIndex];
-      const selectedText = selectedOption.text;
-    
-       
-    data.forEach(item => {
-      console.log(hashMap[selectedText]);
-    // console.log(item.name);
-      if(item.name.toString() == hashMap[selectedText].toString())
-      {
-     // console.log(hashMap[selectedText]);
-    //  console.log(item.id);
-      globalId=item.id;
-      getValueFromServer(item.id.toString());
-     // let selectedValue = select.value;
-   }
-    });
-  })
-  .catch(error=>{
-    //handle any error that occur during the api request.
-    console.error(error);
-  })
-
-
-   /* let selectedValue = select.value;
-    if(selectedValue==="71")
-    {
-      
-      
-     
-        //result.innerHTML=value1;
-        getValueFromServer(selectedValue);
-
-    }
-    else if(selectedValue==="62")
-    {
-        getValueFromServer(selectedValue);
-    }
-    else if(selectedValue==="50")
-    {
-        getValueFromServer(selectedValue);
-    }
-    */
-   
-  }
 
  
- 
-
-const url = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/language`
-
-
-
-async function getValueFromServer(selectedValue) {
-    const response = await fetch(url);
-    const data = await response.json();
-    //const data1=data[0]["data"];
-    //console.log(data1[1]["id"]);
-    //Object.keys(data1).forEach(function(key) {
-     // if(data1[key]["id"]===selectedValue)
-     // {
-      //  result.innerHTML = data1[key]["Input"];
-     // }
-   //  console.log(key + " : " + data1[key]["id"]);
-   // });
-    
-    const value1 = data[0][selectedValue]; // replace 'key' with the actual key you want to get the value for
-  //it is not able to change the text of textarea??????
-  
-  
-  
-    result.innerHTML = value1;
-  
-  
-  }
-  
-
-
-  select1.onchange = function () {
+ select1.onchange = function () {
    
     fetch(url)
     .then(response=>response.json())
     .then(data=>{
-      //handle the response data here
-     
-     
-      const selectedIndex = select1.selectedIndex;
+      
+        const selectedIndex = select1.selectedIndex;
         const selectedOption = select1.options[selectedIndex];
         const selectedText = selectedOption.text;
         
-         
-      data.forEach(item => {
-       if(selectedText==="submission1")
-       {
-        
-        result.innerHTML = item.submission1;
-        
-       }
-       else if(selectedText==="submission2")
-       {
-      
-        result.innerHTML = item.submission2;
-      }
+       data.forEach(item => {
+      console.log(item);
       });
     })
     .catch(error=>{
@@ -411,7 +331,23 @@ async function getValueFromServer(selectedValue) {
   .then(data => {
     data.forEach(item => {
       for (let key of Object.keys(item)) {
-        if(key==="submission1")
+        console.log(key);
+        if(key==="submissions")
+        {
+          let str = `${item[key]}`;
+          let k = str.split(",");
+          console.log(k);
+          for (let k1 of k) {
+           
+            var option = document.createElement("option");
+          option.text =  k1
+          option.value = k1
+          select1.add(option);
+          }
+         
+          //console.log(`${key}: ${item[key]}`);
+        }
+       /* if(key==="submission1")
         {
           var option = document.createElement("option");
           option.text = key;
@@ -424,19 +360,14 @@ async function getValueFromServer(selectedValue) {
           option.text = key;
           option.value = key;
           select1.add(option);
-        }
+        }*/
        
       }
+      
      
     });
 
-    /*if(data[0][key].toString()==="submission1")
-    {
-   var option = document.createElement("option");
-    option.text = key;
-    option.value = data[0][key];
-    select1.add(option);
-    }*/
+    
    
   })
   .catch(error => {
@@ -446,38 +377,26 @@ async function getValueFromServer(selectedValue) {
 }
 
 
+//update the db
+
+function updatetheval() {
+
+  let xmlHttpReq = new XMLHttpRequest();
+  xmlHttpReq.open("PUT", `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateData?value=${submitResult}`, false);
+  xmlHttpReq.send(null);
+  let obj = JSON.parse(xmlHttpReq.responseText);
+  console.log(obj);
+  dynamicdropdown()
+
+}
 
 
-  /*getValueFromServer()
-  .then(value1 => {
-    select.onchange = function () {
-        let selectedValue = select.value;
-        if(selectedValue==="71")
-        {
-            result.innerHTML=value1;
-        }
-       
-      }
-    console.log(value1); // do something with the value
-  });*/
 
 
   
 
+ 
 
-//select.onchange = function () {
-   // let selectedValue = select.value;
   
-   /* if (selectedValue === "71") {
-        result.innerHTML = localStorage.getItem("71");
-    } 
-    else if(selectedValue === "50")
-    {
-        result.innerHTML = JSON.parse(localStorage.getItem("50"));
-    }*/
-   // if(selectedValue==="71")
-   // {
-      //  result.innerHTML=value1;
-   // }
-   
-  //}
+
+
