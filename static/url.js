@@ -19,44 +19,7 @@ submitBtn.addEventListener('click', function() {
     console.log('Email:', emailInput.value);
     myFunction(nameInput.value, emailInput.value)
    
-   // getSubmission(nameInput.value, emailInput.value,submissionInput.value);
-    //getSubmission(Name,Email,Submission)
-   // setDetails(nameInput.value,emailInput.value,submissionInput.value);
   });
-
-
- /* function getSubmission(Name,Email,Submission)
-{
-   
-fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmission')
-.then(response => response.json())
-.then(data => {
-for (let i = 0; i < data.length; i++) {
- const item = data[i];
-
- if (item.name === Name && item.email === Email) { // replace 'matched value' with the value you want to match
-    anotherBoolean=true;
-
-     console.log(item.submission);
-     console.log("Array values:");
-   for (let j = 0; j < item.submission.length; j++) {
-     console.log(item.submission[j]); // replace 'arrayKey' with the name of the array key
-   }
- }
- 
-}
-
-}
-
-)
-.catch(error => console.error(error));
-
-if(myBoolean===false)
-{
-    setDetails(nameInput.value,emailInput.value,submissionInput.value);
-}
-
-}*/
 
 
   function myFunction(Name, Email) {
@@ -77,12 +40,6 @@ for (let i = 0; i < data.length; i++) {
      console.log(item.url);
      out.value=item.url;
      keyout1.value=item.Key;
-
-   /*for (let j = 0; j < item.submission.length; j++) {
-     console.log(item.submission[j]);
-     out.innerHTML=item.submission[j];
-      // replace 'arrayKey' with the name of the array key
-   }*/
    break;
  }
  
@@ -169,10 +126,7 @@ fetch(url2, {
 }
 
 
-/*fetch(apiUrl, options)
-.then(response => response.json())
-.then(data => console.log(data))
-.catch(error => console.error(error));*/
+
 
 
 
