@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+
+<html>
+
+
+
+
+<head>
+
+    <title>Question</title>
+
+    <!-- <link rel="stylesheet" type="text/css" href="index.css"> -->
+    <!-- <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='Questions1.css') }}"> -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='navbar.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        
+
+    #sideBra {
+        position: fixed;
+  
+  left: 0;
+  height: 100vh;
+  width: 100px;
+  background-color:   #F5F5F5;
+  
+}
+#Question {
+    
+  border: none;
+  outline: none;
+  background-color: transparent;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Style the tab */
+.tab {
+  float: left;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+  width: 10%;
+  height: 92vh;
+}
+
+/* Style the buttons inside the tab */
+.tab button {
+  display: block;
+  background-color: inherit;
+  color: black;
+  padding: 22px 16px;
+  width: 100%;
+  border: none;
+  outline: none;
+  text-align: left;
+  cursor: pointer;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current "tab button" class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  float: left;
+  padding: 0px 12px;
+  border: 1px solid #ccc;
+  width: 70%;
+  border-left: none;
+  height: 300px;
+}
+.active {
+  color: #FF0000; /* Set the desired font size for active navbar item */
+  }
+    
+  .tablinks.active {
+  background-color: #ddd;
+}
+    </style>
+    
+
+
+</head>
+
+
+
+
+
+<body>
+
+     
+
+    
+    
+    {% include "navbar.html" %}
+<div class="tab">
+ 
+</div>
+<div id="QuestionData" style="margin-left: 100px; margin-top: 0; padding:5%;">
+    
+  <span id="questionHeading">
+      
+  </span>
+  <div id="questionStatement" style="margin-top: 3%;">
+      
+  </div>
+  <div id="sampleTestcases" style="margin-top: 2%;">
+     
+  </div>
+  <div id="constraints" style="margin-top: 2%;">
+   
+  </div>
+</div>
+
+</body>
+
+
+
+
+
+<script>
+   
+const questionHeading=document.getElementById("questionHeading");
+const questionStatements=document.getElementById("questionStatement");
+const questionCases=document.getElementById("sampleTestcases");
+const questionConstraints=document.getElementById("constraints");
+const paramName = 'name';
+
+const link = document.getElementById('myLink');
+const url = new URL(window.location.href);
+console.log(url)
+const urlString = url.toString();
+const substringToRemove = "question";
+
+const modifiedString = urlString.replace(substringToRemove, "editor");
+console.log(modifiedString)
+
+console.log(url)
+
+
+
+
+//---------------Dynamic dropdown
+const selectElement = document.getElementById("Qyestion");
+const apiUrl = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions"; // Replace with your API endpoint
+let selectedValue='';
+const tabDiv = document.querySelector('.tab');
+const buttonValues = [];
+
+
+fetch(apiUrl)
+  .then(response => response.json())
+  .then(data => {
+    // Iterate over the data and create an option element for each item
+    data.forEach(item => {
+      console.log(item.url);
+      console.log(urlString);
+      if (item.url == modifiedString) {
+        const count = item.Questions.length;
+        
+        console.log(item.Questions.length);
+        for (let i = 1; i <= count; i++) {
+          const button = document.createElement('button');
+  button.classList.add('tablinks');
+  button.textContent = 'Question' + i;
+  const value = item.Questions[i - 1];
+    button.setAttribute('data-value', value);
+    buttonValues.push(value);
+  // button.setAttribute('data-value', item.Questions[i - 1]);
+  button.addEventListener('click', function(event) {
+    const buttons = document.querySelectorAll('.tablinks');
+  buttons.forEach(btn => {
+    btn.classList.remove('active');
+  });
+
+  // Add 'active' class to the clicked button
+  this.classList.add('active');
+    // this.classList.add('active');
+    const questionId = item.Questions[i - 1];
+    selectedValue=questionId // Assuming the item has a 'questionId' property
+    console.log('Selected question ID:', questionId);
+    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          for (let key in item) {
+            if (item[key].objectId == questionId) {
+              console.log(item[key].Question);
+              questionHeading.innerHTML = `<strong>${item[key].Question}</strong>`;
+              questionStatements.innerHTML = item[key]['Question Statement'];
+              const obj = item[key]['Sample Testcases'];
+              questionCases.innerHTML='';
+              for (const value in obj) {
+                     questionCases.innerHTML += `<strong>Example </strong>${obj[value]['Input']}<br>${obj[value]['Output']}<br>`;
+                       }
+              questionConstraints.innerHTML = `<strong>Constraints </strong>${item[key]['Constraints']}`;
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+  });
+
+  tabDiv.appendChild(button);
+  const firstButtonValue = buttonValues[0];
+  console.log(firstButtonValue);
+  fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          for (let key in item) {
+            if (item[key].objectId == firstButtonValue) {
+              questionHeading.innerHTML = `<strong>${item[key].Question}</strong>`;
+              questionStatements.innerHTML = item[key]['Question Statement'];
+              const obj = item[key]['Sample Testcases'];
+              questionCases.innerHTML='';
+              for (const value in obj) {
+                     questionCases.innerHTML += `<strong>Example </strong>${obj[value]['Input']}<br>${obj[value]['Output']}<br>`;
+                       }
+              
+              questionConstraints.innerHTML = `<strong>Constraints </strong>${item[key]['Constraints']}`;
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+         
+        }
+      }
+    });
+  });
+
+ 
+
+    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          for (let key in item) {
+            if (item[key].objectId == selectedValue) {
+              console.log(item[key].Question);
+              questionHeading.innerHTML = `<strong>${item[key].Question}</strong>`;
+              questionStatements.innerHTML = item[key]['Question Statement'];
+              const obj = item[key]['Sample Testcases'];
+              questionCases.innerHTML='';
+               for (const value in obj) {
+                     questionCases.innerHTML += `<strong>Example </strong>${obj[value]['Input']}<br>${obj[value]['Output']}<br>`;
+                       }
+            
+              questionConstraints.innerHTML = `<strong>Constraints </strong>${item[key]['Constraints']}`;
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+
+     
+
+    let req_url='';
+    let newArray=[];
+    let name="{{name}}";
+     fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions')
+    .then(response => response.json())
+    .then(data => {
+      data.forEach(item => {
+      
+       req_url=item.url;
+       const parts = req_url.split("=");
+       
+       if (parts[1] === name) {
+        
+       
+        newArray.push(...item.Questions);
+      }
+  
+      });
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+    
+    
+
+</script>
+
+
+
+
+
+</html>

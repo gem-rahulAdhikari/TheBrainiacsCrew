@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='setting.css') }}">
+   
+</head>
+<body>
+    {% include "side-bar.html" %}
+   
+   
+    <!-- <div id="add-data-btn">
+  
+        <button id="add-data-btn1">  <label>Add User</label></button>
+      </div>  -->
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content1">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form id="myForm">
+                  <div class="form-group">
+                    <label for="userId" class="label1">User Name</label>
+                    <input type="text" class="form-control" id="userId" name="userId" placeholder="Enter">
+                  </div>
+                  <div class="form-group">
+                    <label for="passwordInput" class="label1">Password</label>
+                    <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Enter">
+                  </div>
+                  <div class="form-group">
+                    <label for="dropdownInput" class="label1">Recruiter</label>
+                    <select class="form-control" id="dropdownInput" name="recruiter">
+                      <option value="Admin">Admin</option>
+                      <option value="HR">HR</option>
+                      <option value="Interviewer">Interviewer</option>
+                    </select>
+                  </div>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="submitFormBtn">Submit</button>
+              </div>
+              </div>
+              </div>
+              </div>
+
+              <main class="table" id="reqTable">
+                <section class="table__header">
+                    <h1>Setting</h1>
+                    <div class="input-group" id="input-group1">
+                        <input id="searchInput" onkeyup="searchTable()" type="search" placeholder="Search Data...">
+                   </div>
+                   <div id="add-data-btn">
+  
+                    <button id="add-data-btn1">  <label>Add User</label></button>
+                  </div> 
+                    
+                </section>
+              <section class="table__body">
+    
+<table id="myTable" class="visible-table">
+<thead>
+    <tr>
+        {% for header in headers %}
+        {% if header == 'PASSWORD'  %}
+                {% else %}
+                  <th>{{ header }}</th>
+                  {% endif %}
+          
+        
+        {% endfor %}
+        <th>Delete</th>
+      </tr>
+</thead>
+<tbody>
+ 
+  {% for d in data %}
+  {% set index = loop.index0 %}
+  <tr>
+    <td  >{{loop.index}}</td>
+    {% for key, value in d.items() %}
+    {% if key == '_id'  %}
+    <!-- <td class="editable" contenteditable="false" data-key="_id" data-id="{{ d._id }}">{{ value }}</td> -->
+    {% elif key == 'userId'  %}
+    <td class="editable" contenteditable="false" data-key="userId" data-id="{{ d._id }}">{{ value }}</td>
+    {% elif key == 'password'  %}
+    <!-- <td class="editable" contenteditable="false" data-key="Recruiter" data-id="{{ d._id }}">*****</td> -->
+    {% elif key == 'Role'  %}
+    <td class="editable" contenteditable="false" data-key="Role" data-id="{{ d._id }}">{{ value }}</td>
+    {% endif %}
+    {% endfor %}
+    <td><i class="fa-solid fa-trash" id="req" data-id="{{ d._id }}"></i></td>
+  </tr>
+  
+  {% endfor %}
+</tbody>
+
+</table>
+   </section>
+</body>
+<script>
+  var menu_btn=document.getElementById('mn-btn');
+  var close_btn=document.getElementById('close_btn');
+  var element = document.getElementById('myTable');
+  var element1 = document.getElementById('headingPage');
+
+  menu_btn.addEventListener('click', function() {
+ console.log("hello this is menu btn");
+ element.style.left = '60%';
+ element1.style.marginLeft = '600px'; 
+});
+close_btn.addEventListener('click', function() {
+ console.log("hello this is menu btn");
+ element.style.left = '50%';
+ element1.style.marginLeft = '500px'; 
+});
+    const modal1 = document.getElementById('myModal1');
+const closeBtn = document.querySelector('.close');
+let table = document.getElementById("reqTable");
+// const heading=document.getElementById('headingPage');
+
+$("#add-data-btn").on("click", function() {
+  table.classList.toggle("invisible-table");
+  // heading.classList.toggle("invisible-table")
+  console.log("heloo")
+  modal1.style.display = "block";
+ })
+closeBtn.addEventListener('click', () => {
+  // Add your code to handle the close button click event
+  modal1.style.display = "none";
+
+// heading.classList.remove("invisible-table")
+table.classList.remove("invisible-table");
+});
+
+function searchTable() {
+  // Declare variables
+  console.log("hello this is search");
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("searchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("myTable");
+  tr = table.getElementsByTagName("tr");
+
+  // Loop through all table rows, and hide those that don't match the search query
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1]; // Change 0 to the index of the column you want to search
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+
+}
+
+const deleteIcons = document.querySelectorAll('#req');
+deleteIcons.forEach(icon => {
+  icon.addEventListener('click', () => {
+    const idToDelete = icon.dataset.id;
+    console.log("hello");
+    console.log(idToDelete);
+    fetch(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/deleteAdmin?id=${idToDelete}`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      console.log(`Object ${idToDelete} deleted successfully`);
+      // Remove the table row from the UI
+      const trElement = icon.closest('tr');
+      trElement.parentNode.removeChild(trElement);
+    })
+    .catch(error => {
+      console.error(`There was a problem deleting object ${idToDelete}:`, error);
+    });
+  });
+});
+//update the table
+
+$('.editable').on('dblclick', function() {
+  // Make the content editable
+  $(this).attr('contenteditable', true);
+});
+
+$(document).ready(function() {
+ 
+ // Add event listener to editable cells
+ $('.editable').on('blur', function() {
+   // Get the updated value
+   var newValue = $(this).text();
+   // Get the row id
+   // var rowId = $(this).closest('td').data('id');
+   var rowId = $(this).closest('tr').find('td:nth-child(2)').data('id');
+   console.log(rowId);
+
+   var key = $(this).data('key');
+
+   console.log(key);
+   var data = {
+     rowId: rowId,
+     newValue: newValue,
+     key: key,
+   };
+   console.log(data)
+   // Send the data to the server using AJAX
+   $.ajax({
+     url: '/updateAdminTable',
+     type: 'POST',
+     data: data,
+     success: function(response) {
+       location.reload();
+       // Handle success
+     },
+     error: function(xhr) {
+       // Handle error
+     }
+   });
+   
+ });
+});
+//add the data
+document.getElementById("submitFormBtn").addEventListener("click", async function() {
+  
+  const userId = document.getElementById('userId').value;
+  const Password = document.getElementById('passwordInput').value;
+  const Role = document.getElementById('dropdownInput').value;
+ 
+  console.log(Password);
+  console.log(Role);
+  let userAlreadyExists = false;
+  fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/admin')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      // Iterate over the data array
+      data.forEach(item => {
+        // Access the properties of each item
+        if(item.userId==userId)
+        {
+          userAlreadyExists = true;
+          setTimeout(function(){
+            $('.slide-alert').show().animate({right: '10px'}, 'fast');
+              setTimeout(function() {
+                $('.slide-alert').animate({right: '-300px'}, 'fast', function() {
+                  $(this).hide();
+                });
+              }, 3000);
+    //do what you need here
+}, 2000);
+          
+        }
+      });
+      if (!userAlreadyExists) {
+        createNewUser();
+      }
+    })
+    .catch(error => console.error(error));
+
+  async function createNewUser() {
+
+    const payload = {
+      userId,
+      Password,
+      Role
+    };
+
+    const url1 = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/setAdmin'; // replace with your resource URL
+ // replace with your resource URL
+
+    fetch(url1, {
+      method: "POST",
+      body: JSON.stringify(payload),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      modal1.style.display = "none";
+      // heading.classList.remove("invisible-table")
+     
+      table.classList.remove("invisible-table");
+    
+      location.reload();
+    })
+    .catch(error => {
+      // handle errors
+    });
+  }
+});
+
+</script>
+</html>

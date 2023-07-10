@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+</head>
+<body>
+  <div class="navbar">
+    <ul>
+      
+     
+    
+         <li>
+          <a class="nav-link{% if current_page == 'profile' %} active{% endif %}" onclick="highlightText(event)" href="/profile{{ '?' if request.args else '' }}{{ request.query_string.decode('utf-8') }}">Profile</a>
+        </li>
+        <li>
+          <a id="question-link" class="nav-link{% if current_page == 'question' %} active{% endif %}" aria-current="page" onclick="highlightText(event)" href="/question{{ '?' if request.args else '' }}{{ request.query_string.decode('utf-8') }}">Question</a>
+        </li>
+        <li>
+          <a class="nav-link{% if current_page == 'editor' %} active{% endif %}" onclick="highlightText(event)" href="/editor{{ '?' if request.args else '' }}{{ request.query_string.decode('utf-8') }}">Editor</a>
+        </li>
+        <li class="right-corner"><img src="{{ url_for('static', filename='Gemini_Logo.png') }}" alt="Logo"
+          style="width: 200px; height: 25px; margin-left:800px;"></li>
+        
+    </ul>
+  </div>
+
+</body>
+<script>
+    function highlightText(event) {
+  // Remove highlight from previously clicked item
+  var currentHighlight = document.querySelector('.nav-link.highlight');
+  if (currentHighlight) {
+    currentHighlight.classList.remove('highlight');
+  }
+
+  // Add highlight to the clicked item
+  var clickedItem = event.target;
+  clickedItem.classList.add('highlight');
+}
+</script>
+</html>

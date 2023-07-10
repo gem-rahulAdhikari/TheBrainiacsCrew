@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <title>index</title>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='navbar.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='index.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='Scretkey.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <div id="secretKeyModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Enter secret key:</p>
+          <input type="password" id="secretKeyInput">
+          <button id="submitSecretKey">Submit</button>
+        </div>
+      </div>
+      <!-- <div id="content" > -->
+    <div id="content" class="hidden">
+    {% include "navbar.html" %}
+    
+    <div class="container-fluid bg-light" style="height:92vh;">
+        <div class="row ">
+            
+          <div class="col-8 ">
+            <!-- larger div content here -->
+            <select id="dropdown" class="language">
+                <option value="">Select Languages</option>
+                <option value="71">Python</option>
+                <option value="50">C</option>
+                <option value="62">Java</option>
+                
+             </select>
+             {% if session['role']=='Admin' %}
+             <select id="dropdown1" class="language">
+              <optgroup label="Result"></optgroup>
+                <!-- <option value="">Result</option> -->
+                </select>
+                {% endif %}
+                {% if session['role']=='Admin' %}
+                <div class="container1">
+                  <button type="button" class="btn " id="Runbtn" style="background-color: #38A3A5; color:white; margin-left:10vw;" onclick="disableButton()" disabled>Run</button>
+                  <button type="button" class="btn" id="Executebtn" style="background-color: #38A3A5; color:white;" onclick="disableButton()" disabled>Submit</button>
+          
+                </div>
+                {% else %}
+                <div class="container1">
+                  <button type="button" class="btn " id="Runbtn" style="background-color: #38A3A5; color:white; margin-left:10vw;">Run</button>
+                  <button type="button" class="btn" id="Executebtn" style="background-color: #38A3A5; color:white;">Submit</button>
+          
+                </div>
+                {% endif %}
+              
+                
+             
+                 
+            <div class="border rounded mt-2  ">
+                <div class="form-floating  ">
+                  <form method="POST" action="/submit">
+                   
+                    {% if session['role']=='Admin' %}
+                    <textarea class="form-control" readonly placeholder="Write Here....." id="code_input"  name="code_input" style="height: 75vh;" onkeydown="if(event.keyCode===9){
+                      var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;
+                  }"></textarea>
+    {% else %}
+    <textarea class="form-control" placeholder="Write Here....." id="code_input"  name="code_input" style="height: 75vh;" onkeydown="if(event.keyCode===9){
+      var v=this.value,s=this.selectionStart,e=this.selectionEnd;this.value=v.substring(0, s)+'\t'+v.substring(e);this.selectionStart=this.selectionEnd=s+1;return false;
+  }"></textarea>
+    {% endif %}
+    </form>
+     </div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="row ">
+                <div class="mt-5">Input</div>
+              <div class="col-12 mt-2">
+               <div class="form-floating">
+                {% if session['role']=='Admin' %}
+                <textarea class="form-control" readonly placeholder="Leave a comment here" id="floatingTextarea2" name="input_area" style="height: 25vh"></textarea>
+                {% else %}
+                <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" name="input_area" style="height: 25vh"></textarea>
+                {% endif %}
+                        <label for="floatingTextarea2"></label>
+                      </div>
+                  </div>
+             
+              <div class="pt-5" style="margin-top:70px;" >Output</div>
+              <div class="col-12 mt-1" >
+                <div class="form-floating">
+                  {% if session['role']=='Admin' %}
+                  <textarea class="form-control" readonly placeholder="Leave a comment here" id="result" name="code_output" style="height: 25vh"></textarea>
+                  {% else %}
+                  <textarea class="form-control" placeholder="Leave a comment here" id="result" name="code_output" style="height: 25vh"></textarea>
+                  {% endif %}
+                     <label for="floatingTextarea2"></label>
+                  </div>
+                    
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+   
+    
+</body>
+<script>
+   const questionLink = document.getElementById('question-link');
+    questionLink.addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default navigation behavior
+      const urlParams = new URLSearchParams(window.location.search);
+      const dynamicName = urlParams.get('name');
+      const url = new URL(questionLink.href, window.location.origin);
+      url.searchParams.set('name', dynamicName);
+      window.location.href = url.href;
+    });
+    
+    const currentUrl = window.location.href;
+    console.log(currentUrl)
+    let UserKey = null;
+    
+    const secretKeyModal = document.getElementById("secretKeyModal");
+    const secretKeyInput = document.getElementById("secretKeyInput");
+    const submitSecretKeyButton = document.getElementById("submitSecretKey");
+    const closeButton = document.querySelector(".close");
+    
+    // Add event listener to the submit button
+    submitSecretKeyButton.addEventListener("click", () => {
+      console.log("hello");
+      const validation = secretKeyInput.value.trim();
+      if (validation === UserKey ) {
+        
+        sessionStorage.setItem('secret',UserKey);
+        document.getElementById("content").style.display = "block";
+        secretKeyModal.style.display = "none";
+      } else {
+        alert("Invalid secret key, please try again!");
+      }
+    });
+    
+    // Add event listener to the close button
+    closeButton.addEventListener("click", () => {
+      secretKeyModal.style.display = "none";
+    });
+    
+    // Add event listener to the window's load event
+    window.addEventListener('load', () => {
+      console.log("hello john---")
+      var myValue = localStorage.getItem('role');
+      console.log("hello")
+  console.log(myValue);
+  console.log("hello")
+      console.log(sessionStorage.getItem('secret'));
+     
+      var sessionData = JSON.parse(localStorage.getItem('sessionData'));
+
+      if(sessionStorage.getItem('secret')!= null )
+      {
+        console.log("henoy")
+        const secretKeyModal = document.getElementById("secretKeyModal");
+        document.getElementById("content").style.display = "block";
+        secretKeyModal.style.display = "none";
+       
+      }
+      else
+      {
+        // if(myValue=='Admin')
+        // {
+        //   console.log("this is admin");
+        //   // document.getElementById("secretKeyModal")= "none";
+        //   document.getElementById("content").style.display = "block";
+
+        // }
+       
+       fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmission')
+         fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData')
+        .then(response => response.json())
+        .then(data => {
+          for (let i = 0; i < data.length; i++) {
+           console.log("enter")
+            const item = data[i];
+            if (currentUrl === item.url) {
+              UserKey = item.SecretKey;
+             
+              break;
+            }
+          }
+          if(myValue=='Admin')
+        {
+          console.log("this is admin");
+          // document.getElementById("secretKeyModal")= "none";
+          document.getElementById("content").style.display = "block";
+
+        }
+        else{
+          console.log("this is admin");
+          secretKeyModal.style.display = "block";
+          secretKeyInput.focus();
+        }
+        })
+        .catch(error => console.error(error));
+      }
+    });
+    // var firebaseConfig = {
+    //     apiKey: "AIzaSyCTjZFh1R-HgF-TTspx3S3T2d7BOPjJnGM",
+    // authDomain: "flask-app-b27bb.firebaseapp.com",
+    // databaseURL: "https://flask-app-b27bb-default-rtdb.firebaseio.com",
+    // projectId: "flask-app-b27bb",
+    // storageBucket: "flask-app-b27bb.appspot.com",
+    // messagingSenderId: "643677151622",
+    // appId: "1:643677151622:web:ea58239d04fc0415e88c07",
+    // measurementId: "G-EZH5DP62QM"
+    //   };
+    
+    //   firebase.initializeApp(firebaseConfig);
+    //   var db = firebase.database();
+    //   var messageInput = document.getElementById('code_input');
+    
+    // messageInput.addEventListener('input', function() {
+    // var message = messageInput.value;
+    // db.ref('messages').set({
+    //   message: message
+    // });
+    // });
+    
+    // messageInput.addEventListener('keydown', function(event) {
+    // if (event.keyCode === 8) { // detect backspace key
+    //   event.preventDefault(); // prevent the default backspace behavior
+    //   var message = messageInput.value.slice(0, -1); // remove the last character from the input field
+    //   db.ref('messages').set({
+    //     message: message
+    //   }); // update the database with the new message
+    // }
+    // });
+    
+    // db.ref('messages').on('value', function(snapshot) {
+    // var message = snapshot.val().message;
+    // messageInput.value = message || ''; // update the input field with the new message, or empty string if message is undefined
+    // });
+    
+    function disableButton() {
+      // Get a reference to the button element
+      const button = document.getElementById("Runbtn");
+    
+      // Disable the button's click activity
+      button.disabled = true;
+    }
+    
+    </script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+<script src="{{ url_for('static', filename='index.js') }}"></script>
+</html>
