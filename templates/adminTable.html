@@ -267,10 +267,10 @@
       <section class="table__header">
           <h1>Admin Table</h1>
           <div class="input-group" id="input-group1">
-              <input id="searchInput" onkeyup="searchTable()" type="search" placeholder="Search Data...">
+              <input id="searchInput" onkeyup="searchTable()" type="search" placeholder="Search Data..." style="width: 300px; height: 30px;">
          </div>
          <select id="monthDropdown" class="form-select" aria-label="Select Month">
-          <option selected>Select Month</option>
+          <option value="" selected>Select Month</option>
           <option value="1">January</option>
           <option value="2">February</option>
           <option value="3">March</option>
@@ -291,7 +291,9 @@
           
       </section>
    <section class="table__body">
-	<table id="dataTable" class="myTable">
+    <!-- <div style="overflow: auto; max-height: 500px; overflow-x: auto;"> -->
+      <table id="dataTable" class="myTable">
+      <!-- <table id="dataTable" class="myTable" style="table-layout: fixed;"> -->
         <thead>
             <tr>
               <th>S.No<span class="icon-arrow">&UpArrow;</span></th>
@@ -311,6 +313,8 @@
                 <th>Delete</th>
                 {% endif %}
               </tr>
+            
+        
         </thead>
         <tbody>
          
@@ -409,6 +413,7 @@
         </tbody>
         
       </table>
+    <!-- </div> -->
     </section>
     </main>
 </body>
@@ -457,6 +462,20 @@ recruiterInput.addEventListener('input', function() {
   // update the awesomplete object's list with filtered names
   // awesomplete.list = filteredRecruiterNames;
 });
+
+//dropdown 
+
+var currentMonth = new Date().getMonth() + 1; // +1 since getMonth() returns zero-based index
+
+  // Set the selected attribute on the option with the matching value
+  var monthDropdown = document.getElementById('monthDropdown');
+  var options = monthDropdown.options;
+  for (var i = 0; i < options.length; i++) {
+    if (options[i].value == currentMonth) {
+      options[i].selected = true;
+      break;
+    }
+  }
 //-------------downlaod Resume---------------
 
 var closePopupButton = document.getElementById('close-btn');
@@ -1844,7 +1863,7 @@ async function setDetails(Name, Email) {
   const stringToHash = Email + salt;
   console.log("key " + stringToHash)
   var hexHash = CryptoJS.SHA256(stringToHash)
-  const uniqueUrl = "http://gem-code--editor.el.r.appspot.com/editor?name=".concat(hexHash);
+  const uniqueUrl = "https://gem-code--editor.el.r.appspot.com/editor?name=".concat(hexHash);
   console.log(uniqueUrl)
   const salt1 = Math.random().toString(36).substring(2, 15);
   const stringToHash1 = salt1;
@@ -2270,6 +2289,7 @@ $("#logout-button").on("click", function() {
     url: "/logout",
     success: function() {
       // Redirect the user to the login page after successful logout
+      localStorage.clear();
       window.location.href = "/login";
     },
     error: function(xhr, status, error) {
