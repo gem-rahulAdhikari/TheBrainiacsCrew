@@ -5,15 +5,14 @@
     outline:0;
 }
 main.table {
-    width: 95vw;
-    height: 80vh;
+    /* width: 95vw;
+    height: 60vh; */
     background-color: #fff5;
-    
     width: fit-content;
     /* backdrop-filter: blur(7px);*/
      box-shadow: 0 .4rem .8rem #0005; 
     border-radius: .8rem;
-   margin-left:200px;
+   margin-left:130px;
     overflow: hidden;
 }
 
@@ -29,9 +28,8 @@ main.table {
     
 }
     table{
-        width: 70vw;
-    height: 50vh;
-    
+        width: 80vw;
+        height: 50vh;
         border-collapse: separate;
         border-spacing: 0px;
         min-width:max-content;
@@ -53,7 +51,7 @@ main.table {
 
     } */
     th,td{
-      border: 1px solid #ddd;
+          border: 1px solid #ddd;
           padding: 8px;
           text-align: center;
     }
