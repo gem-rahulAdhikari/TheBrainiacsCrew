@@ -147,7 +147,7 @@
 </body> -->
 <script>
   window.addEventListener('load', () => {
-    localStorage.setItem('role', 'Admin');
+    localStorage.setItem('role', `{{role}}`);
   });
  $("#logout-button").on("click", function() {
   // Make an AJAX request to the Flask server to log the user out
