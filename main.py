@@ -239,20 +239,23 @@ def login():
                     print("this is req role");
                     fetched_username = item['userId']
                     fetched_password = item['password']
+                    print(fetched_username)
+                    print(fetched_password)
+                    print(username)
+                    print(password)
                     role = item['Role']
                     print(role+"this is req role");
                     break
             
-        if username == fetched_username and password == fetched_password:
-            
-            session['user'] = username
-            session['password'] = password
-            session['role'] = role
-            print(role);
+            if username == fetched_username and password == fetched_password:
+              session['user'] = username
+              session['password'] = password
+              session['role'] = role
+              print(role);
                 
-        if role == 'Admin' or role == 'HR' or role == 'Interviewer':
+            if role == 'Admin' or role == 'HR' or role == 'Interviewer':
 
-            return render_template('Home.html', role=role)
+              return render_template('Home.html', role=role)
             
             # return redirect(url_for('protected', role=role))
         
@@ -299,6 +302,7 @@ def protected():
     if request.method == 'GET':
      role = session.get('role')
      print(role)
+     print("above is given role")
      current_month = datetime.datetime.now().month
      data_array = []
      pdf_data_list = []

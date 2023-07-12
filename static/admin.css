@@ -112,6 +112,7 @@ thead th.active,tbody td.active {
 .table__body {
     width: 100%;
     /* height:80%; */
+    
     overflow: auto;
     overflow: overlay;
 }
