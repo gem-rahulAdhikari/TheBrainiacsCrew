@@ -32,7 +32,8 @@ access_duration = timedelta(seconds=30)
 CORS(app)
 api = Api(app)
 
-ip_address='34.136.47.80'
+ip_address='34.126.209.148'
+# ip_address='34.136.47.80'
 
 hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)"}
 

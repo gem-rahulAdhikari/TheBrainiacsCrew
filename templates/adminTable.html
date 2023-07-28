@@ -202,7 +202,7 @@
       </form>
     </div>
   </div> -->
-  <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+  <!-- <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
     <div class="modal-dialog" role="document">
       <div class="modal-content1">
         <div class="modal-header">
@@ -252,7 +252,107 @@
           </div>
           </div>
           </div>
+          </div> -->
+
+          <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content1"  style="width:50vw !important; height:80vh !important;">
+                <div class="modal-header" style="width:48vw !important;">
+                  <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
+                  <button type="button" class="close123" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" id="mainbody">
+                <div class="dropdown-container">
+                    <!-- <div class="dropdown">
+                        <label for="dropdown1">Tags</label>
+                        <select id="dropdown1">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </select>
+                    </div> -->
+                    <div id="tags">
+                      <div class="custom-dropdown">
+                        <div style="display: flex; align-items: center;">
+                          <h1>Topics</h1>
+                          <button class="dropdown-toggle" style="background-color: white;" type="button" id="dropdownToggle" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa-solid fa-circle-chevron-down"></i>
+                          </button>
+                        </div>
+                        <div class="dropdown-menu" aria-labelledby="dropdownToggle" id="dropdownMenu">
+                          
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class="dropdown">
+                        <label for="dropdown2">Complexity</label>
+                        <select id="dropdown2">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </select>
+                    </div> -->
+                    <div id="complexity">
+                      <div class="custom-dropdown1">
+                        <div style="display: flex; align-items: center;">
+                          <h1 >Difficulty</h1>
+                        <button class="dropdown-toggle1" type="button"  style="background-color: white;" id="dropdownToggle1" aria-haspopup="true" aria-expanded="false">
+                          <i class="fa-solid fa-circle-chevron-down"></i>
+                        </button>
+                        <div class="dropdown-menu1" aria-labelledby="dropdownToggle" id="dropdownMenu1">
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                </div>
+                <!-- <div class="sidebar">
+                  <ul>
+                      <li><a href="#">Menu Item 1</a></li>
+                      <li><a href="#">Menu Item 2</a></li>
+                      <li><a href="#">Menu Item 3</a></li>
+                      <li><a href="#">Menu Item 4</a></li>
+                  </ul>
+              </div>
+              <div class="new-div">
+                <h3>New Div Content</h3>
+                <p>This is the content of the new div.</p>
+            </div> -->
+            <div class="container">
+              <div class="row">
+                  <div class="col-2" style="border: 2px solid black; height: 50vh; width:20vw;">
+                      <div class="sidebar" >
+                        <ul id="questionList">
+                            
+                        </ul>
+                    </div>
+                    <!-- <div id="question-container">
+                      <h1>Problems</h1>
+                      <div id="innerQuestion-container"></div>
+                      
+                    </div> -->
+                  </div>
+                  <div class="col-3 offset-7" style="border: 2px solid black; height: 50vh; width:50vw;">
+                    <div class="new-div" style=" height: 50vh;">
+                    
+                     
+                  </div>
+                  </div>
+              </div>
           </div>
+          </div>
+          </div>
+              </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="selectbtn">select</button>
+                    <form id="my-form">
+                    <button type="button" class="btn btn-primary" style="margin-left:250px;" id="submitFormBtn1">submit</button>
+                   </form>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
 
 
   <!--     -->
@@ -284,10 +384,12 @@
           <option value="11">November</option>
           <option value="12">December</option>
         </select>
+        {% if role == 'HR' or role == 'Admin' %}
          <div id="add-data-btn">
   
           <button id="add-data-btn1">  <label>Add Data</label></button>
         </div> 
+        {% endif %}
           
       </section>
    <section class="table__body">
@@ -681,9 +783,9 @@ addQuestions.forEach(button => {
     console.log('clicked');
     const rowId = button.dataset.id;
     const url = button.dataset.url;
-    tagspan.innerHTML='';
-    complexityspan.innerHTML='';
-    questionContainer.innerHTML='';
+    // tagspan.innerHTML='';
+    // complexityspan.innerHTML='';
+    // questionContainer.innerHTML='';
     
     const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
    const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
@@ -773,7 +875,7 @@ checkboxes.forEach(checkbox => {
     const closeButton = document.querySelector('.close123');
   closeButton.addEventListener('click', () => {
     modal12.style.display = "none";
-    questionContainer.innerHTML='';
+    // questionContainer.innerHTML='';
   });
  
 
@@ -801,7 +903,7 @@ selectButton.addEventListener('click', function() {
       });
       });
       if (questionKey) {
-        questionContainer.innerHTML='';
+        // questionContainer.innerHTML='';
       console.log(questionKey);
       const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
       fetch(apiUrl1)
@@ -820,10 +922,12 @@ selectButton.addEventListener('click', function() {
               var questionText = document.createElement("span");
               questionText.innerHTML = item[key].Question;
               questionWithCheckbox.appendChild(questionText);
-              questionContainer.appendChild(questionWithCheckbox)
-             
-              
-            }
+              // questionContainer.appendChild(questionWithCheckbox)
+              var questionList = document.getElementById("questionList");
+              var listItem = document.createElement("li");
+                  listItem.appendChild(questionWithCheckbox);
+                  questionList.appendChild(listItem);
+             }
 
           }
           
