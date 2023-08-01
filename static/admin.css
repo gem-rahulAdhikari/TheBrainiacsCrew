@@ -649,14 +649,15 @@ button[type="submit"]:hover {
   display: flex;
   flex-direction: column;
 
-  /* align-items: center; */
 }
 
 .dropdown-container {
   display: flex;
   justify-content: center;
+
   margin-bottom: 10px;  
   position: relative; 
+
 }
 
 .dropdown {
@@ -713,6 +714,7 @@ button[type="submit"]:hover {
 .col-3 {
   border: 2px solid black;
   height: 40px;
+
 }
 
 #selectbtn {
@@ -742,3 +744,6 @@ button[type="submit"]:hover {
   font-size: 18px; /* Adjust icon size */
   margin-right: 5px; /* Add some space between icon and text (adjust as needed) */
 }
+
+}
+

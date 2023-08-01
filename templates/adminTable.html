@@ -256,7 +256,10 @@
 
           <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
             <div class="modal-dialog" role="document">
+
               <div class="modal-content1"  style="width:50vw !important; height:85vh !important;">
+
+
                 <div class="modal-header" style="width:48vw !important;">
                   <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
                   <button type="button" class="close123" data-dismiss="modal" aria-label="Close">
@@ -264,7 +267,19 @@
                   </button>
                 </div>
                 <div class="modal-body" id="mainbody">
+
                 <div class="dropdown-container" style="border:2px solid black;">
+
+                <div class="dropdown-container">
+                    <!-- <div class="dropdown">
+                        <label for="dropdown1">Tags</label>
+                        <select id="dropdown1">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </select>
+                    </div> -->
+
                     <div id="tags">
                       <div class="custom-dropdown">
                         <div style="display: flex; align-items: center;">
@@ -278,6 +293,16 @@
                         </div>
                       </div>
                     </div>
+
+                    <!-- <div class="dropdown">
+                        <label for="dropdown2">Complexity</label>
+                        <select id="dropdown2">
+                            <option value="option1">Option 1</option>
+                            <option value="option2">Option 2</option>
+                            <option value="option3">Option 3</option>
+                        </select>
+                    </div> -->
+
                     <div id="complexity">
                       <div class="custom-dropdown1">
                         <div style="display: flex; align-items: center;">
@@ -290,6 +315,7 @@
                       </div>
                       </div>
                     </div>
+
                     <div style="display: flex; justify-content: flex-end; padding: 10px;">
                       <button type="button" class="btn btn-primary" id="selectbtn">
                         <i class="fa-brands fa-searchengin"></i>
@@ -300,11 +326,30 @@
             <div class="container">
               <div class="row">
                   <div class="col-2" style="height: 50vh; width:20vw;">
+
+                </div>
+                <!-- <div class="sidebar">
+                  <ul>
+                      <li><a href="#">Menu Item 1</a></li>
+                      <li><a href="#">Menu Item 2</a></li>
+                      <li><a href="#">Menu Item 3</a></li>
+                      <li><a href="#">Menu Item 4</a></li>
+                  </ul>
+              </div>
+              <div class="new-div">
+                <h3>New Div Content</h3>
+                <p>This is the content of the new div.</p>
+            </div> -->
+            <div class="container">
+              <div class="row">
+                  <div class="col-2" style="border: 2px solid black; height: 50vh; width:20vw;">
+
                       <div class="sidebar" >
                         <ul id="questionList">
                             
                         </ul>
                     </div>
+
                   </div>
                   <div class="col-3 offset-7" style=" height: 50vh; width:50vw;">
                     <div class="new-div" id="statement" style=" height: 50vh;">
@@ -331,6 +376,34 @@
     
     
                  
+
+                    <!-- <div id="question-container">
+                      <h1>Problems</h1>
+                      <div id="innerQuestion-container"></div>
+                      
+                    </div> -->
+                  </div>
+                  <div class="col-3 offset-7" style="border: 2px solid black; height: 50vh; width:50vw;">
+                    <div class="new-div" style=" height: 50vh;">
+                    
+                     
+                  </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+          </div>
+              </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="selectbtn">select</button>
+                    <form id="my-form">
+                    <button type="button" class="btn btn-primary" style="margin-left:250px;" id="submitFormBtn1">submit</button>
+                   </form>
+                  </div>
+                  </div>
+                  </div>
+                  </div>
+
 
 
   <!--     -->
@@ -906,7 +979,9 @@ selectButton.addEventListener('click', function() {
               var listItem = document.createElement("li");
                   listItem.appendChild(questionWithCheckbox);
                   questionList.appendChild(listItem);
+
                   listItem.addEventListener("click", onItemClick);
+
              }
 
           }
