@@ -395,7 +395,7 @@ button[type="submit"]:hover {
 
 }
 
-#selectbtn,#submitFormBtn1{
+#submitFormBtn1{
   background-color: #38A3A5;
  
   color: white;
@@ -645,3 +645,100 @@ button[type="submit"]:hover {
 .custom-dropdown .dropdown-item label {
   margin-left: 5px;
 } */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+
+  /* align-items: center; */
+}
+
+.dropdown-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;  
+  position: relative; 
+}
+
+.dropdown {
+  margin-right: 10px;
+}
+
+.dropdown label {
+  margin-right: 5px;
+}
+
+.sidebar {
+  width: 150px;
+  height: 50vh;
+  background-color: #f1f1f1;
+  padding: 10px;
+  left:0;
+  bottom:0;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin-bottom: 10px;
+}
+
+.sidebar a {
+  display: block;
+  text-decoration: none;
+  color: #333;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.sidebar a:hover {
+  background-color: #ddd;
+}
+.new-div {
+  flex: 1;
+  margin-left: 20px;
+  background-color: #e9e9e9;
+  padding: 10px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap; /* Added to prevent wrapping on small screens */
+}
+
+.col-2,
+.col-3 {
+  border: 2px solid black;
+  height: 40px;
+}
+
+#selectbtn {
+
+
+ background-color: #38A3A5;
+  /* Primary color for the button */
+  color: #fff; /* Text color for the button */
+  border: none; /* Remove button border */
+  border-radius: 4px; /* Add some border-radius for rounded corners */
+  padding: 10px 15px; /* Add padding to adjust button size */
+  cursor: pointer; /* Show pointer cursor on hover */
+  height:30px;
+  width:50px;
+  /* Adjust icon size and alignment */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+}
+
+#selectbtn:hover {
+  background-color: #0056b3; /* Change background color on hover */
+}
+
+#selectbtn i {
+  font-size: 18px; /* Adjust icon size */
+  margin-right: 5px; /* Add some space between icon and text (adjust as needed) */
+}
