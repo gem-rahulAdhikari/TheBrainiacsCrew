@@ -712,7 +712,7 @@ def setUrl(name):
     "outputArray": [],
     "name":req_name,
      # "url": "http://127.0.0.1:5000/?name="+name
-    "url": "https://gem-codeeditor.wl.r.appspot.com/?name="+name,
+    "url": "https://g-codeeditor.el.r.appspot.com/?name="+name,
      "modified":"",
      "status":"None",
             },

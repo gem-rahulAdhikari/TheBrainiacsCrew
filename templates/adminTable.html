@@ -256,7 +256,10 @@
 
           <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
             <div class="modal-dialog" role="document">
-              <div class="modal-content1"  style="width:50vw !important; height:80vh !important;">
+
+              <div class="modal-content1"  style="width:50vw !important; height:85vh !important;">
+
+
                 <div class="modal-header" style="width:48vw !important;">
                   <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
                   <button type="button" class="close123" data-dismiss="modal" aria-label="Close">
@@ -264,6 +267,9 @@
                   </button>
                 </div>
                 <div class="modal-body" id="mainbody">
+
+                <div class="dropdown-container" style="border:2px solid black;">
+
                 <div class="dropdown-container">
                     <!-- <div class="dropdown">
                         <label for="dropdown1">Tags</label>
@@ -273,6 +279,7 @@
                             <option value="option3">Option 3</option>
                         </select>
                     </div> -->
+
                     <div id="tags">
                       <div class="custom-dropdown">
                         <div style="display: flex; align-items: center;">
@@ -286,6 +293,7 @@
                         </div>
                       </div>
                     </div>
+
                     <!-- <div class="dropdown">
                         <label for="dropdown2">Complexity</label>
                         <select id="dropdown2">
@@ -294,6 +302,7 @@
                             <option value="option3">Option 3</option>
                         </select>
                     </div> -->
+
                     <div id="complexity">
                       <div class="custom-dropdown1">
                         <div style="display: flex; align-items: center;">
@@ -306,6 +315,18 @@
                       </div>
                       </div>
                     </div>
+
+                    <div style="display: flex; justify-content: flex-end; padding: 10px;">
+                      <button type="button" class="btn btn-primary" id="selectbtn">
+                        <i class="fa-brands fa-searchengin"></i>
+                      </button>
+                    </div>
+                </div>
+
+            <div class="container">
+              <div class="row">
+                  <div class="col-2" style="height: 50vh; width:20vw;">
+
                 </div>
                 <!-- <div class="sidebar">
                   <ul>
@@ -322,11 +343,40 @@
             <div class="container">
               <div class="row">
                   <div class="col-2" style="border: 2px solid black; height: 50vh; width:20vw;">
+
                       <div class="sidebar" >
                         <ul id="questionList">
                             
                         </ul>
                     </div>
+
+                  </div>
+                  <div class="col-3 offset-7" style=" height: 50vh; width:50vw;">
+                    <div class="new-div" id="statement" style=" height: 50vh;">
+                     </div>
+                  </div>
+              </div>
+          </div>
+          </div>
+          <div class="modal-footer">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <form id="my-form" style="margin-left: 10px;">
+                <button type="button" class="btn btn-primary" id="submitFormBtn1">submit</button>
+              </form>
+              <!-- <button type="button" class="btn btn-primary" id="selectbtn">select</button> -->
+              <!-- <button type="button" class="btn btn-primary" id="customButton">
+                <i class="fa-brands fa-searchengin"></i>
+              </button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+                 
+
                     <!-- <div id="question-container">
                       <h1>Problems</h1>
                       <div id="innerQuestion-container"></div>
@@ -353,6 +403,7 @@
                   </div>
                   </div>
                   </div>
+
 
 
   <!--     -->
@@ -880,6 +931,7 @@ checkboxes.forEach(checkbox => {
  
 
 const selectButton = document.getElementById('selectbtn');
+const statementDiv = document.getElementById('statement');
 selectButton.addEventListener('click', function() {
   const checkboxestags = document.querySelectorAll('#tags input[type="checkbox"]:checked');
   const checkboxescomplexity = document.querySelectorAll('#complexity input[type="checkbox"]:checked');
@@ -927,6 +979,9 @@ selectButton.addEventListener('click', function() {
               var listItem = document.createElement("li");
                   listItem.appendChild(questionWithCheckbox);
                   questionList.appendChild(listItem);
+
+                  listItem.addEventListener("click", onItemClick);
+
              }
 
           }
@@ -946,6 +1001,37 @@ selectButton.addEventListener('click', function() {
     console.log(error);
   });
 });
+
+function onItemClick(event) {
+    const itemText = event.target.textContent;
+    //send the api request to find the statement of question
+
+    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          for (let key in item) {
+            if (item[key].Question == itemText) {
+              console.log(item[key].Question);
+              statementDiv.innerHTML = item[key]['Question Statement'];
+              // questionHeading.innerHTML = `<strong>${item[key].Question}</strong>`;
+              // questionStatements.innerHTML = item[key]['Question Statement'];
+              // const obj = item[key]['Sample Testcases'];
+              // questionCases.innerHTML='';
+              // for (const value in obj) {
+              //        questionCases.innerHTML += `<strong>Example </strong>${obj[value]['Input']}<br>${obj[value]['Output']}<br>`;
+              //          }
+              // questionConstraints.innerHTML = `<strong>Constraints </strong>${item[key]['Constraints']}`;
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+    // statementDiv.innerHTML = itemText;
+    console.log(itemText); 
+  }
 const submitButton = document.getElementById('submitFormBtn1');
 submitButton.addEventListener('click', function() {
  const checkboxesproblems = document.querySelectorAll('#question-container input[type="checkbox"]:checked');
