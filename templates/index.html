@@ -2,10 +2,52 @@
 <html>
 <head>
   <title>Textarea with Button</title>
+  <style>
+      textarea {
+    border: none;
+    background: transparent;
+    resize: none;
+}
+  </style>
 </head>
 <body>
   <div>
-    <textarea id="myTextarea" rows="5" cols="50"></textarea>
+    <!-- <textarea id="myTextarea" rows="5" cols="50"></textarea> -->
+    <pre id="codeContent">
+        
+      import org.openqa.selenium.By;
+      import org.openqa.selenium.WebDriver;
+      import org.openqa.selenium.WebElement;
+      import org.openqa.selenium.chrome.ChromeDriver;
+      import org.openqa.selenium.chrome.ChromeOptions;
+      import org.openqa.selenium.Keys;
+
+      public class App {
+          public static void main(String[] args) {
+             
+              System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
+
+              ChromeOptions options=new ChromeOptions();
+              options.addArguments("--headless");
+              options.addArguments("start-maximized"); 
+              options.addArguments("disable-infobars");
+              options.addArguments("--disable-extensions"); 
+              options.addArguments("--disable-dev-shm-usage"); 
+              options.addArguments("--no-sandbox");
+              // Your editable code here
+          </pre>
+             
+              <textarea id="editableCode" rows="10" cols="50">
+             
+              </textarea>
+              <pre id="codeContent1">
+                 
+            
+              driver.quit();
+          }
+      }
+  </pre>
+    
   </div>
   <div>
     <button id="myButton">Click Me!</button>
@@ -15,7 +57,10 @@
     const button = document.getElementById('myButton');
 
     button.addEventListener('click', () => {
-      const textareaValue = document.getElementById('myTextarea').value;
+      const editableCode = document.getElementById('editableCode').value;
+            const codeContent = document.getElementById('codeContent');
+            const codeContent1 = document.getElementById('codeContent1');
+      const textareaValue =codeContent.innerHTML+'\n'+editableCode + '\n'+codeContent1.innerHTML
       sendDataToFlask(textareaValue);
     });
 
