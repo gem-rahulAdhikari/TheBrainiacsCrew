@@ -3,7 +3,7 @@
 <head>
   <title>Textarea with Button</title>
   <style>
-      textarea {
+      #editableCode {
     border: none;
     background: transparent;
     resize: none;
@@ -12,9 +12,9 @@
 </head>
 <body>
   <div>
-    <!-- <textarea id="myTextarea" rows="5" cols="50"></textarea> -->
     <pre id="codeContent">
         
+  
       import org.openqa.selenium.By;
       import org.openqa.selenium.WebDriver;
       import org.openqa.selenium.WebElement;
@@ -24,9 +24,8 @@
 
       public class App {
           public static void main(String[] args) {
-             
+            try {  
               System.setProperty("webdriver.chrome.driver", "/usr/bin/chromedriver");
-
               ChromeOptions options=new ChromeOptions();
               options.addArguments("--headless");
               options.addArguments("start-maximized"); 
@@ -34,20 +33,50 @@
               options.addArguments("--disable-extensions"); 
               options.addArguments("--disable-dev-shm-usage"); 
               options.addArguments("--no-sandbox");
-              // Your editable code here
           </pre>
-             
-              <textarea id="editableCode" rows="10" cols="50">
-             
+             <textarea id="editableCode" rows="10" cols="50">
               </textarea>
               <pre id="codeContent1">
-                 
-            
               driver.quit();
+              String apiUrl = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult";
+              URL url = new URL(apiUrl);
+              HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+              connection.setRequestMethod("POST");
+              connection.setRequestProperty("Content-Type", "application/json");
+              connection.setDoOutput(true);
+              String postData = "{\"output1\": " + x + "}";
+              try (DataOutputStream outputStream = new DataOutputStream(connection.getOutputStream())) {
+                  outputStream.writeBytes(postData);
+                  outputStream.flush();
+              }
+              int statusCode = connection.getResponseCode();
+              String statusMessage = connection.getResponseMessage();
+              System.out.println("Status Code: " + statusCode);
+              System.out.println("Status Message: " + statusMessage);
+              if (statusCode == HttpURLConnection.HTTP_OK) {
+                  try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+                      String line;
+                      StringBuilder response = new StringBuilder();
+                      while ((line = reader.readLine()) != null) {
+                          response.append(line);
+                      }
+                      System.out.println("Response: " + response.toString());
+                  }
+              } else {
+                  System.out.println("Error Response: " + statusCode);
+              }
+              connection.disconnect();
+          }
+          catch (Exception e) {
+            e.printStackTrace();
+        }
           }
       }
   </pre>
     
+  </div>
+  <div>
+    <textarea id="output" rows="5" cols="50"></textarea>
   </div>
   <div>
     <button id="myButton">Click Me!</button>
@@ -62,6 +91,18 @@
             const codeContent1 = document.getElementById('codeContent1');
       const textareaValue =codeContent.innerHTML+'\n'+editableCode + '\n'+codeContent1.innerHTML
       sendDataToFlask(textareaValue);
+      fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
+        .then(response => response.json())
+        .then(dataArray => {
+          const lastData = dataArray[dataArray.length - 1]; // Get the last object in the array
+          const outputValue = lastData['Submission']; // Get the value of 'Submission'
+          const outputTextArea = document.getElementById('output');
+          outputTextArea.value = outputValue;
+        })
+        .catch(error => {
+          const outputTextArea = document.getElementById('output');
+          outputTextArea.value = 'Error occurred: ' + error.message;
+        });
     });
 
     function sendDataToFlask(text) {
