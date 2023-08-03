@@ -91,18 +91,20 @@
             const codeContent1 = document.getElementById('codeContent1');
       const textareaValue =codeContent.innerHTML+'\n'+editableCode + '\n'+codeContent1.innerHTML
       sendDataToFlask(textareaValue);
-      fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
-        .then(response => response.json())
-        .then(dataArray => {
-          const lastData = dataArray[dataArray.length - 1]; // Get the last object in the array
-          const outputValue = lastData['Submission']; // Get the value of 'Submission'
-          const outputTextArea = document.getElementById('output');
-          outputTextArea.value = outputValue;
-        })
-        .catch(error => {
-          const outputTextArea = document.getElementById('output');
-          outputTextArea.value = 'Error occurred: ' + error.message;
-        });
+     setTimeout(() => {
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(dataArray => {
+            const lastData = dataArray[dataArray.length - 1]; // Get the last object in the array
+            const outputValue = lastData['Submission']; // Get the value of 'Submission'
+            const outputTextArea = document.getElementById('output');
+            outputTextArea.value = outputValue;
+          })
+          .catch(error => {
+            const outputTextArea = document.getElementById('output');
+            outputTextArea.value = 'Error occurred: ' + error.message;
+          });
+      }, 90000); // 1.5 minutes delay in milliseconds
     });
 
     function sendDataToFlask(text) {
