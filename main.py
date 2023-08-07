@@ -165,6 +165,7 @@ def ques():
     print(url)
     
     selected_options = data.get('selectedValues', [])
+    print(selected_options);
     api_url4 = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/userQuestion'
                      
     payload = {
