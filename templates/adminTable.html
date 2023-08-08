@@ -17,7 +17,7 @@
 
 </head>
 <body>
-  {% include "side-bar.html" %}
+ 
   <!-- <div id="add-data-btn">
   
   <button id="add-data-btn1">  <label>Add Data</label></button>
@@ -55,6 +55,8 @@
 
 </div>
 </div> -->
+
+<!--         Resume modal     -->
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true" style="display: none;">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content" style="width:50vw !important;">
@@ -72,10 +74,11 @@
   </div>
 </div>
 
-
+<!---    Alert Btn     -->
 <div class="slide-alert alert alert-success">
  User Already added!
 </div>
+<!--           Add User Modal     -->
 <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -186,80 +189,95 @@
       
     </div>
   </div>
-  </div>
-  <!--This modal is for question selections for a particular user-->
-  <!-- <div id="myModal23" class="modal4" style="display:none">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
-        <span class="close123">&times;</span>
-      </div>
   
-      <form id="my-form">
-        <input type="text" id="search-input" onkeyup="searchTable1()" placeholder="Search...">
-        <div id="labels-container"></div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
-  </div> -->
-  <!-- <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content1">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
-          <button type="button" class="close123" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+  <!--      Question Modal     -->
+  <div id="QuestionmyModal" class="QuestionModal">
+    <div class="Questionmodal-content">
+      <span class="Questionclose">&times;</span>
+      <h2>Select Question</h2>
+      <div class="row">
+        <div class="left-container">
+        <div class="dropdown-container">
+          <label for="dropdown1" class="dropdown-label">Difficuilty Level:</label>
+          <select class="Questiondropdown" id="dropdown1">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
         </div>
-        <div class="modal-body" id="mainbody">
-          <div id="tags">
-            <div class="custom-dropdown">
-              <div style="display: flex; align-items: center;">
-                <h1>Topics</h1>
-                <button class="dropdown-toggle" style="background-color: white;" type="button" id="dropdownToggle" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa-solid fa-circle-chevron-down"></i>
-                </button>
-              </div>
-              <div class="dropdown-menu" aria-labelledby="dropdownToggle" id="dropdownMenu">
-                
-              </div>
-            </div>
-          </div>
-
-            <div id="complexity">
-              <div class="custom-dropdown1">
-                <div style="display: flex; align-items: center;">
-                  <h1 >Difficulty</h1>
-                <button class="dropdown-toggle1" type="button"  style="background-color: white;" id="dropdownToggle1" aria-haspopup="true" aria-expanded="false">
-                  <i class="fa-solid fa-circle-chevron-down"></i>
-                </button>
-                <div class="dropdown-menu1" aria-labelledby="dropdownToggle" id="dropdownMenu1">
-                </div>
-              </div>
-              </div>
-            </div>
-            <div id="question-container">
-              <h1>Problems</h1>
-              <div id="innerQuestion-container"></div>
+        <div class="dropdown-container">
+          <label for="dropdown2" class="dropdown-label">Topic:</label>
+          <select class="Questiondropdown" id="dropdown2">
+            <option value="optionA">Option A</option>
+            <option value="optionB">Option B</option>
+            <option value="optionC">Option C</option>
+          </select>
+        </div>
+        </div>
+        <button id="searchButton"><i class="fas fa-search search-icon"></i>Search</button>
+      </div>
+      <div class="row" style="padding-right:35px; ">
+        <div class="wrapper">
+        <div class="table-container" >
+          <table class="Questioncustom-table">
+            <thead class="table-header">
+              <tr>
+                <th>S.NO</th>
+                <th>Question</th>
+                <th>Topic</th>
+                <th>Select</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Reverse 2D Array</td>
+                <td> <div class="Questionbutton">Array</div></td>
+                <td> <label class="checkbox-container">
+                  <input type="checkbox" class="checkbox">
+                  <span class="checkmark"></span>
+                </label></td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Reverse 2D Array</td>
+                <td> <div class="Questionbutton">Array</div></td>
+                <td> <label class="checkbox-container">
+                  <input type="checkbox" class="checkbox">
+                  <span class="checkmark"></span>
+                </label></td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Reverse 2D Array</td>
+                <td> <div class="Questionbutton">Array</div></td>
+                <td> <label class="checkbox-container">
+                  <input type="checkbox" class="checkbox">
+                  <span class="checkmark"></span>
+                </label></td>
+              </tr>
               
-            </div>
+              
+              </tbody>
+          </table>
           </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="selectbtn">select</button>
-            <form id="my-form">
-            <button type="button" class="btn btn-primary" style="margin-left:250px;" id="submitFormBtn1">submit</button>
-           </form>
+          <div class="button-container">
+            <button class="Questionbutton">submit</button>
           </div>
-          </div>
-          </div>
-          </div> -->
+         </div>
+        <div class="textarea-container">
+          <div class="textarea">
+<h1 class="heading">Question Description</h1>
 
-          <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+          <!-- <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
             <div class="modal-dialog" role="document">
-
               <div class="modal-content1"  style="width:50vw !important; height:85vh !important;">
-
-
                 <div class="modal-header" style="width:48vw !important;">
                   <h5 class="modal-title" id="exampleModalLabel">Questions</h5>
                   <button type="button" class="close123" data-dismiss="modal" aria-label="Close">
@@ -267,19 +285,7 @@
                   </button>
                 </div>
                 <div class="modal-body" id="mainbody">
-
-                <div class="dropdown-container" style="border:2px solid black;">
-
                 <div class="dropdown-container">
-                    <!-- <div class="dropdown">
-                        <label for="dropdown1">Tags</label>
-                        <select id="dropdown1">
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3">Option 3</option>
-                        </select>
-                    </div> -->
-
                     <div id="tags">
                       <div class="custom-dropdown">
                         <div style="display: flex; align-items: center;">
@@ -293,16 +299,6 @@
                         </div>
                       </div>
                     </div>
-
-                    <!-- <div class="dropdown">
-                        <label for="dropdown2">Complexity</label>
-                        <select id="dropdown2">
-                            <option value="option1">Option 1</option>
-                            <option value="option2">Option 2</option>
-                            <option value="option3">Option 3</option>
-                        </select>
-                    </div> -->
-
                     <div id="complexity">
                       <div class="custom-dropdown1">
                         <div style="display: flex; align-items: center;">
@@ -315,7 +311,6 @@
                       </div>
                       </div>
                     </div>
-
                     <div style="display: flex; justify-content: flex-end; padding: 10px;">
                       <button type="button" class="btn btn-primary" id="selectbtn">
                         <i class="fa-brands fa-searchengin"></i>
@@ -325,33 +320,14 @@
 
             <div class="container">
               <div class="row">
-                  <div class="col-2" style="height: 50vh; width:20vw;">
-
-                </div>
-                <!-- <div class="sidebar">
-                  <ul>
-                      <li><a href="#">Menu Item 1</a></li>
-                      <li><a href="#">Menu Item 2</a></li>
-                      <li><a href="#">Menu Item 3</a></li>
-                      <li><a href="#">Menu Item 4</a></li>
-                  </ul>
-              </div>
-              <div class="new-div">
-                <h3>New Div Content</h3>
-                <p>This is the content of the new div.</p>
-            </div> -->
-            <div class="container">
-              <div class="row">
-                  <div class="col-2" style="border: 2px solid black; height: 50vh; width:20vw;">
-
+                  <div class="col-2" style="height: 50vh; width:25vw;">
                       <div class="sidebar" >
                         <ul id="questionList">
                             
                         </ul>
                     </div>
-
                   </div>
-                  <div class="col-3 offset-7" style=" height: 50vh; width:50vw;">
+                  <div class="col-3 offset-7" style=" height: 50vh; width:70vw;">
                     <div class="new-div" id="statement" style=" height: 50vh;">
                      </div>
                   </div>
@@ -363,58 +339,13 @@
               <form id="my-form" style="margin-left: 10px;">
                 <button type="button" class="btn btn-primary" id="submitFormBtn1">submit</button>
               </form>
-              <!-- <button type="button" class="btn btn-primary" id="selectbtn">select</button> -->
-              <!-- <button type="button" class="btn btn-primary" id="customButton">
-                <i class="fa-brands fa-searchengin"></i>
-              </button> -->
             </div>
           </div>
         </div>
       </div>
-    </div>
-    
-    
-    
-                 
-
-                    <!-- <div id="question-container">
-                      <h1>Problems</h1>
-                      <div id="innerQuestion-container"></div>
-                      
-                    </div> -->
-                  </div>
-                  <div class="col-3 offset-7" style="border: 2px solid black; height: 50vh; width:50vw;">
-                    <div class="new-div" style=" height: 50vh;">
-                    
-                     
-                  </div>
-                  </div>
-              </div>
-          </div>
-          </div>
-          </div>
-              </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="selectbtn">select</button>
-                    <form id="my-form">
-                    <button type="button" class="btn btn-primary" style="margin-left:250px;" id="submitFormBtn1">submit</button>
-                   </form>
-                  </div>
-                  </div>
-                  </div>
-                  </div>
-
-
-
-  <!--     -->
-    <button id="logout-button" type="button">Logout</button>
-    <!-- <h1 >Admin Page</h1>
-    <div class="text-center">
-      <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search...">
-      {{role}}
-      
-     </div> -->
-     <main class="table">
+    </div> -->
+    <!-- <button id="logout-button" type="button">Logout</button> -->
+     <!-- <main class="table">
       <section class="table__header">
           <h1>Admin Table</h1>
           <div class="input-group" id="input-group1">
@@ -443,15 +374,55 @@
         {% endif %}
           
       </section>
-   <section class="table__body">
+   <section class="table__body"> -->
+    <main class="table">
+      {% include "side-bar.html" %}
+      <section class="table__header">
+        <h1>Admin Table</h1>
+        <div class="row" style="width:85vw; display: flex; justify-content: space-between;">
+          <div class="input-group" id="input-group1" >
+            <input id="searchInput" onkeyup="searchTable()" type="search" placeholder="Search Data..." style="width: 300px; height: 30px;">
+          </div>
+          <div style="display: flex; align-items: center; margin-right: 10px;">
+          <select id="monthDropdown" class="form-select" aria-label="Select Month">
+            <option value="" selected>Select Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          
+          {% if role == 'HR' or role == 'Admin' %}
+         <div id="add-data-btn">
+         <button id="add-data-btn1">
+        <label>Add Data</label>
+        </button>
+        </div> 
+        {% endif %}
+          </div>
+        
+        </div>
+      </section>
+    <table class="custom-table" id="dataTable" style="margin-top: 40px;">
     <!-- <div style="overflow: auto; max-height: 500px; overflow-x: auto;"> -->
-      <table id="dataTable" class="myTable" style="table-layout: auto; width: 100%;">
+      <!-- <table id="dataTable" class="myTable" style="table-layout: auto; width: 100%;"> -->
       <!-- <table id="dataTable" class="myTable" style="table-layout: fixed;"> -->
         <thead>
+         
             <tr>
-              <th>S.No<span class="icon-arrow">&UpArrow;</span></th>
+              <th>S.No</th>
                 {% for header in headers %}
                 {% if header == 'KEYSTATUS'  %}
+                {% elif header == '_ID'  %}
+                <th>ID</th>
                 {% elif header == 'ENDMONTH'  %}
                 {% else %}
                   <th data-column="{{ loop.index0 }}" data-order="desc">{{ header }}<span class="icon-arrow">&UpArrow;</span></th>
@@ -508,7 +479,7 @@
             {% endif %}
             {% elif key == 'Status'  %}
             <td class="status-cell" data-key="Status" data-id="{{ d._id }} ">
-              <select id="status-dropdown">
+              <select id="status-dropdown" class="tableSelect">
                 <option value="onHold">onHold</option>
                 <option value="Pass">Pass</option>
                 <option value="Rejected">Rejected</option>
@@ -532,7 +503,7 @@
             {% endfor %}
             {% if role == 'HR' or role == 'Admin' %}
             <td>
-              <select id="">
+              <select id="" class="tableSelect">
                 <option value="Onboarding">Onboarding</option>
                 <option value="Round1">Round 1</option>
                 <option value="Round2">Round 2</option>
@@ -543,7 +514,7 @@
             </td>
             <td>
               <i id="add-round-btn" class="fa-solid fa-square-plus" data-id="{{ d._id }}"></i>
-              <select id="my-dropdown">
+              <select id="my-dropdown" class="tableSelect">
                 <option value="">Interview</option>
               </select>
               <div id="interview-rounds"></div>
@@ -566,8 +537,8 @@
         </tbody>
         
       </table>
-    <!-- </div> -->
-    </section>
+  
+    <!-- </section> -->
     </main>
 </body>
 
@@ -729,11 +700,80 @@ downloadResume.forEach(button => {
   });
 
 
+
+
 //------Question Modal
+const openModalBtn = document.getElementById('openModalBtn');
+const addQuestions12 = document.querySelectorAll('#add-round-btn1');
+const modal = document.getElementById('QuestionmyModal');
+const closeBtn = document.getElementsByClassName('Questionclose')[0];
+addQuestions12.forEach(button => {
+  button.addEventListener('click', () => {
+    console.log('clicked');
+    const rowId = button.dataset.id;
+    const url = button.dataset.url;
+    console.log(url);
+    console.log(rowId);
+    const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+    const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+       fetch(apiUrl)
+   .then(response=>response.json())
+   .then(dataArray=>{
+    const dropdownButton = document.getElementById('dropdownToggle');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  dropdownButton.addEventListener('click', function() {
+    dropdownMenu.classList.toggle('show');
+  });
+    dataArray.forEach(data=>{
+      const keys = Object.keys(data);
+     const lastKeyIndex = keys.length - 1;
+    for (let i = 0; i < lastKeyIndex; i++) {
+         const key = keys[i];
+         const value = data[key];
+         const label = document.createElement('label');
+         const checkbox = document.createElement('input');
+               checkbox.type = 'checkbox';
+               checkbox.value = value;
+               label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(data[key]));
+
+    const dropdownItem = document.createElement('div');
+    dropdownItem.classList.add('dropdown-item');
+    dropdownItem.appendChild(label);
+
+    dropdownMenu.appendChild(dropdownItem);
+}
+ })
+ const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener('change', function() {
+    console.log(this.value, this.checked);
+    tagValues=this.value;
+  });
+});
+   })
+   .catch(error=>{
+    console.log(error);
+   });
+    modal.style.display = 'block';
+  })
+})
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+//
 const maindiv = document.getElementById('tags');
    const maindiv1 = document.getElementById('complexity');
    let questionKey='';
-const addQuestions = document.querySelectorAll('#add-round-btn1');
+
 const tagspan=document.getElementById('dropdownMenu');
 const complexityspan=document.getElementById('dropdownMenu1')
 const problemspan=document.getElementById('problemspan');
@@ -828,250 +868,226 @@ var complexityValues=''
 // });
 
 
+// const addQuestions = document.querySelectorAll('#add-round-btn');
+// addQuestions.forEach(button => {
+//   button.addEventListener('click', () => {
+//     console.log('clicked');
+//     const rowId = button.dataset.id;
+//     const url = button.dataset.url;
+//     const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+//    const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+//    fetch(apiUrl)
+//    .then(response=>response.json())
+//    .then(dataArray=>{
+//     const dropdownButton = document.getElementById('dropdownToggle');
+//   const dropdownMenu = document.getElementById('dropdownMenu');
 
-addQuestions.forEach(button => {
-  button.addEventListener('click', () => {
-    console.log('clicked');
-    const rowId = button.dataset.id;
-    const url = button.dataset.url;
-    // tagspan.innerHTML='';
-    // complexityspan.innerHTML='';
-    // questionContainer.innerHTML='';
-    
-    const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
-   const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
-   fetch(apiUrl)
-   .then(response=>response.json())
-   .then(dataArray=>{
-    const dropdownButton = document.getElementById('dropdownToggle');
-  const dropdownMenu = document.getElementById('dropdownMenu');
+//   dropdownButton.addEventListener('click', function() {
+//     dropdownMenu.classList.toggle('show');
+//   });
+//     dataArray.forEach(data=>{
+//       const keys = Object.keys(data);
+//      const lastKeyIndex = keys.length - 1;
+//     for (let i = 0; i < lastKeyIndex; i++) {
+//          const key = keys[i];
+//          const value = data[key];
+//          const label = document.createElement('label');
+//          const checkbox = document.createElement('input');
+//                checkbox.type = 'checkbox';
+//                checkbox.value = value;
+//                label.appendChild(checkbox);
+//     label.appendChild(document.createTextNode(data[key]));
 
-  dropdownButton.addEventListener('click', function() {
-    dropdownMenu.classList.toggle('show');
-  });
-    dataArray.forEach(data=>{
-      const keys = Object.keys(data);
-     const lastKeyIndex = keys.length - 1;
-    for (let i = 0; i < lastKeyIndex; i++) {
-         const key = keys[i];
-         const value = data[key];
-         const label = document.createElement('label');
-         const checkbox = document.createElement('input');
-               checkbox.type = 'checkbox';
-               checkbox.value = value;
-               label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(data[key]));
+//     const dropdownItem = document.createElement('div');
+//     dropdownItem.classList.add('dropdown-item');
+//     dropdownItem.appendChild(label);
 
-    const dropdownItem = document.createElement('div');
-    dropdownItem.classList.add('dropdown-item');
-    dropdownItem.appendChild(label);
+//     dropdownMenu.appendChild(dropdownItem);
+// }
+//  })
+//  const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', function() {
+//     console.log(this.value, this.checked);
+//     tagValues=this.value;
+//   });
+// });
+//    })
+//    .catch(error=>{
+//     console.log(error);
+//    });
+//    var complexities = []; 
+//    var uniqueValues = [];
+//      fetch(apiUrl1)
+//    .then(response=>response.json())
+//    .then(data=>{
+//     const dropdownButton = document.getElementById('dropdownToggle1');
+//   const dropdownMenu = document.getElementById('dropdownMenu1');
 
-    dropdownMenu.appendChild(dropdownItem);
-}
- })
- const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener('change', function() {
-    console.log(this.value, this.checked);
-    tagValues=this.value;
-  });
-});
-   })
-   .catch(error=>{
-    console.log(error);
-   });
-   var complexities = []; 
-   var uniqueValues = [];
-     fetch(apiUrl1)
-   .then(response=>response.json())
-   .then(data=>{
-    const dropdownButton = document.getElementById('dropdownToggle1');
-  const dropdownMenu = document.getElementById('dropdownMenu1');
+//   dropdownButton.addEventListener('click', function() {
+//     dropdownMenu.classList.toggle('show');
+//   });
+//     data.forEach(item => {
+//           const keys = Object.keys(item).slice(0, -1); // Exclude the last key
+//          keys.forEach(key => {
+//            complexities.push(item[key].Complexity);
+//            var uniqueSet = new Set(complexities);  
+//            uniqueValues = Array.from(uniqueSet);
+//           });
+//         });
+//         uniqueValues.forEach(value => {
+//        const label = document.createElement('label');
+//        const checkbox = document.createElement('input');
+//        checkbox.type = 'checkbox';
+//        checkbox.value = value;
+//        label.appendChild(checkbox);
+//     label.appendChild(document.createTextNode(value));
 
-  dropdownButton.addEventListener('click', function() {
-    dropdownMenu.classList.toggle('show');
-  });
-    data.forEach(item => {
-          const keys = Object.keys(item).slice(0, -1); // Exclude the last key
-         keys.forEach(key => {
-           complexities.push(item[key].Complexity);
-           var uniqueSet = new Set(complexities);  
-           uniqueValues = Array.from(uniqueSet);
-          });
-        });
-        uniqueValues.forEach(value => {
-       const label = document.createElement('label');
-       const checkbox = document.createElement('input');
-       checkbox.type = 'checkbox';
-       checkbox.value = value;
-       label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(value));
+//     const dropdownItem = document.createElement('div');
+//     dropdownItem.classList.add('dropdown-item');
+//     dropdownItem.appendChild(label);
 
-    const dropdownItem = document.createElement('div');
-    dropdownItem.classList.add('dropdown-item');
-    dropdownItem.appendChild(label);
+//     dropdownMenu.appendChild(dropdownItem);
+// });
+// const checkboxes = document.querySelectorAll('.custom-dropdown1 input[type="checkbox"]');
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', function() {
+//     console.log(this.value, this.checked);
+//     complexityValues=this.value
+//   });
+// });
+// })
+//    const modal12 = document.getElementById('myModal23');
+//     modal12.style.display = "block";
+//     const closeButton = document.querySelector('.close123');
+//   closeButton.addEventListener('click', () => {
+//     modal12.style.display = "none";
+//     document.getElementById('statement').innerHTML='';
+//     document.getElementById("questionList").innerHTML='';
+//   });
+//  const selectButton = document.getElementById('selectbtn');
+// const statementDiv = document.getElementById('statement');
+// selectButton.addEventListener('click', function() {
+//   const checkboxestags = document.querySelectorAll('#tags input[type="checkbox"]:checked');
+//   const checkboxescomplexity = document.querySelectorAll('#complexity input[type="checkbox"]:checked');
+//   var selectedTags=tagValues;
+//   var selectedcomplex=complexityValues;
+//   console.log(selectedTags)
+//   console.log(selectedcomplex)
+//   var questionKey='';
+//   const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+//   fetch(apiUrl)
+//   .then(response=>response.json())
+//   .then(data=>{
+//     data.forEach(item=>{
+//       Object.keys(item).forEach(key => {
+//         console.log(item[key]+"-----"+selectedTags)
+//         if(item[key]==selectedTags)
+//         {
+//           questionKey=key;
+//          }
+//       });
+//       });
+//       if (questionKey) {
+//       console.log(questionKey);
+//       const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+//       fetch(apiUrl1)
+//         .then(response => response.json())
+//         .then(data => {
+//           data.forEach(item=>{
+//       for (let key in item) {
+//             if (item[key].Tag_id == questionKey && item[key].Complexity==selectedcomplex) {
+//               console.log(item[key].Question);
+//               var questionWithCheckbox = document.createElement("div");
+//               var checkbox = document.createElement("input");
+//               checkbox.type = "checkbox";
+//               checkbox.name = "questionCheckbox";
+//               checkbox.value = item[key].objectId;
+//               questionWithCheckbox.appendChild(checkbox);
+//               var questionText = document.createElement("span");
+//               questionText.innerHTML = item[key].Question;
+//               questionWithCheckbox.appendChild(questionText);
+//               var questionList = document.getElementById("questionList");
+//               var listItem = document.createElement("li");
+//                   listItem.appendChild(questionWithCheckbox);
+//                   questionList.appendChild(listItem);
+//                   listItem.addEventListener("click", onItemClick);
+//              }
 
-    dropdownMenu.appendChild(dropdownItem);
-});
-const checkboxes = document.querySelectorAll('.custom-dropdown1 input[type="checkbox"]');
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener('change', function() {
-    console.log(this.value, this.checked);
-    complexityValues=this.value
-  });
-});
-})
-   const modal12 = document.getElementById('myModal23');
-    modal12.style.display = "block";
-    const closeButton = document.querySelector('.close123');
-  closeButton.addEventListener('click', () => {
-    modal12.style.display = "none";
-    // questionContainer.innerHTML='';
-  });
- 
-
-const selectButton = document.getElementById('selectbtn');
-const statementDiv = document.getElementById('statement');
-selectButton.addEventListener('click', function() {
-  const checkboxestags = document.querySelectorAll('#tags input[type="checkbox"]:checked');
-  const checkboxescomplexity = document.querySelectorAll('#complexity input[type="checkbox"]:checked');
-  var selectedTags=tagValues;
-  var selectedcomplex=complexityValues;
-  console.log(selectedTags)
-  console.log(selectedcomplex)
-  var questionKey='';
-  const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
-  fetch(apiUrl)
-  .then(response=>response.json())
-  .then(data=>{
-    data.forEach(item=>{
-      Object.keys(item).forEach(key => {
-        console.log(item[key]+"-----"+selectedTags)
-        if(item[key]==selectedTags)
-        {
-          questionKey=key;
-          // TagName(questionKey,selectedcomplex)
-         }
-      });
-      });
-      if (questionKey) {
-        // questionContainer.innerHTML='';
-      console.log(questionKey);
-      const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
-      fetch(apiUrl1)
-        .then(response => response.json())
-        .then(data => {
-          data.forEach(item=>{
-      for (let key in item) {
-            if (item[key].Tag_id == questionKey && item[key].Complexity==selectedcomplex) {
-              console.log(item[key].Question);
-              var questionWithCheckbox = document.createElement("div");
-              var checkbox = document.createElement("input");
-              checkbox.type = "checkbox";
-              checkbox.name = "questionCheckbox";
-              checkbox.value = item[key].objectId;
-              questionWithCheckbox.appendChild(checkbox);
-              var questionText = document.createElement("span");
-              questionText.innerHTML = item[key].Question;
-              questionWithCheckbox.appendChild(questionText);
-              // questionContainer.appendChild(questionWithCheckbox)
-              var questionList = document.getElementById("questionList");
-              var listItem = document.createElement("li");
-                  listItem.appendChild(questionWithCheckbox);
-                  questionList.appendChild(listItem);
-
-                  listItem.addEventListener("click", onItemClick);
-
-             }
-
-          }
+//           }
           
-      
-    })
-        })
-        .catch(error => {
-          console.log(error);
-        });
+//           checkboxestags.forEach(checkbox => checkbox.checked = false);
+//           checkboxescomplexity.forEach(checkbox => checkbox.checked = false);
+//     })
+//         })
+//         .catch(error => {
+//           console.log(error);
+//         });
        
-    } else {
-      console.log("questionKey is not set");
-    }
-  })
-  .catch(error => {
-    console.log(error);
-  });
-});
+//     } else {
+//       console.log("questionKey is not set");
+//     }
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+// });
 
-function onItemClick(event) {
-    const itemText = event.target.textContent;
-    //send the api request to find the statement of question
+// function onItemClick(event) {
+//     const itemText = event.target.textContent;
+//     fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+//       .then(response => response.json())
+//       .then(data => {
+//         data.forEach(item => {
+//           for (let key in item) {
+//             if (item[key].Question == itemText) {
+//               console.log(item[key].Question);
+//               statementDiv.innerHTML = item[key]['Question Statement'];
+//             }
+//           }
+//         });
+//       })
+//       .catch(error => {
+//         console.error("Error fetching data:", error);
+//       });
+//   }
+// const submitButton = document.getElementById('submitFormBtn1');
+// submitButton.addEventListener('click', function() {
+//  const checkboxesproblems = document.querySelectorAll('#questionList input[type="checkbox"]:checked');
+// const selectedValues = [];
+// var selectedproblem='';
+// checkboxesproblems.forEach(function(checkbox) {
+//   console.log(checkbox.value);
+// selectedValues.push(checkbox.value);
 
-    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
-      .then(response => response.json())
-      .then(data => {
-        data.forEach(item => {
-          for (let key in item) {
-            if (item[key].Question == itemText) {
-              console.log(item[key].Question);
-              statementDiv.innerHTML = item[key]['Question Statement'];
-              // questionHeading.innerHTML = `<strong>${item[key].Question}</strong>`;
-              // questionStatements.innerHTML = item[key]['Question Statement'];
-              // const obj = item[key]['Sample Testcases'];
-              // questionCases.innerHTML='';
-              // for (const value in obj) {
-              //        questionCases.innerHTML += `<strong>Example </strong>${obj[value]['Input']}<br>${obj[value]['Output']}<br>`;
-              //          }
-              // questionConstraints.innerHTML = `<strong>Constraints </strong>${item[key]['Constraints']}`;
-            }
-          }
-        });
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-    // statementDiv.innerHTML = itemText;
-    console.log(itemText); 
-  }
-const submitButton = document.getElementById('submitFormBtn1');
-submitButton.addEventListener('click', function() {
- const checkboxesproblems = document.querySelectorAll('#question-container input[type="checkbox"]:checked');
-const selectedValues = [];
-var selectedproblem='';
-checkboxesproblems.forEach(function(checkbox) {
-selectedValues.push(checkbox.value);
-
-  });
-  console.log(selectedValues);
-  // Create the request payload
-const payload = {
-  selectedValues: selectedValues,
-  url: url
-};
-
-// Create the fetch request
-fetch('/question', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(payload)
-})
-  .then(response => response.json())
-  .then(data => {
-    // Handle the response data
-    console.log("get the response");
-    const modal12 = document.getElementById('myModal23');
-    modal12.style.display = "none";
-  })
-  .catch(error => {
-    
-  });
+//   });
+//   console.log(selectedValues);
   
- });          
-});
-});
+// const payload = {
+//   selectedValues: selectedValues,
+//   url: url
+// };
+// fetch('/question', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify(payload)
+// })
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log("get the response");
+//     const modal12 = document.getElementById('myModal23');
+//     modal12.style.display = "none";
+//   })
+//   .catch(error => {
+    
+//   });
+  
+//  });          
+// });
+// });
 function createTableRow(dataItem) {
-  // Create a new table row element
   const row = document.createElement('tr');
   for (const key in dataItem) {
     const value = dataItem[key];
@@ -1082,13 +1098,8 @@ function createTableRow(dataItem) {
 
   return row;
 }
-//---------------
-
 document.getElementById("monthDropdown").addEventListener("change", function() {
     var selectedMonth = this.value;
-    // Make the API request with the selectedMonth value
-    // Example: Use fetch or XMLHttpRequest to send the request
-    // Replace "YOUR_API_ENDPOINT" with your actual API endpoint
     fetch("/admin", {
       method: "POST",
       body: JSON.stringify({ month: selectedMonth }),
@@ -1098,17 +1109,17 @@ document.getElementById("monthDropdown").addEventListener("change", function() {
     })
     .then(response => {
     if (response.ok) {
-      return response.json(); // Parse the response as JSON
+      return response.json(); 
     } else {
       throw new Error("Request failed with status: " + response.status);
     }
   })
   .then(data => {
-    console.log("Response data:", data); // Access the data here
-    updateTable(data); // Call your function to update the table
+    console.log("Response data:", data); 
+    updateTable(data); 
   })
   .catch(error => {
-    console.error("Error:", error); // Handle any errors
+    console.error("Error:", error); 
   });
 });
   function newFunction(){
