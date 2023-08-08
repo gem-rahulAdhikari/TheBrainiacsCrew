@@ -191,8 +191,91 @@
   </div>
   
   <!--      Question Modal     -->
+  <div id="QuestionmyModal" class="QuestionModal">
+    <div class="Questionmodal-content">
+      <span class="Questionclose">&times;</span>
+      <h2>Select Question</h2>
+      <div class="row">
+        <div class="left-container">
+        <div class="dropdown-container">
+          <label for="dropdown1" class="dropdown-label">Difficuilty Level:</label>
+          <select class="Questiondropdown" id="dropdown1">
+            <option value="option1">Option 1</option>
+            <option value="option2">Option 2</option>
+            <option value="option3">Option 3</option>
+          </select>
+        </div>
+        <div class="dropdown-container">
+          <label for="dropdown2" class="dropdown-label">Topic:</label>
+          <select class="Questiondropdown" id="dropdown2">
+            <option value="optionA">Option A</option>
+            <option value="optionB">Option B</option>
+            <option value="optionC">Option C</option>
+          </select>
+        </div>
+        </div>
+        <button id="searchButton"><i class="fas fa-search search-icon"></i>Search</button>
+      </div>
+      <div class="row" style="padding-right:35px; ">
+        <div class="wrapper">
+        <div class="table-container" >
+          <table class="Questioncustom-table">
+            <thead class="table-header">
+              <tr>
+                <th>S.NO</th>
+                <th>Question</th>
+                <th>Topic</th>
+                <th>Select</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Reverse 2D Array</td>
+                <td> <div class="Questionbutton">Array</div></td>
+                <td> <label class="checkbox-container">
+                  <input type="checkbox" class="checkbox">
+                  <span class="checkmark"></span>
+                </label></td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Reverse 2D Array</td>
+                <td> <div class="Questionbutton">Array</div></td>
+                <td> <label class="checkbox-container">
+                  <input type="checkbox" class="checkbox">
+                  <span class="checkmark"></span>
+                </label></td>
+              </tr>
+              <tr>
+                <td>1</td>
+                <td>Reverse 2D Array</td>
+                <td> <div class="Questionbutton">Array</div></td>
+                <td> <label class="checkbox-container">
+                  <input type="checkbox" class="checkbox">
+                  <span class="checkmark"></span>
+                </label></td>
+              </tr>
+              
+              
+              </tbody>
+          </table>
+          </div>
+          <div class="button-container">
+            <button class="Questionbutton">submit</button>
+          </div>
+         </div>
+        <div class="textarea-container">
+          <div class="textarea">
+<h1 class="heading">Question Description</h1>
 
-          <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+          <!-- <div class="modal fade" id="myModal23" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="display:none">
             <div class="modal-dialog" role="document">
               <div class="modal-content1"  style="width:50vw !important; height:85vh !important;">
                 <div class="modal-header" style="width:48vw !important;">
@@ -260,7 +343,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- <button id="logout-button" type="button">Logout</button> -->
      <!-- <main class="table">
       <section class="table__header">
@@ -335,14 +418,13 @@
         <thead>
          
             <tr>
-              <!-- <th>S.No</th> -->
+              <th>S.No</th>
                 {% for header in headers %}
                 {% if header == 'KEYSTATUS'  %}
                 {% elif header == '_ID'  %}
-               
+                <th>ID</th>
                 {% elif header == 'ENDMONTH'  %}
                 {% else %}
-                {{header}}
                   <th data-column="{{ loop.index0 }}" data-order="desc">{{ header }}<span class="icon-arrow">&UpArrow;</span></th>
                   {% endif %}
                 {% endfor %}
@@ -364,10 +446,10 @@
           {% set index = loop.index0 %}
           <tr>
             
-            <!-- <td  >{{loop.index}}</td> -->
+            <td  >{{loop.index}}</td>
             {% for key, value in d.items() %}
             {% if key == '_id'  %}
-            <!-- <td class="editable" contenteditable="false" data-key="_id" data-id="{{ d._id }}">{{ value }}</td> -->
+            <td class="editable" contenteditable="false" data-key="_id" data-id="{{ d._id }}">{{ value }}</td>
             {% elif key == 'keyStatus'  %}
            
             {% elif key == 'EndMonth' %}
@@ -397,7 +479,7 @@
             {% endif %}
             {% elif key == 'Status'  %}
             <td class="status-cell" data-key="Status" data-id="{{ d._id }} ">
-              <select id="status-dropdown">
+              <select id="status-dropdown" class="tableSelect">
                 <option value="onHold">onHold</option>
                 <option value="Pass">Pass</option>
                 <option value="Rejected">Rejected</option>
@@ -421,7 +503,7 @@
             {% endfor %}
             {% if role == 'HR' or role == 'Admin' %}
             <td>
-              <select id="">
+              <select id="" class="tableSelect">
                 <option value="Onboarding">Onboarding</option>
                 <option value="Round1">Round 1</option>
                 <option value="Round2">Round 2</option>
@@ -432,7 +514,7 @@
             </td>
             <td>
               <i id="add-round-btn" class="fa-solid fa-square-plus" data-id="{{ d._id }}"></i>
-              <select id="my-dropdown">
+              <select id="my-dropdown" class="tableSelect">
                 <option value="">Interview</option>
               </select>
               <div id="interview-rounds"></div>
@@ -618,11 +700,80 @@ downloadResume.forEach(button => {
   });
 
 
+
+
 //------Question Modal
+const openModalBtn = document.getElementById('openModalBtn');
+const addQuestions12 = document.querySelectorAll('#add-round-btn1');
+const modal = document.getElementById('QuestionmyModal');
+const closeBtn = document.getElementsByClassName('Questionclose')[0];
+addQuestions12.forEach(button => {
+  button.addEventListener('click', () => {
+    console.log('clicked');
+    const rowId = button.dataset.id;
+    const url = button.dataset.url;
+    console.log(url);
+    console.log(rowId);
+    const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+    const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+       fetch(apiUrl)
+   .then(response=>response.json())
+   .then(dataArray=>{
+    const dropdownButton = document.getElementById('dropdownToggle');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+
+  dropdownButton.addEventListener('click', function() {
+    dropdownMenu.classList.toggle('show');
+  });
+    dataArray.forEach(data=>{
+      const keys = Object.keys(data);
+     const lastKeyIndex = keys.length - 1;
+    for (let i = 0; i < lastKeyIndex; i++) {
+         const key = keys[i];
+         const value = data[key];
+         const label = document.createElement('label');
+         const checkbox = document.createElement('input');
+               checkbox.type = 'checkbox';
+               checkbox.value = value;
+               label.appendChild(checkbox);
+    label.appendChild(document.createTextNode(data[key]));
+
+    const dropdownItem = document.createElement('div');
+    dropdownItem.classList.add('dropdown-item');
+    dropdownItem.appendChild(label);
+
+    dropdownMenu.appendChild(dropdownItem);
+}
+ })
+ const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
+checkboxes.forEach(checkbox => {
+  checkbox.addEventListener('change', function() {
+    console.log(this.value, this.checked);
+    tagValues=this.value;
+  });
+});
+   })
+   .catch(error=>{
+    console.log(error);
+   });
+    modal.style.display = 'block';
+  })
+})
+
+closeBtn.addEventListener('click', () => {
+  modal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    modal.style.display = 'none';
+  }
+});
+//
 const maindiv = document.getElementById('tags');
    const maindiv1 = document.getElementById('complexity');
    let questionKey='';
-const addQuestions = document.querySelectorAll('#add-round-btn1');
+
 const tagspan=document.getElementById('dropdownMenu');
 const complexityspan=document.getElementById('dropdownMenu1')
 const problemspan=document.getElementById('problemspan');
@@ -717,244 +868,226 @@ var complexityValues=''
 // });
 
 
+// const addQuestions = document.querySelectorAll('#add-round-btn');
+// addQuestions.forEach(button => {
+//   button.addEventListener('click', () => {
+//     console.log('clicked');
+//     const rowId = button.dataset.id;
+//     const url = button.dataset.url;
+//     const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+//    const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+//    fetch(apiUrl)
+//    .then(response=>response.json())
+//    .then(dataArray=>{
+//     const dropdownButton = document.getElementById('dropdownToggle');
+//   const dropdownMenu = document.getElementById('dropdownMenu');
 
-addQuestions.forEach(button => {
-  button.addEventListener('click', () => {
-    console.log('clicked');
-    const rowId = button.dataset.id;
-    const url = button.dataset.url;
-    // tagspan.innerHTML='';
-    // complexityspan.innerHTML='';
-    // questionContainer.innerHTML='';
-    
-    const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
-   const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
-   fetch(apiUrl)
-   .then(response=>response.json())
-   .then(dataArray=>{
-    const dropdownButton = document.getElementById('dropdownToggle');
-  const dropdownMenu = document.getElementById('dropdownMenu');
+//   dropdownButton.addEventListener('click', function() {
+//     dropdownMenu.classList.toggle('show');
+//   });
+//     dataArray.forEach(data=>{
+//       const keys = Object.keys(data);
+//      const lastKeyIndex = keys.length - 1;
+//     for (let i = 0; i < lastKeyIndex; i++) {
+//          const key = keys[i];
+//          const value = data[key];
+//          const label = document.createElement('label');
+//          const checkbox = document.createElement('input');
+//                checkbox.type = 'checkbox';
+//                checkbox.value = value;
+//                label.appendChild(checkbox);
+//     label.appendChild(document.createTextNode(data[key]));
 
-  dropdownButton.addEventListener('click', function() {
-    dropdownMenu.classList.toggle('show');
-  });
-    dataArray.forEach(data=>{
-      const keys = Object.keys(data);
-     const lastKeyIndex = keys.length - 1;
-    for (let i = 0; i < lastKeyIndex; i++) {
-         const key = keys[i];
-         const value = data[key];
-         const label = document.createElement('label');
-         const checkbox = document.createElement('input');
-               checkbox.type = 'checkbox';
-               checkbox.value = value;
-               label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(data[key]));
+//     const dropdownItem = document.createElement('div');
+//     dropdownItem.classList.add('dropdown-item');
+//     dropdownItem.appendChild(label);
 
-    const dropdownItem = document.createElement('div');
-    dropdownItem.classList.add('dropdown-item');
-    dropdownItem.appendChild(label);
+//     dropdownMenu.appendChild(dropdownItem);
+// }
+//  })
+//  const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', function() {
+//     console.log(this.value, this.checked);
+//     tagValues=this.value;
+//   });
+// });
+//    })
+//    .catch(error=>{
+//     console.log(error);
+//    });
+//    var complexities = []; 
+//    var uniqueValues = [];
+//      fetch(apiUrl1)
+//    .then(response=>response.json())
+//    .then(data=>{
+//     const dropdownButton = document.getElementById('dropdownToggle1');
+//   const dropdownMenu = document.getElementById('dropdownMenu1');
 
-    dropdownMenu.appendChild(dropdownItem);
-}
- })
- const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener('change', function() {
-    console.log(this.value, this.checked);
-    tagValues=this.value;
-  });
-});
-   })
-   .catch(error=>{
-    console.log(error);
-   });
-   var complexities = []; 
-   var uniqueValues = [];
-     fetch(apiUrl1)
-   .then(response=>response.json())
-   .then(data=>{
-    const dropdownButton = document.getElementById('dropdownToggle1');
-  const dropdownMenu = document.getElementById('dropdownMenu1');
+//   dropdownButton.addEventListener('click', function() {
+//     dropdownMenu.classList.toggle('show');
+//   });
+//     data.forEach(item => {
+//           const keys = Object.keys(item).slice(0, -1); // Exclude the last key
+//          keys.forEach(key => {
+//            complexities.push(item[key].Complexity);
+//            var uniqueSet = new Set(complexities);  
+//            uniqueValues = Array.from(uniqueSet);
+//           });
+//         });
+//         uniqueValues.forEach(value => {
+//        const label = document.createElement('label');
+//        const checkbox = document.createElement('input');
+//        checkbox.type = 'checkbox';
+//        checkbox.value = value;
+//        label.appendChild(checkbox);
+//     label.appendChild(document.createTextNode(value));
 
-  dropdownButton.addEventListener('click', function() {
-    dropdownMenu.classList.toggle('show');
-  });
-    data.forEach(item => {
-          const keys = Object.keys(item).slice(0, -1); // Exclude the last key
-         keys.forEach(key => {
-           complexities.push(item[key].Complexity);
-           var uniqueSet = new Set(complexities);  
-           uniqueValues = Array.from(uniqueSet);
-          });
-        });
-        uniqueValues.forEach(value => {
-       const label = document.createElement('label');
-       const checkbox = document.createElement('input');
-       checkbox.type = 'checkbox';
-       checkbox.value = value;
-       label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(value));
+//     const dropdownItem = document.createElement('div');
+//     dropdownItem.classList.add('dropdown-item');
+//     dropdownItem.appendChild(label);
 
-    const dropdownItem = document.createElement('div');
-    dropdownItem.classList.add('dropdown-item');
-    dropdownItem.appendChild(label);
+//     dropdownMenu.appendChild(dropdownItem);
+// });
+// const checkboxes = document.querySelectorAll('.custom-dropdown1 input[type="checkbox"]');
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', function() {
+//     console.log(this.value, this.checked);
+//     complexityValues=this.value
+//   });
+// });
+// })
+//    const modal12 = document.getElementById('myModal23');
+//     modal12.style.display = "block";
+//     const closeButton = document.querySelector('.close123');
+//   closeButton.addEventListener('click', () => {
+//     modal12.style.display = "none";
+//     document.getElementById('statement').innerHTML='';
+//     document.getElementById("questionList").innerHTML='';
+//   });
+//  const selectButton = document.getElementById('selectbtn');
+// const statementDiv = document.getElementById('statement');
+// selectButton.addEventListener('click', function() {
+//   const checkboxestags = document.querySelectorAll('#tags input[type="checkbox"]:checked');
+//   const checkboxescomplexity = document.querySelectorAll('#complexity input[type="checkbox"]:checked');
+//   var selectedTags=tagValues;
+//   var selectedcomplex=complexityValues;
+//   console.log(selectedTags)
+//   console.log(selectedcomplex)
+//   var questionKey='';
+//   const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+//   fetch(apiUrl)
+//   .then(response=>response.json())
+//   .then(data=>{
+//     data.forEach(item=>{
+//       Object.keys(item).forEach(key => {
+//         console.log(item[key]+"-----"+selectedTags)
+//         if(item[key]==selectedTags)
+//         {
+//           questionKey=key;
+//          }
+//       });
+//       });
+//       if (questionKey) {
+//       console.log(questionKey);
+//       const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+//       fetch(apiUrl1)
+//         .then(response => response.json())
+//         .then(data => {
+//           data.forEach(item=>{
+//       for (let key in item) {
+//             if (item[key].Tag_id == questionKey && item[key].Complexity==selectedcomplex) {
+//               console.log(item[key].Question);
+//               var questionWithCheckbox = document.createElement("div");
+//               var checkbox = document.createElement("input");
+//               checkbox.type = "checkbox";
+//               checkbox.name = "questionCheckbox";
+//               checkbox.value = item[key].objectId;
+//               questionWithCheckbox.appendChild(checkbox);
+//               var questionText = document.createElement("span");
+//               questionText.innerHTML = item[key].Question;
+//               questionWithCheckbox.appendChild(questionText);
+//               var questionList = document.getElementById("questionList");
+//               var listItem = document.createElement("li");
+//                   listItem.appendChild(questionWithCheckbox);
+//                   questionList.appendChild(listItem);
+//                   listItem.addEventListener("click", onItemClick);
+//              }
 
-    dropdownMenu.appendChild(dropdownItem);
-});
-const checkboxes = document.querySelectorAll('.custom-dropdown1 input[type="checkbox"]');
-checkboxes.forEach(checkbox => {
-  checkbox.addEventListener('change', function() {
-    console.log(this.value, this.checked);
-    complexityValues=this.value
-  });
-});
-})
-   const modal12 = document.getElementById('myModal23');
-    modal12.style.display = "block";
-    const closeButton = document.querySelector('.close123');
-  closeButton.addEventListener('click', () => {
-    modal12.style.display = "none";
-    // questionContainer.innerHTML='';
-    document.getElementById('statement').innerHTML='';
-    document.getElementById("questionList").innerHTML='';
-  });
- 
-
-const selectButton = document.getElementById('selectbtn');
-const statementDiv = document.getElementById('statement');
-selectButton.addEventListener('click', function() {
-  const checkboxestags = document.querySelectorAll('#tags input[type="checkbox"]:checked');
-  const checkboxescomplexity = document.querySelectorAll('#complexity input[type="checkbox"]:checked');
-  var selectedTags=tagValues;
-  var selectedcomplex=complexityValues;
-  console.log(selectedTags)
-  console.log(selectedcomplex)
-  var questionKey='';
-  const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
-  fetch(apiUrl)
-  .then(response=>response.json())
-  .then(data=>{
-    data.forEach(item=>{
-      Object.keys(item).forEach(key => {
-        console.log(item[key]+"-----"+selectedTags)
-        if(item[key]==selectedTags)
-        {
-          questionKey=key;
-          // TagName(questionKey,selectedcomplex)
-         }
-      });
-      });
-      if (questionKey) {
-        // questionContainer.innerHTML='';
-      console.log(questionKey);
-      const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
-      fetch(apiUrl1)
-        .then(response => response.json())
-        .then(data => {
-          data.forEach(item=>{
-      for (let key in item) {
-            if (item[key].Tag_id == questionKey && item[key].Complexity==selectedcomplex) {
-              console.log(item[key].Question);
-              var questionWithCheckbox = document.createElement("div");
-              var checkbox = document.createElement("input");
-              checkbox.type = "checkbox";
-              checkbox.name = "questionCheckbox";
-              checkbox.value = item[key].objectId;
-              questionWithCheckbox.appendChild(checkbox);
-              var questionText = document.createElement("span");
-              questionText.innerHTML = item[key].Question;
-              questionWithCheckbox.appendChild(questionText);
-              // questionContainer.appendChild(questionWithCheckbox)
-              var questionList = document.getElementById("questionList");
-              var listItem = document.createElement("li");
-                  listItem.appendChild(questionWithCheckbox);
-                  questionList.appendChild(listItem);
-                  listItem.addEventListener("click", onItemClick);
-             }
-
-          }
+//           }
           
-          checkboxestags.forEach(checkbox => checkbox.checked = false);
-          checkboxescomplexity.forEach(checkbox => checkbox.checked = false);
-    })
-        })
-        .catch(error => {
-          console.log(error);
-        });
+//           checkboxestags.forEach(checkbox => checkbox.checked = false);
+//           checkboxescomplexity.forEach(checkbox => checkbox.checked = false);
+//     })
+//         })
+//         .catch(error => {
+//           console.log(error);
+//         });
        
-    } else {
-      console.log("questionKey is not set");
-    }
-  })
-  .catch(error => {
-    console.log(error);
-  });
-});
+//     } else {
+//       console.log("questionKey is not set");
+//     }
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+// });
 
-function onItemClick(event) {
-    const itemText = event.target.textContent;
-    //send the api request to find the statement of question
+// function onItemClick(event) {
+//     const itemText = event.target.textContent;
+//     fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+//       .then(response => response.json())
+//       .then(data => {
+//         data.forEach(item => {
+//           for (let key in item) {
+//             if (item[key].Question == itemText) {
+//               console.log(item[key].Question);
+//               statementDiv.innerHTML = item[key]['Question Statement'];
+//             }
+//           }
+//         });
+//       })
+//       .catch(error => {
+//         console.error("Error fetching data:", error);
+//       });
+//   }
+// const submitButton = document.getElementById('submitFormBtn1');
+// submitButton.addEventListener('click', function() {
+//  const checkboxesproblems = document.querySelectorAll('#questionList input[type="checkbox"]:checked');
+// const selectedValues = [];
+// var selectedproblem='';
+// checkboxesproblems.forEach(function(checkbox) {
+//   console.log(checkbox.value);
+// selectedValues.push(checkbox.value);
 
-    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
-      .then(response => response.json())
-      .then(data => {
-        data.forEach(item => {
-          for (let key in item) {
-            if (item[key].Question == itemText) {
-              console.log(item[key].Question);
-              statementDiv.innerHTML = item[key]['Question Statement'];
-            }
-          }
-        });
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-      });
-    // statementDiv.innerHTML = itemText;
-    console.log(itemText); 
-  }
-const submitButton = document.getElementById('submitFormBtn1');
-submitButton.addEventListener('click', function() {
- const checkboxesproblems = document.querySelectorAll('#questionList input[type="checkbox"]:checked');
-const selectedValues = [];
-var selectedproblem='';
-checkboxesproblems.forEach(function(checkbox) {
-  console.log(checkbox.value);
-selectedValues.push(checkbox.value);
-
-  });
-  console.log(selectedValues);
-  // Create the request payload
-const payload = {
-  selectedValues: selectedValues,
-  url: url
-};
-
-// Create the fetch request
-fetch('/question', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify(payload)
-})
-  .then(response => response.json())
-  .then(data => {
-    // Handle the response data
-    console.log("get the response");
-    const modal12 = document.getElementById('myModal23');
-    modal12.style.display = "none";
-  })
-  .catch(error => {
-    
-  });
+//   });
+//   console.log(selectedValues);
   
- });          
-});
-});
+// const payload = {
+//   selectedValues: selectedValues,
+//   url: url
+// };
+// fetch('/question', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify(payload)
+// })
+//   .then(response => response.json())
+//   .then(data => {
+//     console.log("get the response");
+//     const modal12 = document.getElementById('myModal23');
+//     modal12.style.display = "none";
+//   })
+//   .catch(error => {
+    
+//   });
+  
+//  });          
+// });
+// });
 function createTableRow(dataItem) {
-  // Create a new table row element
   const row = document.createElement('tr');
   for (const key in dataItem) {
     const value = dataItem[key];
@@ -965,13 +1098,8 @@ function createTableRow(dataItem) {
 
   return row;
 }
-//---------------
-
 document.getElementById("monthDropdown").addEventListener("change", function() {
     var selectedMonth = this.value;
-    // Make the API request with the selectedMonth value
-    // Example: Use fetch or XMLHttpRequest to send the request
-    // Replace "YOUR_API_ENDPOINT" with your actual API endpoint
     fetch("/admin", {
       method: "POST",
       body: JSON.stringify({ month: selectedMonth }),
@@ -981,17 +1109,17 @@ document.getElementById("monthDropdown").addEventListener("change", function() {
     })
     .then(response => {
     if (response.ok) {
-      return response.json(); // Parse the response as JSON
+      return response.json(); 
     } else {
       throw new Error("Request failed with status: " + response.status);
     }
   })
   .then(data => {
-    console.log("Response data:", data); // Access the data here
-    updateTable(data); // Call your function to update the table
+    console.log("Response data:", data); 
+    updateTable(data); 
   })
   .catch(error => {
-    console.error("Error:", error); // Handle any errors
+    console.error("Error:", error); 
   });
 });
   function newFunction(){

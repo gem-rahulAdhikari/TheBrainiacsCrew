@@ -824,9 +824,7 @@ button[type="submit"]:hover {
 }
 
 #selectbtn {
-
-
- background-color: #38A3A5;
+  background-color: #38A3A5;
   /* Primary color for the button */
   color: #fff; /* Text color for the button */
   border: none; /* Remove button border */
@@ -849,4 +847,220 @@ button[type="submit"]:hover {
 #selectbtn i {
   font-size: 18px; /* Adjust icon size */
   margin-right: 5px; /* Add some space between icon and text (adjust as needed) */
+}
+
+
+/*-------------*/
+.QuestionModal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  background: #205072B8;
+
+}
+
+.Questionmodal-content{
+  background-color: #fff;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  height:100vh;
+  max-width: 1000px;
+  border-radius: 5px;;
+}
+
+.Questionclose {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.Questionclose:hover,
+.Questionclose:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+  }
+.dropdown-container {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+  .left-container {
+    display: flex;
+    align-items: center;
+  }
+ .dropdown-label {
+    margin-right: 5px;
+    font-family: Lexend;
+font-size: 16px;
+font-weight: 500;
+line-height: 20px;
+letter-spacing: 0em;
+text-align: left;
+color: #205072;
+}
+.Questiondropdown {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 98px;
+}
+#searchButton {
+    padding: 8px 16px;
+    background-color: #38A3A5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+.table-container {
+    overflow: auto;
+    max-height: 300px; /* Adjust the maximum height as needed */
+    display: flex;
+    flex-direction: column;
+  }
+  .button-container {
+    text-align: center;
+    margin-top: 20px;
+   }
+  .table-header {
+    position: sticky;
+    top: 0;
+    background-color: #f0f0f0;
+    
+  }
+.Questioncustom-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.Questioncustom-table tr{
+  background: #39A3A60D;
+}
+
+.Questioncustom-table th {
+  background-color: #205072;
+  color: white;
+  text-align: center; /* Centering table header text */
+  border-bottom: 2px solid #ddd;
+  
+}
+
+.Questioncustom-table td {
+  vertical-align: middle;
+  color: #205072;
+  text-align: center; /* Centering table cell content */
+}
+
+.Questioncustom-table th,
+.Questioncustom-table td {
+  padding: 20px;
+}
+.Questioncustom-table tbody tr:hover {
+  background-color: #f5f5f5;
+}
+
+.Questioncustom-table td + td {
+  border-left: 1px solid #205072;
+}
+
+  .textarea-container {
+    width: calc(50% - 5px); /* Adjust the width as needed and subtract the spacing */
+    /* Adjust the margin as needed */
+    display: flex;
+    align-items: flex-start;
+    height:350px;
+   
+  }
+
+  .textarea {
+    width: 100%;
+    height: 400px;
+    /* padding: 8px; */
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    background: #39A3A60D;
+    overflow: auto;
+    max-height: 400px;
+
+  }
+  .Questionbutton {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 10px;
+    color: white;
+    background: linear-gradient(to bottom, #38A3A5, #38A3A5);
+    border: 1px solid white;
+    border-radius: 6px;
+    box-shadow: 0px 3px 0px #279496, 0px 4px 7px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  
+  .checkbox-container {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .checkbox {
+    width: 20px;
+    height: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    position: relative;
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  .checkbox:checked + .checkmark {
+    opacity: 1;
+  }
+
+  .checkbox:checked {
+    background-color: #4CAF50;
+    border-color: #4CAF50;
+  }
+  .heading{
+    font-family: Inter;
+font-size: 20px;
+font-weight: 600;
+line-height: 30px;
+letter-spacing: 0em;
+text-align: left;
+color: #205072;
+padding-left:10px;
+}
+
+.tableSelect{
+  position: relative;
+  background-color: #f1f1f1;
+  width:100px;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 10px 10px;
+  cursor: pointer;
+  outline: none;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
 }
