@@ -161,10 +161,7 @@ def ques():
     
     data = request.json  
     url = data['url']
-   
-    print(url)
-    
-    selected_options = data.get('selectedValues', [])
+    selected_options = data.get('selectedObjectId', [])
     print(selected_options);
     api_url4 = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/userQuestion'
                      
