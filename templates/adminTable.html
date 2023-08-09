@@ -200,18 +200,41 @@
         <div class="dropdown-container">
           <label for="dropdown1" class="dropdown-label">Difficuilty Level:</label>
           <select class="Questiondropdown" id="dropdown1">
-            <option value="option1">Option 1</option>
-            <option value="option2">Option 2</option>
-            <option value="option3">Option 3</option>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
           </select>
         </div>
+        <!-- <div class="dropdown-container">
+          <label for="dropdown2" class="dropdown-label">Topic:</label>
+          <div class="dropdown-icon-Topic" id="dropdown2" onclick="toggleDropdown()">
+            Select
+            <i class="fas fa-caret-down" style="margin-left: 10px;"></i>
+          </div>
+          <div class="dropdown-content-Topic" id="dropdownContent">
+            <div class="checkbox-Topic">
+              <input type="checkbox" id="optionA" name="optionA">
+              <label for="optionA">Option A</label>
+            </div>
+            <div class="checkbox-Topic">
+              <input type="checkbox" id="optionB" name="optionB">
+              <label for="optionB">Option B</label>
+            </div>
+            <div class="checkbox-Topic">
+              <input type="checkbox" id="optionC" name="optionC">
+              <label for="optionC">Option C</label>
+            </div>
+          </div>
+        </div> -->
         <div class="dropdown-container">
           <label for="dropdown2" class="dropdown-label">Topic:</label>
-          <select class="Questiondropdown" id="dropdown2">
-            <option value="optionA">Option A</option>
-            <option value="optionB">Option B</option>
-            <option value="optionC">Option C</option>
-          </select>
+          <div class="dropdown-icon-Topic" id="dropdown2">
+            Select
+            <i class="fas fa-caret-down" id="dropdown_Icon" style="margin-left: 10px;"></i>
+          </div>
+          <div class="dropdown-content-Topic" id="dropdownContent">
+            <!-- The generated checkboxes and labels will be inserted here -->
+          </div>
         </div>
         </div>
         <button id="searchButton"><i class="fas fa-search search-icon"></i>Search</button>
@@ -229,7 +252,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
+               <!-- <tr>
                 <td>1</td>
                 <td>Reverse 2D Array</td>
                 <td> <div class="Questionbutton">Array</div></td>
@@ -256,18 +279,21 @@
                   <span class="checkmark"></span>
                 </label></td>
               </tr>
-              
+               -->
               
               </tbody>
           </table>
           </div>
-          <div class="button-container">
+          <div class="button-container" id="submitBtn">
             <button class="Questionbutton">submit</button>
           </div>
          </div>
         <div class="textarea-container">
           <div class="textarea">
 <h1 class="heading">Question Description</h1>
+<div id="description" style="padding:10px 10px;">
+
+</div>
 
           </div>
         </div>
@@ -588,6 +614,14 @@ recruiterInput.addEventListener('input', function() {
 });
 
 //dropdown 
+// function toggleDropdown() {
+//   var dropdownContent = document.getElementById("dropdownContent");
+//   if (dropdownContent.style.display === "none") {
+//     dropdownContent.style.display = "block";
+//   } else {
+//     dropdownContent.style.display = "none";
+//   }
+// }
 
 var currentMonth = new Date().getMonth() + 1; // +1 since getMonth() returns zero-based index
 
@@ -700,9 +734,10 @@ downloadResume.forEach(button => {
   });
 
 
-
+  
 
 //------Question Modal
+
 const openModalBtn = document.getElementById('openModalBtn');
 const addQuestions12 = document.querySelectorAll('#add-round-btn1');
 const modal = document.getElementById('QuestionmyModal');
@@ -714,51 +749,282 @@ addQuestions12.forEach(button => {
     const url = button.dataset.url;
     console.log(url);
     console.log(rowId);
-    const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
-    const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+    modal.style.display = 'block';
+    const dropdownButton = document.getElementById('dropdown_Icon');
+    const dropdownContent = document.getElementById("dropdownContent");
+    dropdownContent.innerHTML = ""; 
+    dropdownButton.addEventListener('click', function() {
+      console.log("clicked it ")
+      if (dropdownContent.style.display === "none") {
+        dropdownContent.innerHTML = ""; 
+        console.log("closed ")
+      const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
        fetch(apiUrl)
    .then(response=>response.json())
    .then(dataArray=>{
-    const dropdownButton = document.getElementById('dropdownToggle');
-  const dropdownMenu = document.getElementById('dropdownMenu');
-
-  dropdownButton.addEventListener('click', function() {
-    dropdownMenu.classList.toggle('show');
-  });
     dataArray.forEach(data=>{
       const keys = Object.keys(data);
      const lastKeyIndex = keys.length - 1;
     for (let i = 0; i < lastKeyIndex; i++) {
          const key = keys[i];
          const value = data[key];
-         const label = document.createElement('label');
-         const checkbox = document.createElement('input');
-               checkbox.type = 'checkbox';
-               checkbox.value = value;
-               label.appendChild(checkbox);
-    label.appendChild(document.createTextNode(data[key]));
+        const checkboxDiv = document.createElement("div"); // Create a wrapping div
+        checkboxDiv.className = "checkbox-Topic";
 
-    const dropdownItem = document.createElement('div');
-    dropdownItem.classList.add('dropdown-item');
-    dropdownItem.appendChild(label);
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = value;
+        checkbox.name = value;
+        checkbox.value = value; // Set the value attribute to the value
 
-    dropdownMenu.appendChild(dropdownItem);
+        const label = document.createElement("label");
+        label.htmlFor = value;
+        label.textContent = value;
+
+        checkboxDiv.appendChild(checkbox);
+        checkboxDiv.appendChild(label);
+        dropdownContent.appendChild(checkboxDiv);
 }
  })
- const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
+ const checkboxes = document.querySelectorAll('.dropdown-content-Topic .checkbox-Topic input[type="checkbox"]');
+    console.log(checkboxes)
 checkboxes.forEach(checkbox => {
   checkbox.addEventListener('change', function() {
     console.log(this.value, this.checked);
     tagValues=this.value;
   });
 });
-   })
-   .catch(error=>{
+    })
+    .catch(error=>{
     console.log(error);
    });
-    modal.style.display = 'block';
+dropdownContent.style.display = "block";
+    // Simulate API call immediately
+  }
+   else {
+    console.log("clicked it open ")
+    // dropdownContent.innerHTML = ""; 
+    dropdownContent.style.display = "none";
+  }
+})
+//-------------
+const tableBody = document.querySelector('.Questioncustom-table tbody');
+const selectedValues = [];
+const selectedQuestions = [];
+const selectedObjectId = [];
+const selectButton = document.getElementById('searchButton');
+selectButton.addEventListener('click', function() {
+  const checkboxestags = document.querySelectorAll('.dropdown-content-Topic .checkbox-Topic input[type="checkbox"]:checked');
+  const ComplexityDropdown = document.getElementById("dropdown1");
+  const complexity = ComplexityDropdown.value;
+  console.log(complexity);
+  console.log(checkboxestags);
+  checkboxestags.forEach(checkbox => {
+  selectedValues.push(checkbox.value);
+});
+  var selectedTags=checkboxestags;
+  var questionKey='';
+  const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+  fetch(apiUrl)
+  .then(response=>response.json())
+  .then(data=>{
+    data.forEach(item=>{
+      Object.keys(item).forEach(key => {
+        console.log("hello")
+        console.log(item[key]+"-----"+selectedValues)
+        console.log("hello")
+        if(item[key]==selectedValues)
+        {
+          questionKey=key;
+           console.log(questionKey)
+         }
+        
+      });
+      });
+      if (questionKey) {
+      console.log(questionKey);
+      const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+      fetch(apiUrl1)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(item=>{
+            let rowCount = 0;
+      for (let key in item) {
+        
+            if (item[key].Tag_id == questionKey && item[key].Complexity==complexity) {
+              rowCount++;
+              console.log(item[key].Question);
+              const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${rowCount}</td>
+    <td>${item[key].Question}</td>
+    <td><div class="Questionbutton">${selectedValues}</div></td>
+    <td><label class="checkbox-container">
+      <input type="checkbox" class="checkbox">
+      <span class="checkmark"></span>
+    </label></td>
+  `;
+  tableBody.appendChild(row);
+  
+             }
+
+          }
+          const tableRows = document.querySelectorAll('.Questioncustom-table tbody tr');
+          const questionDesc=document.getElementById('description')
+
+tableRows.forEach(row => {
+  row.addEventListener('click', () => {
+    const questionCell = row.querySelector('td:nth-child(2)'); // Assuming question cell is the second cell
+    const questionData = questionCell.textContent.trim();
+    console.log('Clicked on question:', questionData);
+    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+      .then(response => response.json())
+      .then(data => {
+        data.forEach(item => {
+          for (let key in item) {
+            if (item[key].Question == questionData) {
+              console.log(item[key].Question);
+              questionDesc.innerHTML = item[key]['Question Statement'];
+            }
+          }
+        });
+      })
+      .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+      const checkbox = row.querySelector('.checkbox');
+      checkbox.addEventListener('change', () => {
+    const questionName = questionCell.textContent;
+    if (checkbox.checked) {
+      selectedQuestions.push(questionName);
+    } else {
+      const indexToRemove = selectedQuestions.indexOf(questionName);
+      if (indexToRemove !== -1) {
+        selectedQuestions.splice(indexToRemove, 1);
+      }
+    }
+  });
+    // You can now use the questionData as needed
+  });
+  
+});
+
+
+    })
+        })
+        .catch(error => {
+          console.log(error);
+        });
+
+        
+       
+    } else {
+      console.log("questionKey is not set");
+    }
+  })
+  .catch(error => {
+    console.log(error);
+  });
+});
+//submit
+
+const SubmitBtn = document.getElementById('submitBtn');
+SubmitBtn.addEventListener('click', () => {
+  const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+      fetch(apiUrl1)
+        .then(response => response.json())
+        .then(data => {
+       data.forEach(item => {
+      for (let key in item) {
+        const question = item[key].Question;
+        const objectId = item[key].objectId;
+        console.log(question)
+        console.log(objectId)
+        console.log(selectedQuestions)
+
+        if (selectedQuestions.includes(question)) {
+          selectedObjectId.push(objectId);
+          
+        }
+      }
+    });
+    const payload = {
+    selectedObjectId: selectedObjectId,
+  url: url
+};
+fetch('/question', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify(payload)
+})
+  .then(response => response.json())
+  .then(data => {
+    modal.style.display = "none";
+  })
+  .catch(error => {
+    
+  });
+    // Now objectIdMap contains the objectId values corresponding to selectedValues
+    
+  }) 
+  .catch(error => {
+        console.error("Error fetching data:", error);
+      });
+ 
+  
+ 
+});
+  
   })
 })
+
+    
+//     const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+//        fetch(apiUrl1)
+//    .then(response=>response.json())
+//    .then(dataArray=>{
+//     const dropdownButton = document.getElementById('dropdown_Icon');
+//   const dropdownMenu = document.getElementById('dropdownContent');
+
+//   dropdownButton.addEventListener('click', function() {
+//     dropdownMenu.classList.toggle('show');
+//   });
+//     dataArray.forEach(data=>{
+//       const keys = Object.keys(data);
+//      const lastKeyIndex = keys.length - 1;
+//     for (let i = 0; i < lastKeyIndex; i++) {
+//          const key = keys[i];
+//          const value = data[key];
+//          const label = document.createElement('label');
+//          const checkbox = document.createElement('input');
+//                checkbox.type = 'checkbox';
+//                checkbox.value = value;
+//                label.appendChild(checkbox);
+//     label.appendChild(document.createTextNode(data[key]));
+
+//     const dropdownItem = document.createElement('div');
+//     dropdownItem.classList.add('dropdown-item');
+//     dropdownItem.appendChild(label);
+
+//     dropdownMenu.appendChild(dropdownItem);
+// }
+//  })
+//  const checkboxes = document.querySelectorAll('.custom-dropdown input[type="checkbox"]');
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', function() {
+//     console.log(this.value, this.checked);
+//     tagValues=this.value;
+//   });
+// });
+//    })
+//    .catch(error=>{
+//     console.log(error);
+//    });
+//     modal.style.display = 'block';
+//   })
+// })
 
 closeBtn.addEventListener('click', () => {
   modal.style.display = 'none';
@@ -965,8 +1231,127 @@ var complexityValues=''
 //     document.getElementById('statement').innerHTML='';
 //     document.getElementById("questionList").innerHTML='';
 //   });
-//  const selectButton = document.getElementById('selectbtn');
+ 
 // const statementDiv = document.getElementById('statement');
+// const tableBody = document.querySelector('.Questioncustom-table tbody');
+// const selectedValues = [];
+// const selectedQuestions = [];
+// const selectButton = document.getElementById('searchButton');
+// selectButton.addEventListener('click', function() {
+//   const checkboxestags = document.querySelectorAll('.dropdown-content-Topic .checkbox-Topic input[type="checkbox"]:checked');
+//   const ComplexityDropdown = document.getElementById("dropdown1");
+//   const complexity = ComplexityDropdown.value;
+//   console.log(complexity);
+//   console.log(checkboxestags);
+//   checkboxestags.forEach(checkbox => {
+//   selectedValues.push(checkbox.value);
+// });
+//   var selectedTags=checkboxestags;
+//   var questionKey='';
+//   const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+//   fetch(apiUrl)
+//   .then(response=>response.json())
+//   .then(data=>{
+//     data.forEach(item=>{
+//       Object.keys(item).forEach(key => {
+//         console.log("hello")
+//         console.log(item[key]+"-----"+selectedValues)
+//         console.log("hello")
+//         if(item[key]==selectedValues)
+//         {
+//           questionKey=key;
+//            console.log(questionKey)
+//          }
+        
+//       });
+//       });
+//       if (questionKey) {
+//       console.log(questionKey);
+//       const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
+//       fetch(apiUrl1)
+//         .then(response => response.json())
+//         .then(data => {
+//           data.forEach(item=>{
+//             let rowCount = 0;
+//       for (let key in item) {
+        
+//             if (item[key].Tag_id == questionKey && item[key].Complexity==complexity) {
+//               rowCount++;
+//               console.log(item[key].Question);
+//               const row = document.createElement('tr');
+//   row.innerHTML = `
+//     <td>${rowCount}</td>
+//     <td>${item[key].Question}</td>
+//     <td><div class="Questionbutton">${selectedValues}</div></td>
+//     <td><label class="checkbox-container">
+//       <input type="checkbox" class="checkbox">
+//       <span class="checkmark"></span>
+//     </label></td>
+//   `;
+//   tableBody.appendChild(row);
+  
+//              }
+
+//           }
+//           const tableRows = document.querySelectorAll('.Questioncustom-table tbody tr');
+//           const questionDesc=document.getElementById('description')
+
+// tableRows.forEach(row => {
+//   row.addEventListener('click', () => {
+//     const questionCell = row.querySelector('td:nth-child(2)'); // Assuming question cell is the second cell
+//     const questionData = questionCell.textContent.trim();
+//     console.log('Clicked on question:', questionData);
+//     fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
+//       .then(response => response.json())
+//       .then(data => {
+//         data.forEach(item => {
+//           for (let key in item) {
+//             if (item[key].Question == questionData) {
+//               console.log(item[key].Question);
+//               questionDesc.innerHTML = item[key]['Question Statement'];
+//             }
+//           }
+//         });
+//       })
+//       .catch(error => {
+//         console.error("Error fetching data:", error);
+//       });
+//       const checkbox = row.querySelector('.checkbox');
+//       checkbox.addEventListener('change', () => {
+//     const questionName = questionCell.textContent;
+//     if (checkbox.checked) {
+//       selectedQuestions.push(questionName);
+//     } else {
+//       const indexToRemove = selectedQuestions.indexOf(questionName);
+//       if (indexToRemove !== -1) {
+//         selectedQuestions.splice(indexToRemove, 1);
+//       }
+//     }
+//   });
+//     // You can now use the questionData as needed
+//   });
+  
+// });
+
+
+//     })
+//         })
+//         .catch(error => {
+//           console.log(error);
+//         });
+
+        
+       
+//     } else {
+//       console.log("questionKey is not set");
+//     }
+//   })
+//   .catch(error => {
+//     console.log(error);
+//   });
+// });
+
+
 // selectButton.addEventListener('click', function() {
 //   const checkboxestags = document.querySelectorAll('#tags input[type="checkbox"]:checked');
 //   const checkboxescomplexity = document.querySelectorAll('#complexity input[type="checkbox"]:checked');
