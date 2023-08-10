@@ -135,6 +135,17 @@ thead th.active,tbody td.active {
   font-size: 14px;
  
 }
+.custom-table th:first-child {
+  border-top-left-radius: 5px; /* Adjust the radius value as needed */
+  border-bottom-left-radius: 5px; /* Adjust the radius value as needed */
+  /* Other styles for your header cells */
+}
+
+.custom-table th:last-child {
+  border-top-right-radius: 5px; /* Adjust the radius value as needed */
+  border-bottom-right-radius: 5px; /* Adjust the radius value as needed */
+  /* Other styles for your header cells */
+}
 
 .custom-table tr{
   background-color: white;
@@ -145,7 +156,7 @@ thead th.active,tbody td.active {
   color: white;
   text-align: center; /* Centering table header text */
   border-bottom: 2px solid #ddd;
-  border-radius: 5px;
+  /* border-radius: 5px; */
 }
 
 .custom-table td {
@@ -183,7 +194,7 @@ thead th.active,tbody td.active {
 
 
  .table{
-  border: 2px solid black;
+  border: 2px solid white;
   background-color: #F2F5F7
   
 }
@@ -551,10 +562,10 @@ button[type="submit"]:hover {
   float:left !important;
   margin-top:2px;
 }
-#my-dropdown{
+/* #my-dropdown{
   width:70% !important;
   border-radius: 3px;
-}
+} */
 #dataTable th:nth-child(2),
   /* Hide the corresponding column cells in each row */
   #dataTable td:nth-child(2) {
@@ -952,6 +963,17 @@ color: #205072;
   font-size: 14px;
 }
 
+.Questioncustom-table th:first-child {
+  border-top-left-radius: 5px; /* Adjust the radius value as needed */
+  border-bottom-left-radius: 5px; /* Adjust the radius value as needed */
+  /* Other styles for your header cells */
+}
+
+.Questioncustom-table th:last-child {
+  border-top-right-radius: 5px; /* Adjust the radius value as needed */
+  border-bottom-right-radius: 5px; /* Adjust the radius value as needed */
+  /* Other styles for your header cells */
+}
 .Questioncustom-table tr{
   background: #39A3A60D;
 }
@@ -1063,8 +1085,20 @@ padding-left:10px;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
+  z-index: 999;
 }
 
+#key_btn{
+  margin-right:50%; 
+  float: left;
+   margin-top: 8%;
+    background-color: #38A3A5; 
+    color:white;
+     border-radius: 2px;
+      border: none;
+      width:40px;
+       height:20px;
+}
 /* .dropdown-container {
   display: inline-block;
   position: relative;
@@ -1090,7 +1124,7 @@ padding-left:10px;
 
 .dropdown-content-Topic {
   display: none;
-  position: relative;
+  position: absolute;
   top: 100%;
   left: 0;
   background-color: #f9f9f9;
