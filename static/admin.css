@@ -256,7 +256,7 @@ main {
   padding-left: 0; /* Alternatively, you can use padding-left instead of margin */
 
 }
-/* #logout-button {
+#logout-button {
     position: absolute;
   top: 0;
   right: 0;
@@ -272,7 +272,7 @@ main {
   cursor: pointer; 
   border-radius: 5px; 
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); 
-} */
+}
 
 /* #logout-button:hover {
   background-color: #38A3A5; 

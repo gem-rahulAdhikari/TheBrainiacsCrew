@@ -15,6 +15,8 @@ import firebase_admin
 from firebase_admin import credentials, db
 import pandas as pd
 import uuid
+import base64
+
 
 
 cred = credentials.Certificate('serviceAccountKey.json')
@@ -51,13 +53,18 @@ Session(app)
 
 
 
-# @app.route('/')
-# def index1():
-#      if g.user:
-#         return render_template('Home.html')
-#      else:
-#        return render_template('login.html') 
-     
+
+# Replace these variables with your GitHub repository details
+github_username = 'gem-rahulAdhikari'
+github_repository = 'selenium_Integartion'
+github_personal_access_token = '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'
+
+# Set the API URLs
+old_file_path = 'src/test/java/App_Rahul.java'  # Replace with the current file path
+new_file_path = 'src/test/java/App_Test12.java'  # Replace with the new file path
+api_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{old_file_path}'
+
+
 
 @app.route('/')
 def login1():
@@ -91,13 +98,14 @@ def profile():
 def editor():
      full_url = request.url
      print("hello")
+     
     #  url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData"
      url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
      response = requests.get(url)
      if response.status_code == 200:
         data = response.json();
         for item in data:
-            print(item)
+            print(item['url'])
             print(full_url)
             if full_url == item['url']:
                 keyStatus=item['keyStatus']
@@ -199,12 +207,54 @@ def before_request():
           print(g.user+"this is user")
 
 
-# @app.route('/login')
-# def login1():
-#        if g.user:
-#         return redirect(url_for('index1'))
-#        else:
-#         return render_template('login.html') 
+@app.route('/selenium')
+def selenium():
+        current_url = request.args.get('url')
+        print("Received URL:", current_url)
+        print("this selenium")
+        return render_template('selenium.html') 
+
+@app.route('/updateGithub')
+def updateGithub():
+    headers = {
+    'Authorization': f'Bearer {github_personal_access_token}',
+    'Accept': 'application/vnd.github.v3+json'
+         }
+
+    # Get the current contents and SHA of the file
+    response = requests.get(api_url, headers=headers)
+    response_json = response.json()
+    sha = response_json['sha']
+    current_content = base64.b64decode(response_json['content']).decode()
+
+# Delete the existing file
+    delete_payload = {
+      'message': 'Deleting existing file',
+      'sha': sha
+     }
+    delete_response = requests.delete(api_url, json=delete_payload, headers=headers)
+
+    if delete_response.status_code == 204:
+     print('Existing file deleted successfully.')
+
+    # Create the new file with the desired name and content
+    new_content = current_content  # You can modify this if needed
+    new_encoded_content = base64.b64encode(new_content.encode()).decode()
+    create_payload = {
+      'message': 'Creating new file with the desired name',
+      'content': new_encoded_content,
+      'path': new_file_path
+      }
+    create_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{new_file_path}'
+    create_response = requests.put(create_url, json=create_payload, headers=headers)
+
+    if create_response.status_code == 201:
+       print('New file created successfully.')
+    else:
+      print('Failed to create new file.')
+      print(create_response.json())
+
+
      
         
 
@@ -580,6 +630,7 @@ def submit_form():
     data = response.json()
     out=tocken_gen(data['token'])
     logging.info("Code_Output"+":" +out)
+    print("heloooooooooo")
     req_url=getUrl(name)
     print("helloooo");
     print(req_url)
@@ -675,6 +726,7 @@ def getUrl(name):
           fetchedUrl = item['url']
           print( fetchedUrl)
           result = fetchedUrl.split("/")
+          print("this is url function")
           print(result)
           my_string = result[-1]
           result1 = my_string.split("=")
@@ -682,7 +734,9 @@ def getUrl(name):
           if result1[-1] == name:
               my_bool=True;
               print("got it")
-              return item['url']
+            #   return item['url']
+              print(fetchedUrl+'heloji')
+              return fetchedUrl
          
         print("not find")
         setUrl(name)
@@ -825,13 +879,15 @@ def getName(req_url):
     #     data = json.load(f)
     #     url =  data.get("getSubmissions", "")
     #     print("hello how are you")
-    url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmission"
+    url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json();
         
         for item in data:
           print(item)
+          print("this is req url")
+          print(item['url'])
           if item['url'] == req_url:
              req_name=item['name']
              print(req_name)

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Code Runner</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Add some padding to the preformatted blocks */
+        #codeContent, #codeContent1 {
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Selenium Execution</h2>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="code">Enter Your Code</label>
+                    <pre id="codeContent">
+import com.aventstack.extentreports.Status;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+org.openqa.selenium.interactions.Actions;
+import org.testng.annotations.Test;
+
+import java.lang.*;
+import java.util.*;
+import java.awt.*;
+import java.math.*;
+import java.time.*;
+
+public class App extends driverConfig{
+
+    @Test
+                        </pre>
+                    <textarea id="code" class="form-control" rows="10" placeholder="Enter your code"></textarea>
+                    <pre id="codeContent1">
+    }
+                    </pre>
+                </div>
+                <button class="btn btn-primary" id="run">Run</button>
+                <button class="btn btn-success" id="submit">Submit</button>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="output">Output</label>
+                    <textarea id="output" class="form-control" rows="5" readonly></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Include Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+       // Your JavaScript code here
+      const button = document.getElementById('run');
+      button.addEventListener('click', () => {
+      const editableCode = document.getElementById('code').value;
+      const codeContent = document.getElementById('codeContent');
+      const codeContent1 = document.getElementById('codeContent1');
+      const textareaValue =codeContent.innerHTML+'\n'+editableCode + '\n'+codeContent1.innerHTML;
+      console.log(textareaValue);
+    });
+    </script>
+</body>
+</html>

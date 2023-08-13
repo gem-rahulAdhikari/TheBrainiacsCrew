@@ -212,7 +212,7 @@ var submitBtn = document.getElementById('Executebtn');
 function dynamic1(){
   const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name');
-  
+  console.log(name)
     const data1 = { name: name };
   fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions')
 .then(response => response.json())
@@ -280,6 +280,7 @@ dropdown.addEventListener("change", function() {
 .catch(error => {
 console.error(error);
 });
+
 }
 
 
