@@ -57,7 +57,7 @@ Session(app)
 # Replace these variables with your GitHub repository details
 github_username = 'gem-rahulAdhikari'
 github_repository = 'selenium_Integartion'
-github_personal_access_token = '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'
+github_personal_access_token = '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'
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
