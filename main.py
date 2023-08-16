@@ -15,6 +15,8 @@ import firebase_admin
 from firebase_admin import credentials, db
 import pandas as pd
 import uuid
+import base64
+
 
 
 cred = credentials.Certificate('serviceAccountKey.json')
@@ -51,13 +53,22 @@ Session(app)
 
 
 
-# @app.route('/')
-# def index1():
-#      if g.user:
-#         return render_template('Home.html')
-#      else:
-#        return render_template('login.html') 
-     
+
+# Replace these variables with your GitHub repository details
+github_username = 'gem-rahulAdhikari'
+github_repository = 'selenium_Integartion'
+github_personal_access_token = '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'
+
+# Set the API URLs
+old_file_path = 'src/test/java/'  # Replace with the current file path
+old_file_path1 = 'src/test/java/App.java'  
+new_file_path =''
+# api_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{old_file_path}'
+old_api_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/'
+
+api_url1 =f'https://api.github.com/repos/{github_username}/{github_repository}/contents/src/test/java'
+complete_path=''
+
 
 @app.route('/')
 def login1():
@@ -91,13 +102,14 @@ def profile():
 def editor():
      full_url = request.url
      print("hello")
+     
     #  url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData"
      url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
      response = requests.get(url)
      if response.status_code == 200:
         data = response.json();
         for item in data:
-            print(item)
+            print(item['url'])
             print(full_url)
             if full_url == item['url']:
                 keyStatus=item['keyStatus']
@@ -199,13 +211,397 @@ def before_request():
           print(g.user+"this is user")
 
 
-# @app.route('/login')
-# def login1():
-#        if g.user:
-#         return redirect(url_for('index1'))
-#        else:
-#         return render_template('login.html') 
-     
+@app.route('/selenium')
+def selenium():
+        current_url = request.args.get('url')
+        print("Received URL:", current_url)
+        print("this selenium")
+        return render_template('selenium.html') 
+
+@app.route('/updateGithub', methods=['POST'])
+def updateGithub():
+    data = request.json  # Get the JSON data from the request body
+    textareaValue1 = data.get('content', '')
+    print(textareaValue1)
+    textareaValue=''
+    current_url = data.get('url', '')
+    print(current_url)
+    split_url = current_url.split("=")  # Split the URL by '='
+    c=0
+    req_file_name=''
+    req_count=''
+    
+    if len(split_url) >= 2:
+     second_value = split_url[1]  # Get the second value
+     print("Second value:", second_value)
+    else:
+     print("URL format is not as expected")
+
+    
+
+     #get the name of old file
+    headers = {
+    'Authorization': f'Bearer {github_personal_access_token}',
+    'Accept': 'application/vnd.github.v3+json'
+     }
+
+
+
+
+
+
+#get the name old saved file
+    response_old=requests.get(api_url1, headers=headers)
+    response_old_json=response_old.json()
+    if response_old_json:
+        first_entry = response_old_json[-1]  # Get the first entry in the list
+        name = first_entry.get("name")
+        new_name=name.split("_")
+        req_file_name=new_name[0]
+        print(req_file_name);
+        req_count=new_name[1];
+        print(req_count)
+        complete_path=old_file_path + name;
+        print(complete_path)
+    else:
+     print("Request failed with status code:", response.status_code) 
+      
+    if req_file_name == 'selenium-'+second_value:
+        c=int(req_count)
+        c+=1
+        new_file = 'selenium1' + second_value+'_'+ str(c) + '_.java'
+        new_file_path = 'src/test/java/' + new_file
+        textareaValue = textareaValue1.replace("App", "selenium1"+second_value+"_"+str(c))   
+    else:
+        new_file = 'selenium1' + second_value+'_'+ str(c) + '_.java'
+        new_file_path = 'src/test/java/' + new_file 
+        textareaValue = textareaValue1.replace("App", "selenium1"+second_value+"_"+str(c))   
+
+
+
+
+#get the selenium saved data in selenium table
+
+    get_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput"  # Replace with your API URL
+
+    get_response = requests.get(get_url)
+
+    if get_response.status_code == 200:
+     data = get_response.json();
+     print("Response Data:")
+     print(data)
+     if data:
+      for item in data:
+         print(item['url'])
+         print("hello this ")
+         entry_url = item['url']
+         if entry_url == current_url:
+            put_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateSeleniumSubmission"  # Replace with your API URL
+            data_to_send = {
+                "filter": {
+                       "url": current_url
+                               },
+                "SubmittedCode": textareaValue,
+                "Output": " "
+                   }  # Replace with the data you want to send in the PUT request
+
+            put_response = requests.put(put_url, json=data_to_send)
+
+            if put_response.status_code == 200:
+             print("PUT request successful")
+            else:
+             print(f"PUT request failed with status code: {put_response.status_code}")
+
+
+         else:
+             print("this is post")
+             Name=''
+             Email=''
+             Key=''
+             getuser_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
+             getuser_response = requests.get(getuser_url)
+             if getuser_response.status_code == 200:
+              data = getuser_response.json();
+              for item in data:
+                  if item['url'] == current_url:
+                   Name=item['Name']
+                   Email=item['Email']
+                   Key=item['SecretKey']
+                  
+               
+             post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"  # Replace with your API URL
+
+             data_to_send = {
+            "Submissions": [
+                             {
+                              "SubmittedCode": textareaValue,
+                              "Output": ""
+                              }
+                           ],
+                              "name":Name,
+                              "Email":Email ,
+                              "url": current_url,
+                              "key":Key
+                       }
+
+             post_response = requests.post(post_url, json=data_to_send)
+
+             if post_response.status_code == 200:
+              print("POST request successful")
+             else:
+              print(f"POST request failed with status code: {post_response.status_code}")
+
+
+     else:
+         print("this is post")
+         Name=''
+         Email=''
+         Key=''
+         getuser_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
+         getuser_response = requests.get(getuser_url)
+         if getuser_response.status_code == 200:
+            data = getuser_response.json();
+            for item in data:
+                  if item['url'] == current_url:
+                   Name=item['Name']
+                   Email=item['Email']
+                   Key=item['SecretKey']
+                  
+               
+            post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"  # Replace with your API URL
+
+            data_to_send = {
+            "Submissions": [
+                             {
+                              "SubmittedCode": textareaValue,
+                              "Output": ""
+                              }
+                           ],
+                              "name":Name,
+                              "Email":Email ,
+                              "url": current_url,
+                              "key":Key
+                       }
+
+            post_response = requests.post(post_url, json=data_to_send)
+
+            if post_response.status_code == 200:
+              print("POST request successful")
+            else:
+              print(f"POST request failed with status code: {post_response.status_code}")
+         
+
+
+    else:
+     print(f"Request failed with status code: {get_response.status_code}")
+
+
+
+      
+    # Get the current contents and SHA of the file
+    old_api_url1=old_api_url+complete_path
+    print(old_api_url1)
+    response = requests.get(old_api_url1, headers=headers)
+    response_json = response.json()
+    sha = response_json['sha']
+    current_content = base64.b64decode(response_json['content']).decode()
+    # Delete the existing file
+    delete_payload = {
+      'message': 'Deleting existing file',
+      'sha': sha
+     }
+    delete_response = requests.delete(old_api_url1, json=delete_payload, headers=headers)
+    print(delete_response.status_code)
+    if delete_response.status_code == 200:
+     print('Existing file deleted successfully.')
+
+    # Create the new file with the desired name and content
+    new_content = textareaValue  # You can modify this if needed
+    new_encoded_content = base64.b64encode(new_content.encode()).decode()
+    create_payload = {
+      'message': 'Creating new file with the desired name',
+      'content': new_encoded_content,
+      'path': new_file_path
+      }
+    create_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{new_file_path}'
+    create_response = requests.put(create_url, json=create_payload, headers=headers)
+    print(create_response.status_code)
+
+    if create_response.status_code == 201:
+       response_data = {"message": "New file created successfully."}
+       return jsonify(response_data)  # Return a JSON response
+    else:
+      print('Failed to create new file.')
+      print(create_response.json())
+
+    
+
+@app.route('/updatewithoutchangename', methods=['POST']) 
+def updateFile():
+    try:
+        data = request.json  # Get the JSON data from the request body
+        textareaValue = data.get('content', '')
+        current_url = data.get('url', '')
+
+        headers = {
+            'Authorization': f'Bearer {github_personal_access_token}',
+            'Accept': 'application/vnd.github.v3+json'
+        }
+
+        #get the selenium saved data in selenium table
+
+        get_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput"  # Replace with your API URL
+
+        get_response = requests.get(get_url)
+
+        if get_response.status_code == 200:
+         data = get_response.json();
+         print("Response Data:")
+         print(data)
+         if data:
+          for item in data:
+           print(item['url'])
+           print("hello this ")
+           entry_url = item['url']
+           if entry_url == current_url:
+             put_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateSeleniumSubmission"  # Replace with your API URL
+             data_to_send = {
+                "filter": {
+                       "url": current_url
+                               },
+                "SubmittedCode": textareaValue,
+                "Output": " "
+                   }  # Replace with the data you want to send in the PUT request
+
+             put_response = requests.put(put_url, json=data_to_send)
+
+             if put_response.status_code == 200:
+              print("PUT request successful")
+             else:
+              print(f"PUT request failed with status code: {put_response.status_code}")
+
+
+           else:
+              print("this is post")
+              Name=''
+              Email=''
+              Key=''
+              getuser_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
+              getuser_response = requests.get(getuser_url)
+              if getuser_response.status_code == 200:
+               data = getuser_response.json();
+               for item in data:
+                  if item['url'] == current_url:
+                   Name=item['Name']
+                   Email=item['Email']
+                   Key=item['SecretKey']
+                  
+               
+              post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"  # Replace with your API URL
+
+              data_to_send = {
+              "Submissions": [
+                             {
+                              "SubmittedCode": textareaValue,
+                              "Output": ""
+                              }
+                           ],
+                              "name":Name,
+                              "Email":Email ,
+                              "url": current_url,
+                              "key":Key
+                       }
+
+              post_response = requests.post(post_url, json=data_to_send)
+
+              if post_response.status_code == 200:
+               print("POST request successful")
+              else:
+               print(f"POST request failed with status code: {post_response.status_code}")
+
+
+         else:
+          print("this is post")
+          Name=''
+          Email=''
+          Key=''
+          getuser_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
+          getuser_response = requests.get(getuser_url)
+          if getuser_response.status_code == 200:
+            data = getuser_response.json();
+            for item in data:
+                  if item['url'] == current_url:
+                   Name=item['Name']
+                   Email=item['Email']
+                   Key=item['SecretKey']
+                  
+               
+            post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"  # Replace with your API URL
+
+            data_to_send = {
+            "Submissions": [
+                             {
+                              "SubmittedCode": textareaValue,
+                              "Output": ""
+                              }
+                           ],
+                              "name":Name,
+                              "Email":Email ,
+                              "url": current_url,
+                              "key":Key
+                       }
+
+            post_response = requests.post(post_url, json=data_to_send)
+
+            if post_response.status_code == 200:
+              print("POST request successful")
+            else:
+              print(f"POST request failed with status code: {post_response.status_code}")
+
+        else:
+         print(f"Request failed with status code: {get_response.status_code}")      
+         
+
+
+        
+ 
+
+        url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{old_file_path1}'
+        response = requests.get(url, headers=headers)
+        response_json = response.json()
+        print(response_json)
+        sha = response_json['sha']
+
+        current_content = response_json['content']
+        current_content_decoded = base64.b64decode(current_content).decode()
+
+        # Modify the content
+        updated_content = textareaValue
+
+        encoded_content = base64.b64encode(updated_content.encode()).decode()
+
+        # Prepare the request payload
+        data = {
+            'message': 'Text update from online input',
+            'content': encoded_content,
+            'sha': sha,
+            'path': old_file_path1  # Keep the same path
+        }
+
+        # Send the request to update the file on GitHub
+        update_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{old_file_path1}'
+        response = requests.put(update_url, json=data, headers=headers)
+
+        if response.status_code == 200:
+            print('File updated successfully.')
+        else:
+            print('Failed to update file.')
+            print(response.json())
+
+        return jsonify({'message': 'Text pushed to GitHub successfully!'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify({'message': 'Failed to push text to GitHub.'}), 500    
         
 
 
@@ -580,6 +976,7 @@ def submit_form():
     data = response.json()
     out=tocken_gen(data['token'])
     logging.info("Code_Output"+":" +out)
+    print("heloooooooooo")
     req_url=getUrl(name)
     print("helloooo");
     print(req_url)
@@ -675,6 +1072,7 @@ def getUrl(name):
           fetchedUrl = item['url']
           print( fetchedUrl)
           result = fetchedUrl.split("/")
+          print("this is url function")
           print(result)
           my_string = result[-1]
           result1 = my_string.split("=")
@@ -682,7 +1080,9 @@ def getUrl(name):
           if result1[-1] == name:
               my_bool=True;
               print("got it")
-              return item['url']
+            #   return item['url']
+              print(fetchedUrl+'heloji')
+              return fetchedUrl
          
         print("not find")
         setUrl(name)
@@ -825,13 +1225,15 @@ def getName(req_url):
     #     data = json.load(f)
     #     url =  data.get("getSubmissions", "")
     #     print("hello how are you")
-    url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmission"
+    url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json();
         
         for item in data:
           print(item)
+          print("this is req url")
+          print(item['url'])
           if item['url'] == req_url:
              req_name=item['name']
              print(req_name)

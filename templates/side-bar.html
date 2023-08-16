@@ -49,22 +49,22 @@
       </div>
       {% if session['role']=='Admin' or session['role']=='HR' or session['role']=='Interviewer' %}
 
-      <div class="item">
+      <!-- <div class="item">
       
         <a href="/vetting_page?page=vetting_page" class="sub-btn"><i class="fas fa-th"></i>Vetting Page</a>
-      </div>
+      </div> -->
       {% endif %}
       <div class="item">
         <a href="/admin?page=login" class="sub-btn"><i class="fas fa-table"></i>Application</a>
       </div>
-      {% if session['role']=='Admin' %}
+      <!-- {% if session['role']=='Admin' %}
       <div class="item">
         <a href="/setting?page=setting" class="sub-btn"><i class="fas fa-cogs"></i>Settings</a>
       </div>
       {% endif %}
       <div class="item">
         <a href="/about?page=about" class="sub-btn"><i class="fas fa-info-circle"></i>About</a>
-      </div>
+      </div> -->
     </div>
   </div>
 </body>

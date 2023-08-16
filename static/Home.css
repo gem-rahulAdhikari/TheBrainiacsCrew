@@ -24,6 +24,7 @@
     overflow-y:auto;
     transition: 0.6s ease;
     transition-property:left ;
+    z-index: 1000;
   }
   .side-bar.active{
     left:0;
