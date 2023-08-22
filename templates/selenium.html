@@ -4,6 +4,14 @@
     <title>Code Runner</title>
     <!-- Include Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/sha256.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.3/awesomplete.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.3/awesomplete.min.js"></script>
+
+
     <style>
         /* Add some padding to the preformatted blocks */
         #codeContent, #codeContent1 {
@@ -12,6 +20,7 @@
             border: 1px solid #ddd;
             margin: 0;
         }
+       
     </style>
 </head>
 <body>
@@ -21,6 +30,15 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="code">Enter Your Code</label>
+                    <div class="container" style="margin-left:470px">
+                        <button class="btn btn-link position-absolute top-0 end-0 m-2" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample" style="color:black">
+                            <i class="fa-solid fa-arrow-down"></i>
+                        </button>
+                        <!-- ... Other content ... -->
+                    </div>
+                    
+                    <div class="collapse" id="collapseExample">
+                        
                     <pre id="codeContent">
 import com.aventstack.extentreports.Status;
 import org.openqa.selenium.By;
@@ -36,13 +54,17 @@ import java.math.*;
 import java.time.*;
 
 public class App extends driverConfig{
+    static String reportName=" ";
 
     @Test
                         </pre>
-                    <textarea id="code" class="form-control" rows="10" placeholder="Enter your code"></textarea>
+                        </div>
+                    <textarea id="code" class="form-control" rows="15" placeholder="Driver is already define please make your own method and continue with execution"></textarea>
+                    <div class="collapse" id="collapseExample">
                     <pre id="codeContent1">
     }
                     </pre>
+                </div>
                 </div>
                 <button class="btn btn-primary" id="run">Run</button>
                 <!-- <button class="btn btn-success" id="submit">Submit</button> -->
@@ -62,7 +84,7 @@ public class App extends driverConfig{
     <script>
        // Your JavaScript code here
        const previousURL = document.referrer; // Get the previous URL
-
+      let c=0;
       console.log("Previous URL:", previousURL);
       const button = document.getElementById('run');
       button.addEventListener('click', async () => {
@@ -71,13 +93,44 @@ public class App extends driverConfig{
       const codeContent1 = document.getElementById('codeContent1');
       const textareaValue =codeContent.innerHTML+'\n'+editableCode + '\n'+codeContent1.innerHTML;
       console.log(textareaValue);
+
+      //api request to get the count
+      fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      // Iterate over the data array
+      data.forEach(item => {
+        if(item.url==previousURL)
+        {
+            if (item.hasOwnProperty("Submissions"))
+            {
+console.log(item.Submissions.length);
+c=item.Submissions.length;
+console.log(c)
+            }
+
+            else
+            {
+                c=0;
+            }
+        }
+ });
+ console.log("this is "+c)
+ makePostRequest(c);
+    })
+    .catch(error => console.error(error));
+
+     
+      async function makePostRequest(c) {
+        console.log(c)
       try {
         const response = await fetch('/updatewithoutchangename', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ content: textareaValue,url: previousURL }) // Sending textareaValue as JSON
+            body: JSON.stringify({ content: textareaValue,url: previousURL,count: c }) 
         });
 
         if (response.ok) {
@@ -88,7 +141,9 @@ public class App extends driverConfig{
     } catch (error) {
         console.error('An error occurred:', error);
     }
+}
     });
+   
     </script>
 </body>
 </html>

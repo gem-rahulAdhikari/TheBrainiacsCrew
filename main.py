@@ -57,7 +57,7 @@ Session(app)
 # Replace these variables with your GitHub repository details
 github_username = 'gem-rahulAdhikari'
 github_repository = 'selenium_Integartion'
-github_personal_access_token = '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'
+github_personal_access_token = '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'
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
@@ -439,9 +439,31 @@ def updateGithub():
 @app.route('/updatewithoutchangename', methods=['POST']) 
 def updateFile():
     try:
+        second_value=''
         data = request.json  # Get the JSON data from the request body
-        textareaValue = data.get('content', '')
+        textareaValue1 = data.get('content', '')
+        new_report_name = "New Report Name"
+        start_index = textareaValue1.find('static String reportName')
+        quote_start = textareaValue1.find('"', start_index)
+        quote_end = textareaValue1.find('"', quote_start + 1)
+        
+        count=data.get('count', '')
         current_url = data.get('url', '')
+        split_url = current_url.split("=")
+        if len(split_url) >= 2:
+         second_value = split_url[1]  # Get the second value
+         print("Second value:", second_value)
+        else:
+         print("URL format is not as expected")
+
+
+        textareaValue = (
+                              textareaValue1[:quote_start + 1]
+                             + "Report_"+second_value+"_"+str(count)
+                              + textareaValue1[quote_end:]
+                             )
+
+        print(textareaValue) 
 
         headers = {
             'Authorization': f'Bearer {github_personal_access_token}',
@@ -464,21 +486,22 @@ def updateFile():
            print("hello this ")
            entry_url = item['url']
            if entry_url == current_url:
-             put_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateSeleniumSubmission"  # Replace with your API URL
-             data_to_send = {
-                "filter": {
-                       "url": current_url
-                               },
-                "SubmittedCode": textareaValue,
-                "Output": " "
-                   }  # Replace with the data you want to send in the PUT request
+              break
+            #  put_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateSeleniumSubmission"  # Replace with your API URL
+            #  data_to_send = {
+            #     "filter": {
+            #            "url": current_url
+            #                    },
+            #     "SubmittedCode": textareaValue,
+            #     "Output": " "
+            #        } 
 
-             put_response = requests.put(put_url, json=data_to_send)
+            #  put_response = requests.put(put_url, json=data_to_send)
 
-             if put_response.status_code == 200:
-              print("PUT request successful")
-             else:
-              print(f"PUT request failed with status code: {put_response.status_code}")
+            #  if put_response.status_code == 200:
+            #   print("PUT request successful")
+            #  else:
+            #   print(f"PUT request failed with status code: {put_response.status_code}")
 
 
            else:
@@ -501,10 +524,10 @@ def updateFile():
 
               data_to_send = {
               "Submissions": [
-                             {
-                              "SubmittedCode": textareaValue,
-                              "Output": ""
-                              }
+                            #  {
+                            #   "SubmittedCode": textareaValue,
+                            #   "Output": ""
+                            #   }
                            ],
                               "name":Name,
                               "Email":Email ,
@@ -540,10 +563,10 @@ def updateFile():
 
             data_to_send = {
             "Submissions": [
-                             {
-                              "SubmittedCode": textareaValue,
-                              "Output": ""
-                              }
+                            #  {
+                            #   "SubmittedCode": textareaValue,
+                            #   "Output": ""
+                            #   }
                            ],
                               "name":Name,
                               "Email":Email ,

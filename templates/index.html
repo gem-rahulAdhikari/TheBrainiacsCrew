@@ -34,6 +34,7 @@
                 <option value="71">Python</option>
                 <option value="50">C</option>
                 <option value="62">Java</option>
+                <option value="Selenium">Selenium</option>
             </select>
             
              {% if session['role']=='Admin' %}
@@ -46,13 +47,13 @@
                 <div class="container1">
                   <button type="button" class="btn " id="Runbtn" style="background-color: #38A3A5; color:white; margin-left:10vw;" onclick="disableButton()" disabled>Run</button>
                   <button type="button" class="btn" id="Executebtn" style="background-color: #38A3A5; color:white;" onclick="disableButton()" disabled>Submit</button>
-                  <button id="selenium"  style="background-color: #38A3A5; color:white; border: none; border-radius: 4px; font-size: 16px; height:30px;">Selenium</button>
+                  <!-- <button id="selenium"  style="background-color: #38A3A5; color:white; border: none; border-radius: 4px; font-size: 16px; height:30px;">Selenium</button> -->
                 </div>
                 {% else %}
                 <div class="container1">
                   <button type="button" class="btn " id="Runbtn" style="background-color: #38A3A5; color:white; margin-left:10vw;">Run</button>
                   <button type="button" class="btn" id="Executebtn" style="background-color: #38A3A5; color:white;">Submit</button>
-                  <button id="selenium"  style="background-color: #38A3A5; color:white; border: none; border-radius: 4px; font-size: 16px; ">Selenium</button>
+                  <!-- <button id="selenium"  style="background-color: #38A3A5; color:white; border: none; border-radius: 4px; font-size: 16px; ">Selenium</button> -->
                 </div>
                 {% endif %}
               
@@ -119,6 +120,7 @@
     const submitSecretKeyButton = document.getElementById("submitSecretKey");
     const closeButton = document.querySelector(".close");
     const questionLink = document.getElementById('question-link');
+   
     var myValue = localStorage.getItem('role');
     if(myValue=='Admin')
         {
@@ -204,23 +206,7 @@
       console.log("hello");
       const currentURL = window.location.href;
   console.log("Current URL:", currentURL);
-      // window.location.href = '/selenium';
       window.location.href = '/selenium?url=' + encodeURIComponent(currentURL);
-  //     fetch('/selenium', {
-  //   method: 'GET', 
-  //   headers: {
-  //     'Content-Type': 'application/json' 
-  //   },
-    
-  // })
-  // .then(response => response.json())
-  // .then(data => {
-  //   console.log("API response:", data); 
-  // })
-  // .catch(error => {
-  //   console.log("Error:");
-  // });
-
 });
     
 

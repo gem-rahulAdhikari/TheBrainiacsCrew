@@ -1,4 +1,4 @@
-var hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)" };
+var hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)","Selenium":"Selenium" };
   var globalId = null;
   var dropdown = document.getElementById("dropdown");
   var select1 = document.getElementById("dropdown1");
@@ -9,6 +9,8 @@ var hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C"
   let textarea = document.getElementById('code_input');
   let input_area=document.getElementById('floatingTextarea2');
   let result=document.getElementById('result')
+
+  let selenium=false;
 
   // Check if the user is logged in (using the variable passed from Flask)
   
@@ -50,7 +52,9 @@ myTextarea.value = value1;
   const Selected_option= `${selectedOptionText}`  
   console.log(`Selected value: ${selectedValue}`);
   console.log(`Selected option: ${selectedOptionText}`);
-    
+
+  if(Selected_option !== "Selenium")
+  {  
   fetch('/select_lang', {
   method: 'POST',
   headers: {
@@ -78,16 +82,47 @@ myTextarea.value = value1;
   console.log(data);
   console.log(selectedValue);
 });
+  }
+  else
+  {
+    selenium=true;
+console.log("this is selenium execution")
+console.log("hello");
+const currentURL = window.location.href;
+getValueFromServer("Selenium");
+console.log("Current URL:", currentURL);
+// const textareaElement = document.getElementById("result");
+// const divElement = document.createElement("div");
+// divElement.innerHTML = textareaElement.value;
+// textareaElement.parentNode.replaceChild(divElement, textareaElement);
+// window.location.href = '/selenium?url=' + encodeURIComponent(currentURL);
+const textareaElement = document.getElementById("result");
+const divElement = document.createElement("div");
+divElement.id = "result1"; // Replace with your desired ID
+divElement.style.height = "25vh";
+divElement.style.overflow = "auto"; // Add scrollbars if content overflows
+divElement.style.border = "2px solid #333";
+
+
+divElement.innerHTML = textareaElement.value;
+textareaElement.parentNode.replaceChild(divElement, textareaElement);
+
+  }
   });
 
+  const currentURL = window.location.href;
+  let c=0;
  
 //run the textarea code
 var submitBtn = document.getElementById('Runbtn');
     submitBtn.addEventListener('click', function() {
+      console.log("run button")
         var textareaValue = document.querySelector('textarea[name="code_input"]').value;
         var stdin = document.querySelector('textarea[name="input_area"]').value;
         
-       
+       if(selenium === false)
+       {
+        console.log("this is not selenium")
       fetch('/run', {
             method: 'POST',
             body: JSON.stringify({
@@ -108,6 +143,122 @@ var submitBtn = document.getElementById('Runbtn');
   .catch(error => {
     console.error(error);
   });
+}
+else
+{
+  console.log("this is selenium")
+  fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
+  .then(response => response.json())
+  .then(data => {
+    console.log(data);
+    // Iterate over the data array
+    data.forEach(item => {
+      if(item.url==currentURL)
+      {
+          if (item.hasOwnProperty("Submissions"))
+          {
+console.log(item.Submissions.length);
+c=item.Submissions.length;
+console.log(c)
+          }
+
+          else
+          {
+              c=0;
+          }
+      }
+});
+console.log("this is "+c)
+makePostRequest(c,currentURL);
+  })
+  .catch(error => console.error(error));
+  async function makePostRequest(c,currentURL) {
+    console.log(c)
+  try {
+    const response = await fetch('/updatewithoutchangename', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ content: textareaValue,url: currentURL,count: c }) 
+    });
+    const responseData = await response.text();
+    console.log(responseData)
+    if (response.ok) {
+        console.log('Update successful');
+        console.log("wait")
+// Delay for 1.5 minutes before sending the GET request
+setTimeout(async () => {
+  try {
+    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      // Iterate over the data array
+      data.forEach(item => {
+        console.log(item.url)
+        console.log(currentURL)
+        if(item.url == currentURL)
+        {
+          
+          console.log(item.Submissions)
+          if (item.Submissions && item.Submissions.length > 0) {
+            // Get the last submission from the Submissions array
+            const lastSubmission = item.Submissions[item.Submissions.length - 1];
+            console.log('Last submission:', lastSubmission);
+            const lastSubmissionOutput = lastSubmission.Output;
+            console.log('Last submission output:', lastSubmissionOutput);
+            const outputArea = document.getElementById("result1");
+            const anchorElement = document.createElement("a");
+            anchorElement.href = lastSubmissionOutput;
+            anchorElement.target = "_blank";
+            anchorElement.textContent = lastSubmissionOutput;
+            
+            // Clear existing content and append the anchor element to the outputArea
+            outputArea.innerHTML = "";
+            outputArea.appendChild(anchorElement);
+            // const linkElement = document.createElement("a");
+            // linkElement.href = lastSubmissionOutput;
+            // linkElement.target = "_blank";
+            // linkElement.textContent = lastSubmissionOutput;
+            // outputArea.innerHTML = ""; 
+            // outputArea.appendChild(linkElement);
+        } else {
+            console.log('No submissions found');
+        }
+        }
+       
+  //           if (item.hasOwnProperty("Submissions"))
+  //           {
+  // console.log(item.Submissions.length);
+  // c=item.Submissions.length;
+  // console.log(c)
+  //           }
+  
+  //           else
+  //           {
+  //               c=0;
+  //           }
+        
+  });
+    })
+    .catch(error => console.error(error));
+      // console.log('GET Response:', getResponseData);
+  } catch (getError) {
+      console.error('GET Request error:', getError);
+  }
+}, 120000); // 1.5 minutes in milliseconds
+        
+    } else {
+        console.log('Update failed');
+    }
+} catch (error) {
+    console.error('An error occurred:', error);
+}
+}
+
+   
+}
     });
 
 
