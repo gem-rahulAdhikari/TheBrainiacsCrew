@@ -9,21 +9,21 @@ var hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C"
   let textarea = document.getElementById('code_input');
   let input_area=document.getElementById('floatingTextarea2');
   let result=document.getElementById('result')
-
   let selenium=false;
 
-  // Check if the user is logged in (using the variable passed from Flask)
-  
-// dynamicdropdown1();
+const Role=localStorage.getItem('role');
+ console.log(Role);
+ if(Role=='Admin')
+ {
 dynamic1();
+ }
+ 
 
 async function getValueFromServer(selectedValue) {
 let xmlHttpReq = new XMLHttpRequest();
 xmlHttpReq.open("GET", 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/language', false);
 //xmlHttpReq.open("GET", 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions', false);
-
 xmlHttpReq.send(null);
-
 let obj = JSON.parse(xmlHttpReq.responseText);
 const value1 = obj[0][selectedValue];
 console.log("hello new feature------------")
@@ -32,15 +32,28 @@ console.log("hello new feature------------")
 const inputArea = document.getElementById("floatingTextarea2");
 const outputArea = document.getElementById("result");
 const myTextarea = document.getElementById("code_input");
-inputArea.innerHTML = ' ';
-outputArea.innerHTML = ' ';
-myTextarea.value = value1;
-//myTextarea.innerHTML = value1;
+if (inputArea !== null) {
+  inputArea.innerHTML = ' ';
 }
+if(outputArea!==null){
+  outputArea.value = ' ';
+}
+else
+{
+
+  console.log("this is not define")
+}
+
+myTextarea.value = value1;
+// myTextarea.innerHTML = value1;
+}
+
+//when dropdown for language is selected
   dropdown.addEventListener("change", function() {
     const selectedValue = dropdown.value;
   const options = dropdown.options;
   let selectedOptionText = '';
+  console.log("hello")
 
   for (let i = 0; i < options.length; i++) {
     if (options[i].value === selectedValue) {
@@ -55,6 +68,7 @@ myTextarea.value = value1;
 
   if(Selected_option !== "Selenium")
   {  
+    console.log("this is not selenium")
   fetch('/select_lang', {
   method: 'POST',
   headers: {
@@ -80,35 +94,42 @@ myTextarea.value = value1;
     
   })
   console.log(data);
+ 
   console.log(selectedValue);
+  const divElement = document.getElementById("result1");
+        if (divElement) {
+          const textareaElement = document.createElement("textarea");
+          textareaElement.id = "result"; // Restore the original ID if needed
+          textareaElement.style.height = "25vh";
+          textareaElement.classList.add("form-control");
+          textareaElement.style.overflow = "auto";
+          textareaElement.value =" "
+          divElement.parentNode.replaceChild(textareaElement, divElement);
+          textareaElement.setAttribute("name", "code_output");
+          selenium = false
+        }
 });
   }
   else
   {
-    selenium=true;
+  selenium=true;
 console.log("this is selenium execution")
 console.log("hello");
 const currentURL = window.location.href;
 getValueFromServer("Selenium");
 console.log("Current URL:", currentURL);
-// const textareaElement = document.getElementById("result");
-// const divElement = document.createElement("div");
-// divElement.innerHTML = textareaElement.value;
-// textareaElement.parentNode.replaceChild(divElement, textareaElement);
-// window.location.href = '/selenium?url=' + encodeURIComponent(currentURL);
 const textareaElement = document.getElementById("result");
 const divElement = document.createElement("div");
 divElement.id = "result1"; // Replace with your desired ID
 divElement.style.height = "25vh";
 divElement.style.overflow = "auto"; // Add scrollbars if content overflows
-divElement.style.border = "2px solid #333";
-
-
 divElement.innerHTML = textareaElement.value;
 textareaElement.parentNode.replaceChild(divElement, textareaElement);
 
   }
   });
+
+  ///////////////////////////////////////
 
   const currentURL = window.location.href;
   let c=0;
@@ -137,7 +158,16 @@ var submitBtn = document.getElementById('Runbtn');
   .then(data => {
     console.log(data);
     const myTextarea = document.getElementById("result")
-    myTextarea.innerHTML = data;
+    if (myTextarea !== null) {
+      // There is a textarea element with the ID "result"
+      console.log("Textarea with ID 'result' exists.");
+      // You can perform further actions here if needed
+    } else {
+      // There is no textarea element with the ID "result"
+      console.log("Textarea with ID 'result' does not exist.");
+      // You can perform alternative actions here if needed
+    }
+    myTextarea.value = data;
     console.log(data); // prints the returned JSON object
   })
   .catch(error => {
@@ -213,34 +243,14 @@ setTimeout(async () => {
             anchorElement.href = lastSubmissionOutput;
             anchorElement.target = "_blank";
             anchorElement.textContent = lastSubmissionOutput;
-            
-            // Clear existing content and append the anchor element to the outputArea
             outputArea.innerHTML = "";
             outputArea.appendChild(anchorElement);
-            // const linkElement = document.createElement("a");
-            // linkElement.href = lastSubmissionOutput;
-            // linkElement.target = "_blank";
-            // linkElement.textContent = lastSubmissionOutput;
-            // outputArea.innerHTML = ""; 
-            // outputArea.appendChild(linkElement);
+           
         } else {
             console.log('No submissions found');
         }
         }
-       
-  //           if (item.hasOwnProperty("Submissions"))
-  //           {
-  // console.log(item.Submissions.length);
-  // c=item.Submissions.length;
-  // console.log(c)
-  //           }
-  
-  //           else
-  //           {
-  //               c=0;
-  //           }
-        
-  });
+        });
     })
     .catch(error => console.error(error));
       // console.log('GET Response:', getResponseData);
@@ -257,8 +267,7 @@ setTimeout(async () => {
 }
 }
 
-   
-}
+   }
     });
 
 
@@ -343,23 +352,16 @@ var submitBtn = document.getElementById('Executebtn');
          }
          
        }
-     
-      
      }
-     
-    
-   });
-
-   
-  
- })
+     });
+})
  .catch(error => {
    console.error(error);
  });
 
 }
 
-
+//for admin user
 function dynamic1(){
   const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('name');

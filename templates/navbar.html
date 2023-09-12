@@ -4,12 +4,9 @@
 
 </head>
 <body>
-  <div class="navbar">
+  <div class="navbar" >
     <ul>
-      
-     
-    
-         <li>
+      <li>
           <a class="nav-link{% if current_page == 'profile' %} active{% endif %}" onclick="highlightText(event)" href="/profile{{ '?' if request.args else '' }}{{ request.query_string.decode('utf-8') }}">Profile</a>
         </li>
         <li>
@@ -18,8 +15,10 @@
         <li>
           <a class="nav-link{% if current_page == 'editor' %} active{% endif %}" onclick="highlightText(event)" href="/editor{{ '?' if request.args else '' }}{{ request.query_string.decode('utf-8') }}">Editor</a>
         </li>
+        </ul>
+        <ul class="right-list"style="float: right; list-style-type: none;">
         <li class="right-corner"><img src="{{ url_for('static', filename='Gemini_Logo.png') }}" alt="Logo"
-          style="width: 200px; height: 25px; margin-left:800px;"></li>
+          style="width: 200px; height: 25px;"></li>
         
     </ul>
   </div>

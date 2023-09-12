@@ -83,10 +83,11 @@ def login1():
 @app.route('/profile')
 def profile():
     userData = {};
+    resume='';
     full_url = request.url
     new_url = full_url.replace("profile", "editor")
     print(new_url)
-    url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
+    url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData"
     response = requests.get(url)
     if response.status_code == 200:
         data = response.json();
@@ -95,8 +96,9 @@ def profile():
             print(new_url)
             if new_url == item['url']:
                 userData=item;
+                resume=item['Resume']
                 break;
-    return render_template('profile.html',current_page='profile',userData=userData)
+    return render_template('profile.html',current_page='profile',userData=userData,resume=resume)
 
 @app.route('/editor')
 def editor():
@@ -439,6 +441,7 @@ def updateGithub():
 @app.route('/updatewithoutchangename', methods=['POST']) 
 def updateFile():
     try:
+        booleanValue=False
         second_value=''
         data = request.json  # Get the JSON data from the request body
         textareaValue1 = data.get('content', '')
@@ -486,7 +489,8 @@ def updateFile():
            print("hello this ")
            entry_url = item['url']
            if entry_url == current_url:
-              break
+              booleanValue=True
+              break;
             #  put_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateSeleniumSubmission"  # Replace with your API URL
             #  data_to_send = {
             #     "filter": {
@@ -504,47 +508,48 @@ def updateFile():
             #   print(f"PUT request failed with status code: {put_response.status_code}")
 
 
-           else:
-              print("this is post")
-              Name=''
-              Email=''
-              Key=''
-              getuser_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
-              getuser_response = requests.get(getuser_url)
-              if getuser_response.status_code == 200:
-               data = getuser_response.json();
-               for item in data:
-                  if item['url'] == current_url:
-                   Name=item['Name']
-                   Email=item['Email']
-                   Key=item['SecretKey']
+        #    else:
+        #       print("this is post")
+        #       Name=''
+        #       Email=''
+        #       Key=''
+        #       getuser_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
+        #       getuser_response = requests.get(getuser_url)
+        #       if getuser_response.status_code == 200:
+        #        data = getuser_response.json();
+        #        for item in data:
+        #           if item['url'] == current_url:
+        #            Name=item['Name']
+        #            Email=item['Email']
+        #            Key=item['SecretKey']
                   
                
-              post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"  # Replace with your API URL
+        #       post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"  # Replace with your API URL
 
-              data_to_send = {
-              "Submissions": [
-                            #  {
-                            #   "SubmittedCode": textareaValue,
-                            #   "Output": ""
-                            #   }
-                           ],
-                              "name":Name,
-                              "Email":Email ,
-                              "url": current_url,
-                              "key":Key
-                       }
+        #       data_to_send = {
+        #       "Submissions": [
+        #                     #  {
+        #                     #   "SubmittedCode": textareaValue,
+        #                     #   "Output": ""
+        #                     #   }
+        #                    ],
+        #                       "name":Name,
+        #                       "Email":Email ,
+        #                       "url": current_url,
+        #                       "key":Key
+        #                }
 
-              post_response = requests.post(post_url, json=data_to_send)
+        #       post_response = requests.post(post_url, json=data_to_send)
 
-              if post_response.status_code == 200:
-               print("POST request successful")
-              else:
-               print(f"POST request failed with status code: {post_response.status_code}")
+        #       if post_response.status_code == 200:
+        #        print("POST request successful")
+        #       else:
+        #        print(f"POST request failed with status code: {post_response.status_code}")
 
 
          else:
           print("this is post")
+          booleanValue=True
           Name=''
           Email=''
           Key=''
@@ -587,8 +592,45 @@ def updateFile():
 
 
         
- 
+        if booleanValue==False:
+            print("this is post")
+            Name=''
+            Email=''
+            Key=''
+            getuser_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile"
+            getuser_response = requests.get(getuser_url)
+            if getuser_response.status_code == 200:
+             data = getuser_response.json();
+             for item in data:
+                  if item['url'] == current_url:
+                   Name=item['Name']
+                   Email=item['Email']
+                   Key=item['SecretKey']
+                  
+               
+             post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"  # Replace with your API URL
 
+             data_to_send = {
+             "Submissions": [
+                            #  {
+                            #   "SubmittedCode": textareaValue,
+                            #   "Output": ""
+                            #   }
+                           ],
+                              "name":Name,
+                              "Email":Email ,
+                              "url": current_url,
+                              "key":Key
+                       }
+
+             post_response = requests.post(post_url, json=data_to_send)
+
+             if post_response.status_code == 200:
+              print("POST request successful")
+             else:
+              print(f"POST request failed with status code: {post_response.status_code}")
+
+        
         url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{old_file_path1}'
         response = requests.get(url, headers=headers)
         response_json = response.json()
@@ -1118,7 +1160,7 @@ def getUrl(name):
 
 def setUrl(name):
      
-     req_url="https://gem-codeeditor.wl.r.appspot.com/?name="+name
+     req_url="http://gem-codeeditor.wl.r.appspot.com/?name="+name
      req_name=getName(req_url)
     #  with open(json_file_path) as f:
     #     data = json.load(f)
@@ -1133,7 +1175,7 @@ def setUrl(name):
     "outputArray": [],
     "name":req_name,
      # "url": "http://127.0.0.1:5000/?name="+name
-    "url": "https://g-codeeditor.el.r.appspot.com/?name="+name,
+    "url": "http://g-codeeditor.el.r.appspot.com/?name="+name,
      "modified":"",
      "status":"None",
             },

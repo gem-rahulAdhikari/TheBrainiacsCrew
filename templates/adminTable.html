@@ -57,7 +57,7 @@
 </div> -->
 
 <!--         Resume modal     -->
-<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true" style="display: none;">
+<div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true" style="display: none;z-index: 1000;">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content" style="width:50vw !important;">
       <div class="modal-header" style="width:48vw !important;">
@@ -633,14 +633,14 @@ addQuestions12.forEach(button => {
     console.log(url);
     console.log(rowId);
     modal.style.display = 'block';
-    const dropdownButton = document.getElementById('dropdown_Icon');
+// const dropdownButton = document.getElementById('dropdown_Icon');
+    const dropdownButton = document.getElementById('dropdown2');
     const dropdownContent = document.getElementById("dropdownContent");
     dropdownContent.innerHTML = ""; 
     dropdownButton.addEventListener('click', function() {
       console.log("clicked it ")
-      if (dropdownContent.style.display === "none") {
-        dropdownContent.innerHTML = ""; 
-        console.log("closed ")
+      dropdownContent.style.display= "block"
+      dropdownContent.innerHTML = ""; 
       const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
        fetch(apiUrl)
    .then(response=>response.json())
@@ -651,14 +651,14 @@ addQuestions12.forEach(button => {
     for (let i = 0; i < lastKeyIndex; i++) {
          const key = keys[i];
          const value = data[key];
-        const checkboxDiv = document.createElement("div"); // Create a wrapping div
+        const checkboxDiv = document.createElement("div"); 
         checkboxDiv.className = "checkbox-Topic";
 
         const checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.id = value;
         checkbox.name = value;
-        checkbox.value = value; // Set the value attribute to the value
+        checkbox.value = value; 
 
         const label = document.createElement("label");
         label.htmlFor = value;
@@ -681,14 +681,57 @@ checkboxes.forEach(checkbox => {
     .catch(error=>{
     console.log(error);
    });
-dropdownContent.style.display = "block";
-    // Simulate API call immediately
-  }
-   else {
-    console.log("clicked it open ")
-    // dropdownContent.innerHTML = ""; 
-    dropdownContent.style.display = "none";
-  }
+//       if (dropdownContent.style.display === "none") {
+//         dropdownContent.innerHTML = ""; 
+//         console.log("closed ")
+//       const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
+//        fetch(apiUrl)
+//    .then(response=>response.json())
+//    .then(dataArray=>{
+//     dataArray.forEach(data=>{
+//       const keys = Object.keys(data);
+//      const lastKeyIndex = keys.length - 1;
+//     for (let i = 0; i < lastKeyIndex; i++) {
+//          const key = keys[i];
+//          const value = data[key];
+//         const checkboxDiv = document.createElement("div"); 
+//         checkboxDiv.className = "checkbox-Topic";
+
+//         const checkbox = document.createElement("input");
+//         checkbox.type = "checkbox";
+//         checkbox.id = value;
+//         checkbox.name = value;
+//         checkbox.value = value; 
+
+//         const label = document.createElement("label");
+//         label.htmlFor = value;
+//         label.textContent = value;
+
+//         checkboxDiv.appendChild(checkbox);
+//         checkboxDiv.appendChild(label);
+//         dropdownContent.appendChild(checkboxDiv);
+// }
+//  })
+//  const checkboxes = document.querySelectorAll('.dropdown-content-Topic .checkbox-Topic input[type="checkbox"]');
+//     console.log(checkboxes)
+// checkboxes.forEach(checkbox => {
+//   checkbox.addEventListener('change', function() {
+//     console.log(this.value, this.checked);
+//     tagValues=this.value;
+//   });
+// });
+//     })
+//     .catch(error=>{
+//     console.log(error);
+//    });
+// dropdownContent.style.display = "block";
+    
+//   }
+//    else {
+//     console.log("clicked it open ")
+   
+//     dropdownContent.style.display = "none";
+//   }
 })
 //-------------
 const tableBody = document.querySelector('.Questioncustom-table tbody');
@@ -858,6 +901,9 @@ fetch('/question', {
 });
   
   })
+  dropdownContent.addEventListener('mouseleave', function () {
+    dropdownContent.style.display = 'none';
+});
 })
 
 
@@ -1958,7 +2004,7 @@ async function setDetails(Name, Email) {
   const stringToHash = Email + salt;
   console.log("key " + stringToHash)
   var hexHash = CryptoJS.SHA256(stringToHash)
-  const uniqueUrl = "https://g-codeeditor.el.r.appspot.com/editor?name=".concat(hexHash);
+  const uniqueUrl = "http://g-codeeditor.el.r.appspot.com/editor?name=".concat(hexHash);
   console.log(uniqueUrl)
   const salt1 = Math.random().toString(36).substring(2, 15);
   const stringToHash1 = salt1;

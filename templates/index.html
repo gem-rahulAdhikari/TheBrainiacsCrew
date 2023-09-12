@@ -120,7 +120,13 @@
     const submitSecretKeyButton = document.getElementById("submitSecretKey");
     const closeButton = document.querySelector(".close");
     const questionLink = document.getElementById('question-link');
-   
+    window.addEventListener('load', function() {
+            // Get the textarea element
+            var textarea = document.getElementById('code_input');
+
+            // Clear the initial text and display the placeholder
+            textarea.value = '';
+        });
     var myValue = localStorage.getItem('role');
     if(myValue=='Admin')
         {
@@ -305,6 +311,7 @@
     //     .catch(error => console.error(error));
     //   }
     // });
+    
     // var firebaseConfig = {
     //     apiKey: "AIzaSyCTjZFh1R-HgF-TTspx3S3T2d7BOPjJnGM",
     // authDomain: "flask-app-b27bb.firebaseapp.com",
@@ -321,25 +328,27 @@
     //   var messageInput = document.getElementById('code_input');
     
     // messageInput.addEventListener('input', function() {
+    //   console.log("helloooo")
     // var message = messageInput.value;
+    // console.log(message+"hello this is message")
     // db.ref('messages').set({
     //   message: message
     // });
     // });
     
     // messageInput.addEventListener('keydown', function(event) {
-    // if (event.keyCode === 8) { // detect backspace key
-    //   event.preventDefault(); // prevent the default backspace behavior
-    //   var message = messageInput.value.slice(0, -1); // remove the last character from the input field
+    // if (event.keyCode === 8) { 
+    //   event.preventDefault(); 
+    //   var message = messageInput.value.slice(0, -1); 
     //   db.ref('messages').set({
     //     message: message
-    //   }); // update the database with the new message
+    //   }); 
     // }
     // });
     
     // db.ref('messages').on('value', function(snapshot) {
     // var message = snapshot.val().message;
-    // messageInput.value = message || ''; // update the input field with the new message, or empty string if message is undefined
+    // messageInput.value = message || ''; 
     // });
     
     // function disableButton() {
@@ -351,6 +360,53 @@
     // }
     
     </script>
+    <script type="module">
+  
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-app.js";
+      import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-analytics.js";
+      import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.3.1/firebase-database.js";
+    
+      
+      const firebaseConfig = {
+        apiKey: "AIzaSyCTjZFh1R-HgF-TTspx3S3T2d7BOPjJnGM",
+        authDomain: "flask-app-b27bb.firebaseapp.com",
+        databaseURL: "https://flask-app-b27bb-default-rtdb.firebaseio.com",
+        projectId: "flask-app-b27bb",
+        storageBucket: "flask-app-b27bb.appspot.com",
+        messagingSenderId: "643677151622",
+        appId: "1:643677151622:web:ea58239d04fc0415e88c07",
+        measurementId: "G-EZH5DP62QM"
+      };
+    
+      const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    
+    const inputField = document.getElementById('code_input');
+    
+    // Reference to the Firebase Realtime Database
+    const db = getDatabase();
+    const dbRef = ref(db, 'text');
+    
+    // Listen for changes in the database and update the input field
+    onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        inputField.value = data;
+      }
+    });
+    
+    inputField.addEventListener('input', () => {
+      const text = inputField.value;
+      set(ref(db, 'text'), text)
+        .then(() => {
+          console.log('Data saved to Firebase:', text);
+        })
+        .catch((error) => {
+          console.error('Error saving data to Firebase:', error);
+        });
+    });
+      
+    </script>    
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
 <script src="{{ url_for('static', filename='index.js') }}"></script>
 </html>
