@@ -57,7 +57,7 @@ Session(app)
 # Replace these variables with your GitHub repository details
 github_username = 'gem-rahulAdhikari'
 github_repository = 'selenium_Integartion'
-github_personal_access_token = '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'
+github_personal_access_token = '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'
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
@@ -73,7 +73,7 @@ complete_path=''
 @app.route('/')
 def login1():
        if g.user:
-        return render_template('Home.html')
+        return render_template('adminTable.html')
        else:
         return render_template('login.html')      
     
@@ -715,9 +715,9 @@ def login():
                 
             if role == 'Admin' or role == 'HR' or role == 'Interviewer':
 
-              return render_template('Home.html', role=role)
+            #   return render_template('Home.html', role=role)
             
-            # return redirect(url_for('protected', role=role))
+             return redirect(url_for('protected', role=role))
         
         #return render_template('error.html')
     
@@ -1048,9 +1048,7 @@ def submit_form():
     req_name=getName(req_url)
     print("heloo prya")
     print(req_name)
-    updateVal(out,req_url,textarea_value,input_value,output_value,date_string)
-    
-   
+    updateVal(out,req_url,textarea_value,input_value,out,date_string)
     return out
     
    

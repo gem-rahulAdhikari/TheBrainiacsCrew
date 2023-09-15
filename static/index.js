@@ -270,10 +270,14 @@ setTimeout(async () => {
    }
     });
 
-
+var out="";
 //submit the code
 var submitBtn = document.getElementById('Executebtn');
     submitBtn.addEventListener('click', function() {
+        const today = new Date();
+        const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+        const date_string = today.toLocaleDateString('en-US', options);
+        const currentUrl = window.location.href;
         var textareaValue = document.querySelector('textarea[name="code_input"]').value;
         var stdin = document.querySelector('textarea[name="input_area"]').value;
         var inputValue = document.querySelector('textarea[name="input_area"]').value;
@@ -303,13 +307,16 @@ var submitBtn = document.getElementById('Executebtn');
   .then(data => {
     console.log(data);
     const myTextarea = document.getElementById("result")
-    myTextarea.innerHTML = data;
+    myTextarea.value = data;
+    out=data;
+    // updateVal(out,currentURL,textareaValue,inputValue,outputValue,date_string)
     // dynamicdropdown1()
     console.log(data); // prints the returned JSON object
   })
   .catch(error => {
     console.error(error);
   });
+  // updateVal(out,currentURL,textareaValue,inputValue,outputValue,date_string)
     });
 
     function dynamicdropdown() {
@@ -469,6 +476,7 @@ select1.addEventListener("change", (event) => {
   // perform the desired action based on the selected option
 
 });
+
 
 
 
