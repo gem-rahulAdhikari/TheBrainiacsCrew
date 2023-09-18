@@ -45,6 +45,8 @@ else
 }
 
 myTextarea.value = value1;
+
+
 // myTextarea.innerHTML = value1;
 }
 
