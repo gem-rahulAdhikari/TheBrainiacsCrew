@@ -17,46 +17,7 @@
 
 </head>
 <body>
- 
-  <!-- <div id="add-data-btn">
-  
-  <button id="add-data-btn1">  <label>Add Data</label></button>
-</div>  -->
-<!-- <div id="addExcel" style="float: right;">
-  
-  
-  <form method="POST"  action="/upload" enctype="multipart/form-data" style=" margin-top:10%; ">
-    <input type="file" name="file" style="float: right; margin-left:50%;" >
-    <input type="submit" value="Upload" style="margin-top:2%; margin-right:25%;">
-  </form>
-</div> -->
-<!-- <div class="container">
-<div class="row">
-  <div class="col-md-12">
-<div class="modal fade" id="resumeModal">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1>Title</h1>
-            </div>
-            <div class="modal-body">
-        
-            </div>
-        <div class="modal-footer">
-        <input class="btn btn-default" value="close">
-        </div>
-    </div>
-   
-  </div>
 
-</div>
-<a href="#" data-toggle="modal" data-target="#myModal">open Modal</a>
-  </div>
-
-</div>
-</div> -->
-
-<!--         Resume modal     -->
 <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true" style="display: none;z-index: 1000;">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content" style="width:50vw !important;">
@@ -231,35 +192,6 @@
               </tr>
             </thead>
             <tbody>
-               <!-- <tr>
-                <td>1</td>
-                <td>Reverse 2D Array</td>
-                <td> <div class="Questionbutton">Array</div></td>
-                <td> <label class="checkbox-container">
-                  <input type="checkbox" class="checkbox">
-                  <span class="checkmark"></span>
-                </label></td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Reverse 2D Array</td>
-                <td> <div class="Questionbutton">Array</div></td>
-                <td> <label class="checkbox-container">
-                  <input type="checkbox" class="checkbox">
-                  <span class="checkmark"></span>
-                </label></td>
-              </tr>
-              <tr>
-                <td>1</td>
-                <td>Reverse 2D Array</td>
-                <td> <div class="Questionbutton">Array</div></td>
-                <td> <label class="checkbox-container">
-                  <input type="checkbox" class="checkbox">
-                  <span class="checkmark"></span>
-                </label></td>
-              </tr>
-               -->
-              
               </tbody>
           </table>
           </div>
@@ -489,14 +421,9 @@ recruiterInput.addEventListener('input', function() {
   const filteredRecruiterNames = recruiterNames.filter(name =>
     name.toLowerCase().startsWith(this.value.toLowerCase())
   );
-
-  // update the awesomplete object's list with filtered names
-  // awesomplete.list = filteredRecruiterNames;
 });
 
 var currentMonth = new Date().getMonth() + 1; // +1 since getMonth() returns zero-based index
-
-  // Set the selected attribute on the option with the matching value
   var monthDropdown = document.getElementById('monthDropdown');
   var options = monthDropdown.options;
   for (var i = 0; i < options.length; i++) {
@@ -512,21 +439,19 @@ var currentMonth = new Date().getMonth() + 1; // +1 since getMonth() returns zer
         const submitButtonContainer = document.getElementById("submitBtn");
         const textareaContainer = document.querySelector(".textarea-container");
 
+        //search filter on the Name
+
         searchButton.addEventListener("click", function() {
             tableContainer.style.display = "block";
             submitButtonContainer.style.display = "block";
             textareaContainer.style.display = "block";
         });
-//-------------downlaod Resume---------------
 
+
+//In this function we are displaying the resume of that specific user
 var closePopupButton = document.getElementById('close-btn');
 var pdfEmbed = document.getElementById('pdfEmbed');
-
 var pdfModal = document.getElementById('pdfModal');
-
-
-
-//--------------------
 let download = document.querySelectorAll('#name');
 download.forEach(function(td) {
   td.addEventListener('click', function() {
@@ -568,10 +493,9 @@ download.forEach(function(td) {
 closePopupButton.addEventListener('click',()=>{
   pdfModal.style.display = "none"; 
 });
+
+
 const downloadResume = document.querySelectorAll('#downloadResume');
-//  const downloadResume = document.querySelectorAll('#resumeLink');
-
-
 downloadResume.forEach(button => {
   button.addEventListener('click', () => {
     console.log("clicked");
@@ -619,7 +543,8 @@ downloadResume.forEach(button => {
 
   
 
-//------Question Modal
+
+  //This is functionality to popup the Question Modal.
 
 const openModalBtn = document.getElementById('openModalBtn');
 const addQuestions12 = document.querySelectorAll('#add-round-btn1');
@@ -630,10 +555,7 @@ addQuestions12.forEach(button => {
     console.log('clicked');
     const rowId = button.dataset.id;
     const url = button.dataset.url;
-    console.log(url);
-    console.log(rowId);
     modal.style.display = 'block';
-// const dropdownButton = document.getElementById('dropdown_Icon');
     const dropdownButton = document.getElementById('dropdown2');
     const dropdownContent = document.getElementById("dropdownContent");
     dropdownContent.innerHTML = ""; 
@@ -659,7 +581,6 @@ addQuestions12.forEach(button => {
         checkbox.id = value;
         checkbox.name = value;
         checkbox.value = value; 
-
         const label = document.createElement("label");
         label.htmlFor = value;
         label.textContent = value;
@@ -681,59 +602,10 @@ checkboxes.forEach(checkbox => {
     .catch(error=>{
     console.log(error);
    });
-//       if (dropdownContent.style.display === "none") {
-//         dropdownContent.innerHTML = ""; 
-//         console.log("closed ")
-//       const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestionsTags`;
-//        fetch(apiUrl)
-//    .then(response=>response.json())
-//    .then(dataArray=>{
-//     dataArray.forEach(data=>{
-//       const keys = Object.keys(data);
-//      const lastKeyIndex = keys.length - 1;
-//     for (let i = 0; i < lastKeyIndex; i++) {
-//          const key = keys[i];
-//          const value = data[key];
-//         const checkboxDiv = document.createElement("div"); 
-//         checkboxDiv.className = "checkbox-Topic";
-
-//         const checkbox = document.createElement("input");
-//         checkbox.type = "checkbox";
-//         checkbox.id = value;
-//         checkbox.name = value;
-//         checkbox.value = value; 
-
-//         const label = document.createElement("label");
-//         label.htmlFor = value;
-//         label.textContent = value;
-
-//         checkboxDiv.appendChild(checkbox);
-//         checkboxDiv.appendChild(label);
-//         dropdownContent.appendChild(checkboxDiv);
-// }
-//  })
-//  const checkboxes = document.querySelectorAll('.dropdown-content-Topic .checkbox-Topic input[type="checkbox"]');
-//     console.log(checkboxes)
-// checkboxes.forEach(checkbox => {
-//   checkbox.addEventListener('change', function() {
-//     console.log(this.value, this.checked);
-//     tagValues=this.value;
-//   });
-// });
-//     })
-//     .catch(error=>{
-//     console.log(error);
-//    });
-// dropdownContent.style.display = "block";
-    
-//   }
-//    else {
-//     console.log("clicked it open ")
-   
-//     dropdownContent.style.display = "none";
-//   }
 })
-//-------------
+
+
+//Getting the question Id on whose checkbox is checked
 const tableBody = document.querySelector('.Questioncustom-table tbody');
 const selectedValues = [];
 const selectedQuestions = [];
@@ -797,7 +669,7 @@ selectButton.addEventListener('click', function() {
 
 tableRows.forEach(row => {
   row.addEventListener('click', () => {
-    const questionCell = row.querySelector('td:nth-child(2)'); // Assuming question cell is the second cell
+    const questionCell = row.querySelector('td:nth-child(2)'); 
     const questionData = questionCell.textContent.trim();
     console.log('Clicked on question:', questionData);
     fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
@@ -827,21 +699,17 @@ tableRows.forEach(row => {
       }
     }
   });
-    // You can now use the questionData as needed
+   
   });
   
 });
 
-
-    })
-        })
+ })
+       })
         .catch(error => {
           console.log(error);
         });
-
-        
-
-      }
+         }
     });
      });
       });
@@ -850,7 +718,9 @@ tableRows.forEach(row => {
     console.log(error);
   });
 });
-//submit
+
+
+//This functionality is saving the question id which are being selected and saving to user database.
 const SubmitBtn = document.getElementById('submitBtn');
 SubmitBtn.addEventListener('click', () => {
   const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion`;
@@ -889,7 +759,6 @@ fetch('/question', {
   .catch(error => {
     
   });
-    // Now objectIdMap contains the objectId values corresponding to selectedValues
     
   }) 
   .catch(error => {
@@ -907,6 +776,7 @@ fetch('/question', {
 })
 
 
+//close the question Modal
 closeBtn.addEventListener('click', () => {
   location.reload();
   modal.style.display = 'none';
@@ -922,7 +792,7 @@ window.addEventListener('click', (event) => {
 
 
 
-
+//This function is populating the table on the basis of selected month.
 function createTableRow(dataItem) {
   const row = document.createElement('tr');
   for (const key in dataItem) {
@@ -979,12 +849,6 @@ console.log("this is new fun")
   emptyCell.textContent = emptyText;
   row.appendChild(emptyCell);
   
-  // var statusCell = document.createElement("td");
-  // var statusText = item['Status'];
-  // statusCell.textContent = statusText;
-  // row.appendChild(statusCell);
-
- 
 var tdElement = document.createElement("td");
 tdElement.classList.add("status-cell");
 
@@ -1006,32 +870,8 @@ selectElement.appendChild(option1);
 selectElement.appendChild(option2);
 selectElement.appendChild(option3);
 
-tdElement.appendChild(selectElement);
-row.appendChild(tdElement);
-
-//   var tdElement = document.createElement("td");
-// tdElement.classList.add("status-cell");
-// var selectElement = document.createElement("select");
-// selectElement.setAttribute("id", "status-dropdown");
-// selectElement.classList.add("tableSelect");
-// var option1 = document.createElement("option");
-// option1.setAttribute("value", "onHold");
-// option1.textContent = "onHold";
-// var option2 = document.createElement("option");
-// option2.setAttribute("value", "Pass");
-// option2.textContent = "Pass";
-// var option3 = document.createElement("option");
-// option3.setAttribute("value", "Rejected");
-// option3.textContent = "Rejected";
-// selectElement.appendChild(option1);
-// selectElement.appendChild(option2);
-// selectElement.appendChild(option3);
-// tdElement.appendChild(selectElement);
-// row.appendChild(tdElement);
-
-
-
-  // Name cell
+  tdElement.appendChild(selectElement);
+  row.appendChild(tdElement);
   var nameCell = document.createElement("td");
   var nameText = item['Name'];
   nameCell.textContent = nameText;
@@ -1099,7 +939,7 @@ secretKeySpan.onclick = function() {
 
 var keyIcon = document.createElement("i");
 keyIcon.classList.add("fa-solid", "fa-key");
-// keyIcon.style.marginRight = "10%";
+
 
 secretKeySpan.appendChild(keyIcon);
 secretKeyDivContainer.appendChild(secretKeyLabel);
@@ -1108,8 +948,7 @@ secretKeyDivContainer.appendChild(secretKeySpan);
 
 var startButton = document.createElement("button");
 startButton.id = "key_btn";
-// startButton.setAttribute("data-id", id);
-// startButton.setAttribute("data-secret-key", value.split()[1]);
+
 startButton.style.marginRight = "50%";
 startButton.style.float = "left";
 startButton.style.marginTop = "8%";
@@ -1168,7 +1007,7 @@ var addRoundBtn = document.createElement("i");
 addRoundBtn.id = "add-round-btn";
 addRoundBtn.classList.add("fa-solid", "fa-square-plus");
 addRoundBtn.setAttribute("style", "margin-top: 10px;");
-// addRoundBtn.setAttribute("data-id", d._id);
+
 
 var dropdown = document.createElement("select");
 dropdown.id = "my-dropdown";
@@ -1203,10 +1042,7 @@ iElement1.classList.add("fa-solid", "fa-trash");
 deleteCell.appendChild(iElement1);
 row.appendChild(deleteCell);
 
-
-
-
-  tableBody.appendChild(row);
+ tableBody.appendChild(row);
 });
 }
 
@@ -1218,9 +1054,8 @@ function onPageLoad() {
   var role = '{{ role }}';
   console.log(role);
   sessionStorage.setItem('role',role);
-// const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData`;
 const apiUrl1 = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile`;
-// Make the API call using fetch or any other HTTP library
+
 fetch(apiUrl1)
   .then(response => response.json())
   .then(dataArray => {
@@ -1243,79 +1078,20 @@ fetch(apiUrl1)
     });
   })
   .catch(error => {
-    // Handle any errors that occurred during the API call
+    
     console.error(error);
   });
-//   let c=0;
-//   //----------------------
-//   stbtn.forEach(function(button) {
-//     // button.style.backgroundColor = 'red'; // Change the color to your desired value
-    
-//     const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData`;
-
-// // Make the API call using fetch or any other HTTP library
-// fetch(apiUrl)
-// .then(response => response.json())
-// .then(dataArray => {
-//   // Process the API response data array
-//   console.log(dataArray);
-//   console.log(dataArray[c].keyStatus);
-//   if(dataArray[c].keyStatus=='T')
-//   {
-//     button.innerHTML="Stop"
-//   }
-//   else if(dataArray[c].keyStatus=='F')
-//   {
-//     button.innerHTML="Start"
-//   }
-  
-//   c++;
-// })
-// .catch(error => {
-//   // Handle any errors that occurred during the API call
-//   console.error(error);
-// });
-//     });
-//--------------
-//     const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData`;
-
-// // Make the API call using fetch or any other HTTP library
-// fetch(apiUrl)
-//   .then(response => response.json())
-//   .then(dataArray => {
-//     // Process the API response data array
-//     console.log(dataArray);
-
-//     let c = 0;
-//     stbtn.forEach(function(button) {
-//       console.log(dataArray[c].keyStatus);
-//       if (dataArray[c].keyStatus == 'T') {
-//         button.innerHTML = 'Stop';
-//       } else if (dataArray[c].keyStatus == 'F') {
-//         button.innerHTML = 'Start';
-//       }
-  
-//       c++;
-//     });
-//   })
-//   .catch(error => {
-//     // Handle any errors that occurred during the API call
-//     console.error(error);
-//   });
 }
 
+//In this function we are getting the row id of selected valuefrom the admin table.
 function getRowId(element) {
-  // Traverse up the DOM hierarchy to find the closest <tr> element
   const row = element.closest('tr');
-  
-  // Find the hidden column cell within the row
   const hiddenColumnCell = row.querySelector('td:nth-child(2)');
   
   if (hiddenColumnCell) {
     return hiddenColumnCell.textContent.trim();
   }
-  
-  return null; // Return null if _id value is not found
+   return null; 
 }
 
 
@@ -1327,17 +1103,7 @@ function setSelectedOption(selectElement, selectedValue) {
 document.addEventListener('DOMContentLoaded', onPageLoad);
 
 const fetchedData='';
-
-//----------------------------------------
 document.addEventListener('DOMContentLoaded', function() {
-  
-  //-----------------------
-  // const tableRows = document.querySelectorAll('#dataTable tbody tr');
-  // tableRows.forEach(row => {
-  // const idCell = row.querySelector('td:nth-child(2)');
-  // const id = idCell.getAttribute('data-id');
-  // makeAPICall(id, row,fetchedData);
-  // });
   const tableRows = document.querySelectorAll('#dataTable tbody tr');
 tableRows.forEach(row => {
   const idCell = row.querySelector('td:nth-child(2)');
@@ -1345,6 +1111,8 @@ tableRows.forEach(row => {
   makeAPICall(id, row, fetchedData);
 });
 });
+
+//we are setting the color of row on selecting the option from the status dropdown.
 function setColorForDropdown(status, dropdown) {
   const statusMap = new Map([
   ["Pass", "#138a36"],        // Green color in HEX format
@@ -1362,30 +1130,14 @@ function setColorForDropdown(status, dropdown) {
 function setSelectedOption(status, dropdown) {
   for (let i = 0; i < dropdown.options.length; i++) {
     if (dropdown.options[i].textContent === status) {
-      dropdown.selectedIndex = i; // Set the selected index to match the fetched status
-      break; // Exit the loop once the correct option is found
+      dropdown.selectedIndex = i; 
+      break; 
     }
   }
 }
 
 function makeAPICall(id, row,fetchedData) {
-  //1
   const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile`;
-  // const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData`;
-  // fetch(apiUrl)
-  // .then(response => response.json())
-  // .then(dataArray => {
-  //   dataArray.forEach(data => {
-  //     if(id==data._id)
-  //     {
-  //       const status = data.Status;
-  //       console.log(status);
-  //     setColorForRow(status, row);
-  //     }
-  //   });
-  // })
-  // .catch(error => {
-  // });
   fetch(apiUrl)
     .then(response => response.json())
     .then(dataArray => {
@@ -1393,7 +1145,7 @@ function makeAPICall(id, row,fetchedData) {
         if (id == data._id) {
           const status = data.Status;
           const dropdown = row.querySelector('#status-dropdown');
-          console.log(dropdown) // Assuming you have an ID for the dropdown element
+          console.log(dropdown) 
           setColorForDropdown(status, dropdown);
           setSelectedOption(status, dropdown); 
         }
@@ -1405,14 +1157,11 @@ function makeAPICall(id, row,fetchedData) {
   }
 function setColorForRow(status, row) {
   const statusMap = new Map([
-    ["Pass", "#138a36"],        // Green color in HEX format
-    ["Rejected", "#E94540"]     // Red color in RGB format
+    ["Pass", "#138a36"],       
+    ["Rejected", "#E94540"]     
   ]);
 
-
-  
-  const color = statusMap.get(status);
-  
+ const color = statusMap.get(status);
   if (color) {
     row.style.backgroundColor = color;
   }
@@ -1420,17 +1169,12 @@ function setColorForRow(status, row) {
 
 
 
-
-//----------------------------------------------------
-
+//this functionality is to copy the url and secret key from admin table.
 function copyToClipboard(value) {
-  // Create a temporary input element
   var tempInput = document.createElement("input");
   tempInput.style.position = "absolute";
   tempInput.style.left = "-1000px";
   tempInput.value = value;
-  
-  // Append the input element to the body
   document.body.appendChild(tempInput);
   
   // Copy the value to the clipboard
@@ -1446,15 +1190,10 @@ function copyToClipboard(value) {
 
 const table = document.getElementById("dataTable");
 const rows = table.getElementsByTagName("tr");
-
-// Loop through the rows and apply the class based on the status value
-
-
-
 const statusMap = new Map([
-["Pass", "#138a36"],        // Green color in HEX format
+["Pass", "#138a36"],        
   ["Rejected", "#E94540"],
-  ["onHold", "#FFA500"]   // Red color in RGB format
+  ["onHold", "#FFA500"]   
 ]);
 
 
@@ -1464,51 +1203,13 @@ dropdowns2.forEach(dropdown => {
   if (selectedValue1) {
     dropdown.value = selectedValue1;
   }
-  // dropdown.addEventListener("change", function() {
-  //   const newValue = this.value;
-  //   const row = this.closest("tr");
-  //   const rowId = row.querySelector('td:nth-child(2)').textContent;
-  //   const statusCell = row.querySelector(".status-cell");
-  //   const status = statusCell.textContent.trim();
-
-  //   if (statusMap.has(newValue)) {
-  //     row.style.backgroundColor = statusMap.get(newValue);
-  //     localStorage.setItem(`selectedColor-${rowId}`, statusMap.get(newValue));
-  //   } else {
-  //     row.style.backgroundColor = "";
-  //     localStorage.removeItem(`selectedColor-${rowId}`);  // Reset background color if status doesn't match
-  //   }
-
-  //   var data = {
-  //     rowId: rowId,
-  //     newValue: newValue,
-  //     key: "Status",
-  //   };
-
-  //   // Send the data to the server using AJAX
-  //   $.ajax({
-  //     url: '/updateTable',
-  //     type: 'POST',
-  //     data: data,
-  //     success: function(response) {
-  //       // Handle success
-  //     },
-  //     error: function(xhr) {
-  //       // Handle error
-  //     }
-  //   });
-
-  //   // Store the selected value in local storage for the particular row
-  //   localStorage.setItem(`selectedStatus-${rowId}`, newValue);
-  // });
+  
   dropdown.addEventListener("change", function() {
   const newValue = this.value;
-
-  // Apply the selected background color to the dropdown
   if (statusMap.has(newValue)) {
     dropdown.style.backgroundColor = statusMap.get(newValue);
   } else {
-    dropdown.style.backgroundColor = ""; // Reset background color if status doesn't match
+    dropdown.style.backgroundColor = ""; 
   }
 
   const row = this.closest("tr");
@@ -1537,17 +1238,6 @@ dropdowns2.forEach(dropdown => {
   localStorage.setItem(`selectedStatus-${rowId}`, newValue);
 });
 
-  
-  // const row = dropdown.closest("tr");
-  // const rowId = row.querySelector('td:nth-child(2)').textContent;
-  // selectedValue = localStorage.getItem(`selectedStatus-${rowId}`);
-  // if (selectedValue1) {
-  //   dropdown.value = selectedValue;
-  // }
-  // const selectedColor = localStorage.getItem(`selectedColor-${rowId}`);
-  // if (selectedColor) {
-  //   row.style.backgroundColor = selectedColor;
-  // }
 });
 
 
@@ -1568,17 +1258,6 @@ close.addEventListener('click', () => {
 
 const hardcodedValues = {
   Status: "onHold",
-  // Interview_Rounds: [
-  //   {
-  //     Round1: {
-  //       Date: "2023-04-09",
-  //       Round: "Technical",
-  //       Feedback: "very good",
-  //       Result: "None",
-  //     }
-  //   }
-  // ],
- 
 };
 var cvInput = document.getElementById('cvInput');
 document.getElementById("submitFormBtn").addEventListener("click", async function() {
@@ -1709,12 +1388,8 @@ const dropdowns12 = document.querySelectorAll('.my-dropdown');
 //this code will load the option in dropdown dynamically-----------------------------
 dropdowns.forEach(dropdown => {
   // Get the name of the row that contains the dropdown
-  // const name = dropdown.parentNode.parentNode.querySelector('td:first-child').textContent;
+  
   const name = dropdown.parentNode.parentNode.querySelector('td:nth-child(2)').textContent;
-
-// Fetch the data and add the options to the dropdown
-//2
-  // fetch(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData`)
    fetch(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile`)
     .then(response => response.json())
     .then(data => {
@@ -1742,26 +1417,19 @@ dropdowns.forEach(dropdown => {
   
 });
 
+
+//This event listener if for opening and adding the Intervierw Rounds in admin table.
 dropdowns.forEach((dropdown) => {
   dropdown.addEventListener('change', (event) => {
-    console.log("hello")
-    // const name = event.target.parentNode.parentNode.querySelector('td:first-child').textContent;
     const name = dropdown.parentNode.parentNode.querySelector('td:nth-child(2)').textContent;
-
     const selectedOption = event.target.value;
     const interviewRoundsDiv = dropdown.parentNode.querySelector('#interview-rounds');
     interviewRoundsDiv.innerHTML = '';
     const dropdownElement = event.target;
     console.log(name+"hello rahul"+selectedOption)
-
-    //3
-    // fetch(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData`)
     fetch(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile`)
       .then(response => response.json())
       .then(data => {
-  
-        console.log(data);
-        // do something with the returned data
         for (let i = 0; i < data.length; i++) {
  const item = data[i];
  if(name==item._id)
@@ -1891,42 +1559,22 @@ addRoundButtons.forEach(button => {
   });
 });
 
-//set the new round in the db---------------------------------------
+//set the new round in the db
 
-///------------------------------------------
 const form = document.querySelector('#my-form');
 const roundTypeSelect = document.querySelector('#round-type');
 const customRoundType = document.querySelector('#custom-round-type');
 
-
+//saving the Rounds wise data in mongo database.
 form.addEventListener('submit', event => {
-  event.preventDefault(); // prevent default form submission behavior
+  event.preventDefault(); 
   console.log(gRowId+"This is the id of addd button"+gEmail);
-  // const roundNumber = document.querySelector('#round-number').value;
-  // const roundType = document.querySelector('#round-type').value;
-  // const roundDate = document.querySelector('#round-date').value;
-  var roundType = roundTypeSelect.value;
+   var roundType = roundTypeSelect.value;
     if (roundType === 'custom') {
       roundType = document.querySelector('#custom-round-type-input').value;
     }
-    
     const roundNumber='';
     const roundDate = document.querySelector('#round-date').value;
-  //   fetch(`https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData`)
-  // .then(response => response.json())
-  // .then(data => {
-  //   for (let i = 0; i < data.length; i++) {
-  //     const item = data[i];
-  //     console.log(item);
-  //     if(item._id==gRowId)
-  //     {
-  //      gNumber=item.Interview_Rounds.length+1;
-  //      console.log(gNumber);
-  //      break; 
-  //     }
-  //   }
-  // })
-  // .catch(error => console.error(error));
   const filter = {
     "Email": gEmail
   };
@@ -1962,6 +1610,7 @@ form.addEventListener('submit', event => {
 
 
 
+//this function is to generate a unique url for the user.
 async function generateUrl(Name, Email) {
   var UniqueUrl = '';
   var SecretKey = '';
@@ -1995,10 +1644,8 @@ async function generateUrl(Name, Email) {
   }
 }
 
+//saving the url and empty template in db for the user.
 async function setDetails(Name, Email) {
-//   const apiUrl = `https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/submissions`; // Replace with your app ID and function name
-// const url2 = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/userSubmissions';
-
   const salt = Math.random().toString(36).substring(2, 15);
   const url2 = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/userSubmissions';
   const stringToHash = Email + salt;
@@ -2040,7 +1687,6 @@ async function setDetails(Name, Email) {
 })
 .then(response => response.json())
 .then(data => {
-  // handle the response of the second request
   console.log('Response from API 2:', data);
 })
 .catch(error => console.error(error));
@@ -2051,7 +1697,7 @@ async function setDetails(Name, Email) {
   }
 }
 
-//--------Delete
+//This function is Deleting the user data from ui and database both.
 const deleteIcons = document.querySelectorAll('.fa-solid.fa-trash');
 deleteIcons.forEach(icon => {
   icon.addEventListener('click', () => {
@@ -2082,15 +1728,12 @@ $('.editable').on('dblclick', function() {
 });
 
 
-//----------Update editable col
+//This function is for updating the table data it would make the column editable.
 $(document).ready(function() {
- 
-  // Add event listener to editable cells
   $('.editable').on('blur', function() {
     // Get the updated value
     var newValue = $(this).text();
     // Get the row id
-    // var rowId = $(this).closest('td').data('id');
     var rowId = $(this).closest('tr').find('td:nth-child(2)').data('id');
     console.log(rowId);
 
@@ -2120,6 +1763,8 @@ $(document).ready(function() {
   });
 });
 
+
+//this functionality to search the data on the name filter.
 //--------------
 function searchTable1() {
   const input = document.getElementById("search-input");
@@ -2128,8 +1773,6 @@ const filter = input.value.toUpperCase();
 // Get the labels container
 const labelsContainer = document.getElementById("labels-container");
 const labels = labelsContainer.getElementsByTagName("label");
-
-// Loop through all labels and hide/show based on the search query
 for (let i = 0; i < labels.length; i++) {
   const label = labels[i];
   const labelValue = label.textContent || label.innerText;
@@ -2141,42 +1784,7 @@ for (let i = 0; i < labels.length; i++) {
   }
 }
 }
-//------------
 
-
-//----------------key session----------------------------
-// const SecretKeyActivity = document.querySelectorAll('#key_btn');
-
-
-// SecretKeyActivity.forEach(button => {
-//   button.addEventListener('click', () => {
-//     console.log("vlivked")
-//     const row = button.closest('tr');
-//     const secretKeyElement = row.querySelector('[data-secret-key]');
-//     const secretKey = secretKeyElement.dataset.secretKey;
-
-//     console.log("Secret Key:", secretKey);
-   
-  
-     
-//   var data = {
-//     secretKey: secretKey,
-    
-//   };
-//     $.ajax({
-//   url: '/generate_session/' + secretKey,
-//   type: 'POST',
-//   data:data, // Replace with any additional data you want to send
-//   success: function(response) {
-//    console.log("hello msg send successfully")
-//   },
-//   error: function(xhr) {
-//     // Handle error
-//     alert("Error occurred: " + xhr.responseText);
-//   }
-// });
-//   });
-// });
 const SecretKeyActivity = document.querySelectorAll('#key_btn');
 
 let clickCount = 0;
@@ -2184,7 +1792,7 @@ let timeout;
 
 
 
-
+//this function we are making the url accessible for the interviewee.
 SecretKeyActivity.forEach(button => {
   button.addEventListener('click', () => {
     clickCount++;
@@ -2193,9 +1801,8 @@ SecretKeyActivity.forEach(button => {
         // Single click action
         const row = button.closest('tr');
 const rowIdElement = row.querySelector('[data-id]');
-const rowId = rowIdElement.innerText; // or rowIdElement.textContent
+const rowId = rowIdElement.innerText; 
 
-        // const secretKey = secretKeyElement.dataset.secretKey;
         let newValue='';
         let key ='';
         
@@ -2225,7 +1832,7 @@ console.log(rowId);
 
         clickCount = 0; // Reset click count
        
-      }, 300); // Change the delay as per your requirement
+      }, 300); 
     } 
     else {
       clearTimeout(timeout);
@@ -2234,7 +1841,7 @@ console.log(rowId);
      
       const row = button.closest('tr');
 const rowIdElement = row.querySelector('[data-id]');
-const rowId = rowIdElement.innerText; // or rowIdElement.textContent
+const rowId = rowIdElement.innerText; 
 
       let newValue='';
         let key ='';
@@ -2249,7 +1856,7 @@ const rowId = rowIdElement.innerText; // or rowIdElement.textContent
  $.ajax({
   url: '/updateTable',
   type: 'POST',
-  data:data, // Replace with any additional data you want to send
+  data:data, 
   success: function(response) {
    console.log("successfully expire")
    
@@ -2329,13 +1936,13 @@ const rowId = rowIdElement.innerText; // or rowIdElement.textContent
     const selectedOptions = Array.from(dropdown.querySelectorAll('input[type="checkbox"]:checked'))
       .map(checkbox => checkbox.value);
 
-    console.log(selectedOptions); // or perform any other action with the selected options
+    console.log(selectedOptions); 
     const formData = {
       selectedOptions: selectedOptions,
       
     };
 
-  // Send the form data to the Flask route using fetch
+  //this route is hitting the question route in flask server.
   fetch('/question', {
     method: 'POST',
     headers: {
@@ -2357,7 +1964,7 @@ const rowId = rowIdElement.innerText; // or rowIdElement.textContent
 });
 
 
-// 2. Sorting | Ordering data of HTML table
+//Sorting the table column
 
 const search = document.querySelector('.input-group input'),
     table_rows = document.querySelectorAll('tbody tr'),
@@ -2421,20 +2028,17 @@ function sortTable1(columnHeader, sortAsc) {
 }
 
 
-//------------------------------------------------------
 
+//In this function we are implementing the logout functionality.
 $("#logout-button").on("click", function() {
-  // Make an AJAX request to the Flask server to log the user out
   $.ajax({
-    type: "POST", // or "GET" depending on your server configuration
+    type: "POST", 
     url: "/logout",
     success: function() {
-      // Redirect the user to the login page after successful logout
       localStorage.clear();
       window.location.href = "/login";
     },
     error: function(xhr, status, error) {
-      // Handle errors here
       console.error(error);
     }
   });

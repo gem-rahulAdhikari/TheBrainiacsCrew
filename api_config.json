@@ -1,0 +1,22 @@
+{
+    "adminTableData":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData",
+    "adminTableDataWithoutResume":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableDataWithoutFile",
+    "loginApi":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/admin",
+    "setQuestion":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/userQuestion",
+    "getSeleniumOutputApi":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput",
+    "updateSeleniumOutput":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateSeleniumSubmission",
+    "setSeleniumOutput":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult",
+    "updateUserRole":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateUserRole",
+    "getSumbissionNonSeleniumOutput":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions",
+    "addSubmissionNonSeleniumOutput":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/userSubmissions",
+    "updateRoundApi":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateRounds",
+    "updateRoundSubmissionsApi":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateRoundsSubmission",
+    "updateAdminTableData":"https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateAdminTable"
+
+
+
+
+
+
+
+}
