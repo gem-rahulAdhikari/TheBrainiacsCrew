@@ -42,20 +42,20 @@
              {% if session['role']=='Admin' %}
              <select id="dropdown1" class="language">
               <optgroup label="Result"></optgroup>
-                <!-- <option value="">Result</option> -->
+
                 </select>
                 {% endif %}
                 {% if session['role']=='Admin' %}
                 <div class="container1">
                   <button type="button" class="btn " id="Runbtn" style="background-color: #38A3A5; color:white; margin-left:10vw;" onclick="disableButton()" disabled>Run</button>
                   <button type="button" class="btn" id="Executebtn" style="background-color: #38A3A5; color:white;" onclick="disableButton()" disabled>Submit</button>
-                  <!-- <button id="selenium"  style="background-color: #38A3A5; color:white; border: none; border-radius: 4px; font-size: 16px; height:30px;">Selenium</button> -->
+                  
                 </div>
                 {% else %}
                 <div class="container1">
                   <button type="button" class="btn " id="Runbtn" style="background-color: #38A3A5; color:white; margin-left:10vw;">Run</button>
                   <button type="button" class="btn" id="Executebtn" style="background-color: #38A3A5; color:white;">Submit</button>
-                  <!-- <button id="selenium"  style="background-color: #38A3A5; color:white; border: none; border-radius: 4px; font-size: 16px; ">Selenium</button> -->
+                 
                 </div>
                 {% endif %}
               
@@ -123,12 +123,10 @@
     const closeButton = document.querySelector(".close");
     const questionLink = document.getElementById('question-link');
     window.addEventListener('load', function() {
-            // Get the textarea element
             var textarea = document.getElementById('code_input');
-
-            // Clear the initial text and display the placeholder
             textarea.value = '';
         });
+        //In this we checking the Role based things
     var myValue = localStorage.getItem('role');
     if(myValue=='Admin')
         {
@@ -202,10 +200,7 @@
     });
 
     function disableButton() {
-      // Get a reference to the button element
       const button = document.getElementById("Runbtn");
-    
-      // Disable the button's click activity
       button.disabled = true;
     }
 
@@ -216,151 +211,7 @@
   console.log("Current URL:", currentURL);
       window.location.href = '/selenium?url=' + encodeURIComponent(currentURL);
 });
-    
-
-
-    // questionLink.addEventListener('click', function(event) {
-    //   event.preventDefault(); // Prevent the default navigation behavior
-    //   const urlParams = new URLSearchParams(window.location.search);
-    //   const dynamicName = urlParams.get('name');
-    //   const url = new URL(questionLink.href, window.location.origin);
-    //   url.searchParams.set('name', dynamicName);
-    //   window.location.href = url.href;
-    // });
-    //  const currentUrl = window.location.href;
-    // console.log(currentUrl)
-    // let UserKey = null;
-    
-    // const secretKeyModal = document.getElementById("secretKeyModal");
-    // const secretKeyInput = document.getElementById("secretKeyInput");
-    // const submitSecretKeyButton = document.getElementById("submitSecretKey");
-    // const closeButton = document.querySelector(".close");
-    
-    // Add event listener to the submit button
-    // submitSecretKeyButton.addEventListener("click", () => {
-    //   console.log("hello");
-    //   const validation = secretKeyInput.value.trim();
-    //   if (validation === UserKey ) {
-        
-    //     sessionStorage.setItem('secret',UserKey);
-    //     document.getElementById("content").style.display = "block";
-    //     secretKeyModal.style.display = "none";
-    //   } else {
-    //     alert("Invalid secret key, please try again!");
-    //   }
-    // });
-    
-    // // Add event listener to the close button
-    // closeButton.addEventListener("click", () => {
-    //   secretKeyModal.style.display = "none";
-    // });
-    
-    // Add event listener to the window's load event
-  //   window.addEventListener('load', () => {
-  //     console.log("hello john---")
-  //     var myValue = localStorage.getItem('role');
-  //     console.log("hello")
-  // console.log(myValue);
-  // console.log("hello")
-  //     console.log(sessionStorage.getItem('secret'));
-     
-  //     var sessionData = JSON.parse(localStorage.getItem('sessionData'));
-
-  //     if(sessionStorage.getItem('secret')!= null )
-  //     {
-  //       console.log("henoy")
-  //       const secretKeyModal = document.getElementById("secretKeyModal");
-  //       document.getElementById("content").style.display = "block";
-  //       secretKeyModal.style.display = "none";
-       
-  //     }
-  //     else
-  //     {
-        // if(myValue=='Admin')
-        // {
-        //   console.log("this is admin");
-        //   // document.getElementById("secretKeyModal")= "none";
-        //   document.getElementById("content").style.display = "block";
-
-        // }
-       
-    //    fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmission')
-    //      fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData')
-    //     .then(response => response.json())
-    //     .then(data => {
-    //       for (let i = 0; i < data.length; i++) {
-    //        console.log("enter")
-    //         const item = data[i];
-    //         if (currentUrl === item.url) {
-    //           UserKey = item.SecretKey;
-             
-    //           break;
-    //         }
-    //       }
-    //       if(myValue=='Admin')
-    //     {
-    //       console.log("this is admin");
-    //       // document.getElementById("secretKeyModal")= "none";
-    //       document.getElementById("content").style.display = "block";
-
-    //     }
-    //     else{
-    //       console.log("this is admin");
-    //       secretKeyModal.style.display = "block";
-    //       secretKeyInput.focus();
-    //     }
-    //     })
-    //     .catch(error => console.error(error));
-    //   }
-    // });
-    
-    // var firebaseConfig = {
-    //     apiKey: "AIzaSyCTjZFh1R-HgF-TTspx3S3T2d7BOPjJnGM",
-    // authDomain: "flask-app-b27bb.firebaseapp.com",
-    // databaseURL: "https://flask-app-b27bb-default-rtdb.firebaseio.com",
-    // projectId: "flask-app-b27bb",
-    // storageBucket: "flask-app-b27bb.appspot.com",
-    // messagingSenderId: "643677151622",
-    // appId: "1:643677151622:web:ea58239d04fc0415e88c07",
-    // measurementId: "G-EZH5DP62QM"
-    //   };
-    
-    //   firebase.initializeApp(firebaseConfig);
-    //   var db = firebase.database();
-    //   var messageInput = document.getElementById('code_input');
-    
-    // messageInput.addEventListener('input', function() {
-    //   console.log("helloooo")
-    // var message = messageInput.value;
-    // console.log(message+"hello this is message")
-    // db.ref('messages').set({
-    //   message: message
-    // });
-    // });
-    
-    // messageInput.addEventListener('keydown', function(event) {
-    // if (event.keyCode === 8) { 
-    //   event.preventDefault(); 
-    //   var message = messageInput.value.slice(0, -1); 
-    //   db.ref('messages').set({
-    //     message: message
-    //   }); 
-    // }
-    // });
-    
-    // db.ref('messages').on('value', function(snapshot) {
-    // var message = snapshot.val().message;
-    // messageInput.value = message || ''; 
-    // });
-    
-    // function disableButton() {
-    //   // Get a reference to the button element
-    //   const button = document.getElementById("Runbtn");
-    
-    //   // Disable the button's click activity
-    //   button.disabled = true;
-    // }
-    
+    //Screen sharing feature code important
     </script>
     <script type="module">
   

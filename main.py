@@ -34,7 +34,7 @@ access_duration = timedelta(seconds=30)
 CORS(app)
 api = Api(app)
 
-ip_address='34.126.209.148'
+ip_address='34.130.76.127'
 
 hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)"}
 
@@ -56,7 +56,7 @@ Session(app)
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
 github_repository = 'SeleniumIntegration'
-github_personal_access_token = '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'
+github_personal_access_token = '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'
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path

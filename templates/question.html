@@ -142,24 +142,16 @@ const questionStatements=document.getElementById("questionStatement");
 const questionCases=document.getElementById("sampleTestcases");
 const questionConstraints=document.getElementById("constraints");
 const paramName = 'name';
-
 const link = document.getElementById('myLink');
 const url = new URL(window.location.href);
 console.log(url)
 const urlString = url.toString();
 const substringToRemove = "question";
-
 const modifiedString = urlString.replace(substringToRemove, "editor");
-console.log(modifiedString)
 
-console.log(url)
-
-
-
-
-//---------------Dynamic dropdown
+//Dynamically populate the Question in Question.html page which are being selected for the user.
 const selectElement = document.getElementById("Qyestion");
-const apiUrl = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions"; // Replace with your API endpoint
+const apiUrl = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions"; 
 let selectedValue='';
 const tabDiv = document.querySelector('.tab');
 const buttonValues = [];
@@ -168,7 +160,7 @@ const buttonValues = [];
 fetch(apiUrl)
   .then(response => response.json())
   .then(data => {
-    // Iterate over the data and create an option element for each item
+    
     data.forEach(item => {
       console.log(item.url);
       console.log(urlString);
@@ -183,18 +175,16 @@ fetch(apiUrl)
   const value = item.Questions[i - 1];
     button.setAttribute('data-value', value);
     buttonValues.push(value);
-  // button.setAttribute('data-value', item.Questions[i - 1]);
   button.addEventListener('click', function(event) {
     const buttons = document.querySelectorAll('.tablinks');
   buttons.forEach(btn => {
     btn.classList.remove('active');
   });
 
-  // Add 'active' class to the clicked button
-  this.classList.add('active');
-    // this.classList.add('active');
+  
+    this.classList.add('active');
     const questionId = item.Questions[i - 1];
-    selectedValue=questionId // Assuming the item has a 'questionId' property
+    selectedValue=questionId 
     console.log('Selected question ID:', questionId);
     fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getQuestion')
       .then(response => response.json())
@@ -279,7 +269,7 @@ fetch(apiUrl)
 
      
 
-    let req_url='';
+    let requiredUrl='';
     let newArray=[];
     let name="{{name}}";
      fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmissions')
@@ -287,12 +277,10 @@ fetch(apiUrl)
     .then(data => {
       data.forEach(item => {
       
-       req_url=item.url;
-       const parts = req_url.split("=");
+        requiredUrl=item.url;
+       const parts = requiredUrl.split("=");
        
-       if (parts[1] === name) {
-        
-       
+       if (parts[1] === name) {  
         newArray.push(...item.Questions);
       }
   
