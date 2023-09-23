@@ -56,7 +56,7 @@ Session(app)
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
 github_repository = 'SeleniumIntegration'
-github_personal_access_token = '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'
+github_personal_access_token = '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'
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
@@ -1049,9 +1049,11 @@ def tockenGeneration(token):
 
           print(data)
 
-          if data['status_id'] == 4 or data['status_id'] == 5 or data['status_id'] == 6 or data['status_id'] == 7 or data['status_id'] == 8 or data['status_id'] == 9 or data['status_id'] == 10 or data['status_id'] == 11 or data['status_id'] == 12 or data['status_id'] == 13 or data['status_id'] == 14:
-               errorStatus=Status(data['status_id'])
-               return errorStatus
+        #   if data['status_id'] == 4 or data['status_id'] == 5 or data['status_id'] == 6 or data['status_id'] == 7 or data['status_id'] == 8 or data['status_id'] == 9 or data['status_id'] == 10 or data['status_id'] == 11 or data['status_id'] == 12 or data['status_id'] == 13 or data['status_id'] == 14:
+        #        errorStatus=Status(data['status_id'])
+        #        return errorStatus
+          if data['stderr'] is not None:
+             return data['stderr']
                
           else :
                if data['stderr'] == None:
