@@ -56,7 +56,7 @@ Session(app)
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
 github_repository = 'SeleniumIntegration'
-github_personal_access_token = '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'
+github_personal_access_token = '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'
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
@@ -933,7 +933,10 @@ def runCode():
     Selected_value = request.get_json()['Selected_value']
     stdin = request.get_json()['stdin']
     print(Selected_value)
+    print("fetched value")
     print(textarea_value)
+    formatted_string = textarea_value.replace("\\n", "\n").replace("\\\"", "\"")
+    print(formatted_string)
     print(stdin)
     headers = {
         'Content-Type': 'application/json',
@@ -942,7 +945,7 @@ def runCode():
 
     # Create the JSON body for the request
     json_body = {
-       'source_code':textarea_value,
+       'source_code':formatted_string,
        'language_id': Selected_value,
        'stdin': stdin,
        'number_of_runs': None,
@@ -963,9 +966,12 @@ def runCode():
     response = requests.post('http://'+ip_address+'/submissions', headers=headers, json=json_body)
 
     data = response.json()
+    print(data)
     out=tockenGeneration(data['token'])
+    print(out)
     logging.info("Code_Output"+":" +out)
     return out
+   
 
 #In this method we are getting result and saving the output in database.
 @app.route('/submit', methods=['POST'])
@@ -983,6 +989,7 @@ def submit_form():
     print(name)
     print(Selected_value)
     print(textarea_value)
+    formatted_string = textarea_value.replace("\\n", "\n").replace("\\\"", "\"")
     print(today)
     print("lello")
     headers = {
@@ -992,7 +999,7 @@ def submit_form():
 
     # Create the JSON body for the request
     json_body = {
-       'source_code':textarea_value,
+       'source_code':formatted_string,
        'language_id': Selected_value,
        'stdin': stdin,
        'number_of_runs': None,
@@ -1031,8 +1038,8 @@ def submit_form():
 #This method is used to get the tocken which is required to fetch the output of code from api.
 def tockenGeneration(token):
         
-          url = 'http://'+ip_address+'/submissions/{}?base64_encoded=false&fields=stdout,stderr,status_id,language_id,source_code'.format(token)
-          params = {"base64_encoded": "false", "fields": "stdout,stderr,status_id,language_id,source_code"}
+          url = 'http://'+ip_address+'/submissions/{}?base64_encoded=false&fields=stdout,stderr,status_id,language_id,source_code,compile_output'.format(token)
+          params = {"base64_encoded": "false", "fields": "stdout,stderr,status_id,language_id,source_code,compile_output"}
           response = requests.get(url, params=params)
          
           
@@ -1040,9 +1047,12 @@ def tockenGeneration(token):
            
         # success, handle the response
           data = response.json()
+          print("this is inside the tocken")
+          print(data)
+          print("this is inside the tocken")
           while data['status_id'] == 1 or data['status_id'] == 2:
-                url = 'http://'+ip_address+'/submissions/{}?base64_encoded=false&fields=stdout,stderr,status_id,language_id,source_code'.format(token)
-                params = {"base64_encoded": "false", "fields": "stdout,stderr,status_id,language_id,source_code"}
+                url = 'http://'+ip_address+'/submissions/{}?base64_encoded=false&fields=stdout,stderr,status_id,language_id,source_code,compile_output'.format(token)
+                params = {"base64_encoded": "false", "fields": "stdout,stderr,status_id,language_id,source_code,compile_output"}
                 response = requests.get(url, params=params)
                 data = response.json()
                # print(data['status_id'])
@@ -1053,8 +1063,13 @@ def tockenGeneration(token):
         #        errorStatus=Status(data['status_id'])
         #        return errorStatus
           if data['stderr'] is not None:
+             print("error this is")
              return data['stderr']
                
+          elif data['compile_output'] is not None:
+             print("No error, returning stdout:")
+             return data['compile_output']   
+            
           else :
                if data['stderr'] == None:
                      return data['stdout']

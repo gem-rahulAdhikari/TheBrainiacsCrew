@@ -137,10 +137,17 @@ textareaElement.parentNode.replaceChild(divElement, textareaElement);
   let c=0;
  
 //run the textarea code
-var submitBtn = document.getElementById('Runbtn');
-    submitBtn.addEventListener('click', function() {
-      console.log("run button")
+var runBtn = document.getElementById('Runbtn');
+    runBtn.addEventListener('click', function() {
+      // console.log("run button")
         var textareaValue = document.querySelector('textarea[name="code_input"]').value;
+        console.log("this is the template");
+        console.log(textareaValue);
+        const formattedValue = textareaValue
+  .replace(/\n/g, '\\n')
+  .replace(/"/g, '\\"');
+
+console.log(formattedValue);
         var stdin = document.querySelector('textarea[name="input_area"]').value;
         
        if(selenium === false)
@@ -149,7 +156,7 @@ var submitBtn = document.getElementById('Runbtn');
       fetch('/run', {
             method: 'POST',
             body: JSON.stringify({
-               textareaValue: textareaValue,
+               textareaValue: formattedValue,
                Selected_value: globalId,
                stdin: stdin
               }),
@@ -281,6 +288,10 @@ var submitBtn = document.getElementById('Executebtn');
         const date_string = today.toLocaleDateString('en-US', options);
         const currentUrl = window.location.href;
         var textareaValue = document.querySelector('textarea[name="code_input"]').value;
+        const formattedValue = textareaValue
+        .replace(/\n/g, '\\n')
+        .replace(/"/g, '\\"');
+      
         var stdin = document.querySelector('textarea[name="input_area"]').value;
         var inputValue = document.querySelector('textarea[name="input_area"]').value;
         var outputValue = document.querySelector('textarea[name="code_output"]').value;
@@ -294,7 +305,7 @@ var submitBtn = document.getElementById('Executebtn');
       fetch('/submit', {
             method: 'POST',
             body: JSON.stringify({
-               textareaValue: textareaValue,
+               textareaValue: formattedValue,
                Selected_value: globalId,
                inputValue: inputValue,
                outputValue: outputValue,
