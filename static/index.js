@@ -1,4 +1,4 @@
-var hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)","Selenium":"Selenium" };
+var hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C++": "C++ (Clang 7.0.1)","Selenium":"Selenium" };
   var globalId = null;
   var dropdown = document.getElementById("dropdown");
   var select1 = document.getElementById("dropdown1");
