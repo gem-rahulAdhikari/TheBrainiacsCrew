@@ -56,7 +56,7 @@ Session(app)
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
 github_repository = 'SeleniumIntegration'
-github_personal_access_token = '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'
+github_personal_access_token = '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'
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
@@ -1220,6 +1220,11 @@ def updateVal(submit_result,name,textarea_value,input_value,output_value,today):
                             with open(json_file_path) as f:
                              data = json.load(f)
                              api_url3=  data.get("updateRoundApi", "") 
+                             
+                             formatted_string = textarea_value.replace("\\n", "\n").replace("\\", "")
+
+                             
+                             
                             # api_url3 = 'https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/updateRounds'
                      
                             payload = {
@@ -1228,7 +1233,7 @@ def updateVal(submit_result,name,textarea_value,input_value,output_value,today):
   
                                        },
                                        "submission_No":"2",
-                                       'submittedCode':textarea_value,
+                                       'submittedCode':formatted_string,
                                        'inputParameter': input_value,
                                        'output': output_value,
                                         "roundNumber":rounds_length

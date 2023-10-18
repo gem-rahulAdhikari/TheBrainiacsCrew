@@ -416,6 +416,7 @@ Object.entries(demosub).forEach(([roundKey, submissions]) => {
     submissionOption.value = `${roundKey}.${index + 1}`;
     submissionOption.text = `Submission ${index + 1}`;
     
+    
     // Append the submission option to the <optgroup>
     optgroup.appendChild(submissionOption);
   });
@@ -431,6 +432,10 @@ dropdown.addEventListener("change", function() {
   if (selectedValue !== "default") {
     let [roundKey, submissionIndex] = selectedValue.split(".");
     let selectedSubmission = demosub[roundKey][submissionIndex - 1];
+    console.log("hello");
+    console.log(selectedSubmission.SubmittedCode);
+    console.log("hello");
+    
     textarea.value=selectedSubmission.SubmittedCode;
     input_area.value=selectedSubmission.Input_Parameter;
     result.value=selectedSubmission.Output;
