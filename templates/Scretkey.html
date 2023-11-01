@@ -21,12 +21,12 @@
     
 </body>
 <script>
-    const secretKeyModal = document.getElementById("secretKeyModal");
+const secretKeyModal = document.getElementById("secretKeyModal");
 const secretKeyInput = document.getElementById("secretKeyInput");
 const submitSecretKeyButton = document.getElementById("submitSecretKey");
 const closeButton = document.querySelector(".close");
 
-// Add event listener to the submit button
+// This eventlistener will trigger when we click on submit button after entering the key.
 submitSecretKeyButton.addEventListener("click", () => {
   console.log("hello");
   const validation = secretKeyInput.value.trim();
@@ -38,15 +38,13 @@ submitSecretKeyButton.addEventListener("click", () => {
   }
 });
 
-// Add event listener to the close button
+//close the popup
 closeButton.addEventListener("click", () => {
   secretKeyModal.style.display = "none";
 });
 
 // Add event listener to the window's load event
 window.addEventListener('load', () => {
-  console.log("hello john---")
-  //  fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSubmission')
      fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getAdminTableData')
     .then(response => response.json())
     .then(data => {
