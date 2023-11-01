@@ -6,4 +6,5 @@ on:
       - GEM-CodeEditor
 
 env: # Define environment variables
-  MY_VARIABLE: ${{ secrets.KEY }
+  MY_VARIABLE: ${{ secrets.KEY }}
+ 
