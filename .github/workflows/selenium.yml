@@ -1,0 +1,9 @@
+name: code editor
+
+on:
+  push:
+    branches:
+      - GEM-CodeEditor
+
+env: # Define environment variables
+  MY_VARIABLE: ${{ secrets.KEY }
