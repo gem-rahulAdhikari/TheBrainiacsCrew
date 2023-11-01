@@ -57,7 +57,7 @@ Session(app)
 github_username = 'gem-rahulAdhikari'
 github_repository = 'githubSelenium'
 # github_personal_access_token = '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'
-github_personal_access_token = os.environ.get('KEY')
+github_personal_access_token = os.getenv("MY_VARIABLE")
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
