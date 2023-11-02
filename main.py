@@ -56,8 +56,8 @@ Session(app)
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
 github_repository = 'githubSelenium'
-# github_personal_access_token = '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'
-github_personal_access_token = os.environ.get('MY_VARIABLE')
+github_personal_access_token = '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'
+# github_personal_access_token = os.environ.get('MY_VARIABLE')
 
 
 # Set the API URLs
