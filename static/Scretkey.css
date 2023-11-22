@@ -16,6 +16,7 @@
     padding: 20px !important ;
     border: 1px solid #888 ;
     width: 80% ;
+    height: 230px;
     max-width: 400px ;
   }
   
@@ -44,6 +45,8 @@
   
   #submitSecretKey {
     margin-top: 10px !important;
+    margin-left:120px;
+    margin-bottom:10px;
   }
   #submitSecretKey {
     background-color: #4CAF50;

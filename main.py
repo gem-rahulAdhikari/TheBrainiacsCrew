@@ -70,8 +70,10 @@ old_api_url = f'https://api.github.com/repos/{github_username}/{github_repositor
 api_url1 =f'https://api.github.com/repos/{github_username}/{github_repository}/contents/src/test/java'
 
 
-
-
+# @app.route('/')
+# def login2():
+#         return render_template('index_updated.html')
+       
 #Directs to main page
 @app.route('/')
 def login1():
@@ -127,7 +129,7 @@ def editor():
      if keyStatus == 'F':
          return redirect(url_for('error'))
      
-     return render_template('index.html',current_page='editor')
+     return render_template('index_updated.html',current_page='editor')
 
 
 
@@ -970,6 +972,7 @@ def runCode():
     data = response.json()
     print(data)
     out=tockenGeneration(data['token'])
+    print("return output")
     print(out)
     logging.info("Code_Output"+":" +out)
     return out
@@ -1039,6 +1042,7 @@ def submit_form():
 
 #This method is used to get the tocken which is required to fetch the output of code from api.
 def tockenGeneration(token):
+          print("inside tocken generation")
         
           url = 'http://'+ip_address+'/submissions/{}?base64_encoded=false&fields=stdout,stderr,status_id,language_id,source_code,compile_output'.format(token)
           params = {"base64_encoded": "false", "fields": "stdout,stderr,status_id,language_id,source_code,compile_output"}
@@ -1057,7 +1061,7 @@ def tockenGeneration(token):
                 params = {"base64_encoded": "false", "fields": "stdout,stderr,status_id,language_id,source_code,compile_output"}
                 response = requests.get(url, params=params)
                 data = response.json()
-               # print(data['status_id'])
+                print(data['status_id'])
 
           print(data)
 
@@ -1074,6 +1078,7 @@ def tockenGeneration(token):
             
           else :
                if data['stderr'] == None:
+                     print("inside correct")
                      return data['stdout']
                else :
                     return data['stderr']
