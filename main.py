@@ -134,7 +134,7 @@ def editor():
      if keyStatus == 'F':
          return redirect(url_for('error'))
      
-     return render_template('index.html',current_page='editor')
+     return render_template('index_updated.html',current_page='editor')
 
 
 
