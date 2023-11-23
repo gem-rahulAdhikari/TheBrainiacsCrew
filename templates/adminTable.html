@@ -1651,7 +1651,7 @@ async function setDetails(Name, Email) {
   const stringToHash = Email + salt;
   console.log("key " + stringToHash)
   var hexHash = CryptoJS.SHA256(stringToHash)
-  const uniqueUrl = "http://g-codeeditor.el.r.appspot.com/editor?name=".concat(hexHash);
+  const uniqueUrl = "http://g-code-editor.el.r.appspot.com/editor?name=".concat(hexHash);
   console.log(uniqueUrl)
   const salt1 = Math.random().toString(36).substring(2, 15);
   const stringToHash1 = salt1;

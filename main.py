@@ -55,14 +55,18 @@ Session(app)
 
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
-github_repository = 'githubSelenium'
-github_personal_access_token = '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'
+github_repository = 'compileTimeError'
+github_personal_access_token_part1 = 'ghp_yL3wH9gGFOmdgcog'
+github_personal_access_token_part2 = '3wIh6IOZu2Era62DZcHE'
+github_personal_access_token=github_personal_access_token_part1+github_personal_access_token_part2
 # github_personal_access_token = os.environ.get('MY_VARIABLE')
+sha_value=''
+source_branch_name = "main"
 
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
-old_file_path1 = 'src/test/java/App.java'  
+old_file_path1 = 'seleniumExecution/src/main/java/App.java'  
 new_file_path =''
 
 old_api_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/'
@@ -113,6 +117,7 @@ def profile():
 @app.route('/editor')
 def editor():
      full_url = request.url
+     print(full_url)
      with open(json_file_path) as f:
         data = json.load(f)
         url =  data.get("adminTableDataWithoutResume", "")
@@ -129,7 +134,7 @@ def editor():
      if keyStatus == 'F':
          return redirect(url_for('error'))
      
-     return render_template('index_updated.html',current_page='editor')
+     return render_template('index.html',current_page='editor')
 
 
 
@@ -1317,25 +1322,25 @@ def getName(req_url):
              print(req_name)
              return req_name
           
-@app.route('/process_text45', methods=['GET', 'POST'])
-def create_branch12():
+@app.route('/seleniumExecution', methods=['GET', 'POST'])
+def seleniumGithubAction():
     url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput"
     formatted_time=""
+    new_branch_name=""
     if request.method == 'POST':
+        epoch_time = int(time.time())
+        epoch_time_seconds = int(time.time())
+        formatted_time = str(epoch_time_seconds)
         print("inside the process")
         c=0
         data = request.get_json()
-        text = data.get("text", "")
-        userName = data.get("userName", "")
-        print(userName)
-        print(type(userName))
-        # epoch_time = int(time.time())
-        # formatted_time = time.ctime(epoch_time)
+        codeInput = data.get("text", "")
+        email = data.get("userName", "")
         response = requests.get(url)
         if response.status_code == 200:
          data1 = response.json()
          for item in data1:
-             if item['Email'] == userName:
+             if item['Email'] == email:
                  c=c+1
                  formatted_time=item['url']
                  print("user already exist")
@@ -1346,19 +1351,16 @@ def create_branch12():
                  
         if c==0:
           print("inside the user defination")
-          epoch_time = int(time.time())
-          epoch_time_seconds = int(time.time())
-          formatted_time = str(epoch_time_seconds)
-        #   formatted_time = time.ctime(epoch_time)
-        #   formatted_time = formatted_time.replace(" ", "")
-          print(formatted_time)
-        #   encodedValue=urllib.parse.quote(formatted_time)
+          new_branch_name = formatted_time
+        #   epoch_time = int(time.time())
+        #   epoch_time_seconds = int(time.time())
+        #   formatted_time = str(epoch_time_seconds)
           post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"
           data_to_send = {
                        "Submissions": [
                            
                            ],
-                              "Email":userName ,
+                              "Email":email ,
                               "url": formatted_time,
                               
                        }
@@ -1369,22 +1371,34 @@ def create_branch12():
           else:
            print(f"POST request failed with status code: {post_response.status_code}")
 
+        else:
+           response = requests.get(url)
+           if response.status_code == 200:
+            data = response.json()
+            for item in data:
+               if item['Email'] == email:
+                  c=len(item['Submissions'])
+                  new_branch_name=item['url']
+                  
+              
+
         print("inside post request")
-        branch=data.get("branch", "")
-        start_index = text.find('static String reportName')
-        quote_start = text.find('"', start_index)
-        quote_end = text.find('"', quote_start + 1)
+        # branch=data.get("branch", "")
+        start_index = codeInput.find('static String reportName')
+        quote_start = codeInput.find('"', start_index)
+        quote_end = codeInput.find('"', quote_start + 1)
         textareaValue = (
-                              text[:quote_start + 1]
-                             + "Report_"+formatted_time+ text[quote_end:]
+                              codeInput[:quote_start + 1]
+                             + "Report_"+formatted_time+"_"+str(c)+ codeInput[quote_end:]
                              )
 
         print(textareaValue) 
          # Define the paths to the YAML and Java files in your GitHub repository
         yaml_file_path = '.github/workflows/selenium.yml'  # Replace with the actual path to your YAML file
-        java_file_path = 'src/main/java/App.java'  # Replace with the actual path to your Java file
+        java_file_path = 'seleniumExecution/src/main/java/App.java'  # Replace with the actual path to your Java file
+        properties_file_path ='seleniumExecution/reportName.properties'
 
-        new_branch_name = branch
+        # new_branch_name = formatted_time
         
         # Make an authenticated request to the GitHub API to get the SHA of the source branch
         headers = {
@@ -1393,7 +1407,7 @@ def create_branch12():
 
         source_branch_name = "main"  # Replace with your source branch name
         response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository}/git/refs/heads/{source_branch_name}", headers=headers)
-
+        print(response.status_code)
         if response.status_code == 200:
             sha = response.json()['object']['sha']
             print(sha)
@@ -1408,31 +1422,43 @@ def create_branch12():
 
 
         search_text = "beta1"
+        search_text1 = "Report"
         replacement_text = new_branch_name
+        replacement_text1 = "Report_"+new_branch_name+"_"+str(c)
         response = requests.post(f"https://api.github.com/repos/{github_username}/{github_repository}/git/refs", headers=headers, json=data)
 
     
         latest_yaml_response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository}/contents/{yaml_file_path}?ref={new_branch_name}", headers=headers)
         latest_java_response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository}/contents/{java_file_path}?ref={new_branch_name}", headers=headers)
-        
-        if latest_yaml_response.status_code == 200 and latest_java_response.status_code == 200:
+        latest_properties_response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository}/contents/{properties_file_path}?ref={new_branch_name}", headers=headers)
+        print(latest_properties_response.status_code)
+
+        if latest_yaml_response.status_code == 200 and latest_java_response.status_code == 200 and latest_properties_response.status_code == 200:
             latest_yaml_content = latest_yaml_response.json()['content']
             latest_java_content = latest_java_response.json()['content']
+            latest_properties_content = latest_properties_response.json()['content']
 
             latest_yaml_sha = latest_yaml_response.json()['sha']
             latest_java_sha = latest_java_response.json()['sha']
+            latest_properties_sha = latest_properties_response.json()['sha']
+            print(latest_properties_sha)
 
             
             current_java_content=base64.b64decode(latest_java_content).decode()
             current_yaml_content=base64.b64decode(latest_yaml_content).decode()
+            current_properties_content=base64.b64decode(latest_properties_content).decode()
 
             updated_yaml_content = current_yaml_content.replace(search_text, replacement_text)
+            updated_properties_content = current_properties_content.replace(search_text1, replacement_text1)
 
 
             updated_content=textareaValue
 
             encoded_java_content=base64.b64encode(updated_content.encode()).decode()
             encoded_yaml_content=base64.b64encode(updated_yaml_content.encode()).decode()
+            encoded_properties_content=base64.b64encode(updated_properties_content.encode()).decode()
+            print("this is content to update")
+            print(encoded_properties_content)
 
 
             yaml_data = {
@@ -1451,37 +1477,84 @@ def create_branch12():
                 'path': java_file_path
             }
 
+            properties_data = {
+                'message': 'Update properties and Java files',
+                'content': encoded_properties_content,
+                'sha': latest_properties_sha,
+                "branch": new_branch_name,
+                'path': properties_file_path
+            }
+
             # Send the requests to update the YAML and Java files on GitHub
             update_yaml_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{yaml_file_path}'
             update_java_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{java_file_path}'
+            update_properties_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/{properties_file_path}'
 
+            response_properties = requests.put(update_properties_url, json=properties_data, headers=headers)
             response_yaml = requests.put(update_yaml_url, json=yaml_data, headers=headers)
             response_java = requests.put(update_java_url, json=java_data, headers=headers)
-            
+            response_java_json = response_java.json()
+            response_properties_json = response_properties.json()
+            # print("Response Body for Java:", response_java.text)
+            if response_java.status_code == 200:
+            # Parse the JSON response
+             response_json = response_java.json()
+           # Check if the "commit" key exists in the response
+             if "commit" in response_json:
+              commit_data = response_json["commit"]
+              # Iterate over the commit data and print key-value pairs
+              for key, value in commit_data.items():
+                if key == "sha":
+                 sha_value = value
+                 print(sha_value);
+                 print(f"branch name which is created{replacement_text}")   
+                         
+              commit_status_url=f"https://api.github.com/repos/{github_username}/{github_repository}/actions/runs?event=push&branch= {replacement_text}&commit={sha_value}" 
+              while True:
+                 response = requests.get(commit_status_url, headers=headers)
+                 if response.status_code == 200:
+                    data = response.json()
+                    if data['workflow_runs']:
+                       latest_run = data['workflow_runs'][0]
+                       if latest_run['status'] == 'completed':
+                          if latest_run['conclusion'] == 'success' or latest_run['conclusion'] == 'failure':
+                           print("Workflow completed successfully.")
+                          
+                           response = requests.get(url)
+                           if response.status_code == 200:
+                              data = response.json()
+                              print(data)
+                              for item in data:
+                                 if item['url'] == formatted_time:
+                                    print(item['url'])
+                                    print(formatted_time)
+                                    if 'Submissions' in item and item['Submissions'] and len(item['Submissions']) > 0:
+                                       submissions = item['Submissions']
+                                       count_submissions = len(submissions)
+                                       print(count_submissions)
+                                       lastSubmission = item['Submissions'][-1]
+                                       lastSubmissionOutput = lastSubmission.get('Output', None)
+                                       print(lastSubmissionOutput)
+                                       return jsonify({"result": lastSubmissionOutput})            
+                          else:
+                             print("Workflow completed with a failure.")
+                             return jsonify({"failure"}) 
+                          
+                    else:
+                       print("Workflow is still running...")
+
+                 else:
+                     print("Failed to fetch workflow run details.")  
+
+              time.sleep(2)                       
+
+
+             else:
+              print("No 'commit' key found in the response JSON")
+            else:
+             print(f"Request to {update_java_url} failed with status code: {response_java.status_code}")
            
-
-
-    
-    time.sleep(100)
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        print(data)
-        for item in data:
-            # if item['url'] == "http://g-codeeditor.el.r.appspot.com/editor?name=d57bc5785be7dfc774f8b69c8f08e3556c4d94060006fd5f91c51b0feb82f742":
-            if item['url'] == formatted_time:
-                # print(item['Submissions'])
-                if 'Submissions' in item and item['Submissions'] and len(item['Submissions']) > 0:
-                    submissions = item['Submissions']
-                    count_submissions = len(submissions)
-                    print(count_submissions)
-                    lastSubmission = item['Submissions'][-1]
-                    lastSubmissionOutput = lastSubmission.get('Output', None)
-                    print(lastSubmissionOutput)
-
-
-        
-    return jsonify({"result": lastSubmissionOutput})
+      
 
 #This route is used to render the error page.
 @app.route('/error')

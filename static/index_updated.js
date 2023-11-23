@@ -126,18 +126,19 @@ dropdown.addEventListener("change", function() {
   console.log(data);
  
   console.log(selectedValue);
-  const divElement = document.getElementById("result1");
-        if (divElement) {
-          const textareaElement = document.createElement("textarea");
-          textareaElement.id = "result"; // Restore the original ID if needed
-          textareaElement.style.height = "25vh";
-          textareaElement.classList.add("form-control");
-          textareaElement.style.overflow = "auto";
-          textareaElement.value =" "
-          divElement.parentNode.replaceChild(textareaElement, divElement);
-          textareaElement.setAttribute("name", "code_output");
-          selenium = false
-        }
+  selenium = false
+  // const divElement = document.getElementById("outputTextarea");
+        // if (divElement) {
+        //   const textareaElement = document.createElement("textarea");
+        //   textareaElement.id = "result"; // Restore the original ID if needed
+        //   textareaElement.style.height = "25vh";
+        //   textareaElement.classList.add("form-control");
+        //   textareaElement.style.overflow = "auto";
+        //   textareaElement.value =" "
+        //   divElement.parentNode.replaceChild(textareaElement, divElement);
+        //   textareaElement.setAttribute("name", "code_output");
+        //   selenium = false
+        // }
 });
   }
   else
@@ -192,6 +193,8 @@ textareaElement.parentNode.replaceChild(divElement, textareaElement);
     }
 
     //run the textarea code
+    const currentURL = window.location.href;
+  let c=0;
 var runBtn = document.getElementById('Runbtn');
 runBtn.addEventListener('click', function() {
   console.log("run button")
@@ -204,6 +207,7 @@ runBtn.addEventListener('click', function() {
 
 console.log(formattedValue);
     var stdin = document.querySelector('textarea[name="input_area"]').value;
+    console.log(selenium)
     
    if(selenium === false)
    {
@@ -238,50 +242,83 @@ console.log(data); // prints the returned JSON object
 console.error(error);
 });
 }
-// else
-// {
-// console.log("this is selenium")
-// fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
-// .then(response => response.json())
-// .then(data => {
-// console.log(data);
-// // Iterate over the data array
-// data.forEach(item => {
-//   if(item.url==currentURL)
-//   {
-//       if (item.hasOwnProperty("Submissions"))
-//       {
-// console.log(item.Submissions.length);
-// c=item.Submissions.length;
-// console.log(c)
-//       }
+else
+{
+console.log("this is selenium")
+fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
+.then(response => response.json())
+.then(data => {
+console.log(data);
+// Iterate over the data array
+data.forEach(item => {
+  if(item.url==currentURL)
+  {
+      if (item.hasOwnProperty("Submissions"))
+      {
+console.log(item.Submissions.length);
+c=item.Submissions.length;
+console.log(c)
+      }
 
-//       else
-//       {
-//           c=0;
-//       }
-//   }
-// });
-// console.log("this is "+c)
-// makePostRequest(c,currentURL);
-// })
-// .catch(error => console.error(error));
-// async function makePostRequest(c,currentURL) {
-// console.log(c)
-// try {
-// const response = await fetch('/updatewithoutchangename', {
-//     method: 'POST',
-//     headers: {
-//         'Content-Type': 'application/json'
-//     },
-//     body: JSON.stringify({ content: textareaValue,url: currentURL,count: c }) 
-// });
-// const responseData = await response.text();
+      else
+      {
+          c=0;
+      }
+  }
+});
+console.log("this is "+c)
+makePostRequest(c,currentURL);
+})
+.catch(error => console.error(error));
+async function makePostRequest(c,currentURL) {
+console.log(c)
+try {
+const response = await fetch('/seleniumExecution', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ text: textareaValue,userName: currentURL }) 
+});
+const responseData = await response.json(); // Parse the response as JSON
+
+if (responseData && responseData.result) {
+    const requiredUrl = responseData.result;
+    console.log("hello");
+    console.log(requiredUrl);
+    const myTextarea = document.getElementById("outputTextarea")
+if (myTextarea !== null) {
+  // There is a textarea element with the ID "result"
+  console.log("Textarea with ID 'result' exists.");
+  // You can perform further actions here if needed
+} else {
+  // There is no textarea element with the ID "result"
+  console.log("Textarea with ID 'result' does not exist.");
+  // You can perform alternative actions here if needed
+}
+myTextarea.value = requiredUrl;
+// const anchorElement = document.createElement("a");
+// anchorElement.href = requiredUrl;
+// anchorElement.target = "_blank";
+// anchorElement.textContent = requiredUrl;
+// myTextarea.value = requiredUrl;
+// myTextarea.appendChild(anchorElement);
+    console.log("hello");
+} else {
+    console.error('Invalid or missing result property in the response:', responseData);
+}
 // console.log(responseData)
-// if (response.ok) {
-//     console.log('Update successful');
-//     console.log("wait")
-// // Delay for 1.5 minutes before sending the GET request
+if (response.ok) {
+  // const outputArea = document.getElementById("outputTextarea");
+  // const anchorElement = document.createElement("a");
+  // anchorElement.href = responseData;
+  // anchorElement.target = "_blank";
+  // anchorElement.textContent = responseData;
+  // outputArea.innerHTML = "";
+  // outputArea.appendChild(anchorElement);
+    console.log('Update successful');
+    console.log("wait")
+// Delay for 1.5 minutes before sending the GET request
 // setTimeout(async () => {
 // try {
 // fetch('https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput')
@@ -317,21 +354,20 @@ console.error(error);
 //     });
 // })
 // .catch(error => console.error(error));
-//   // console.log('GET Response:', getResponseData);
+  
 // } catch (getError) {
 //   console.error('GET Request error:', getError);
 // }
-// }, 120000); // 1.5 minutes in milliseconds
-    
-// } else {
-//     console.log('Update failed');
-// }
-// } catch (error) {
-// console.error('An error occurred:', error);
-// }
-// }
+// }, 120000);
+} else {
+    console.log('Update failed');
+}
+} catch (error) {
+console.error('An error occurred:', error);
+}
+}
 
-// }
+}
 });
 
 //submit the code
@@ -641,6 +677,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
+
   var languageDropdown = document.getElementById("dropdown");
   languageDropdown.dataset.initialValue =languageDropdown.value;
   console.log(languageDropdown.value)
@@ -651,12 +688,20 @@ document.addEventListener("DOMContentLoaded", function () {
 function resetForm() {
   var textarea = document.getElementById("code_input");
   var languageDropdown = document.getElementById("dropdown");
+  var output = document.getElementById("outputTextarea");
+  var input = document.getElementById("inputTextarea");
+
 
   // Reset the textarea
   if (textarea.dataset.initialContent !== undefined) {
     textarea.value = textarea.dataset.initialContent;
+
   } else {
+    
     textarea.value = ""; // Reset to an empty value
+    output.value = "";
+    input.value = "";
+
   }
 
   // Reset the language dropdown
@@ -689,4 +734,8 @@ function expandTextarea() {
     // Hide the popup
     popupContainer.style.display = "none";
   });
+}
+function disableButton() {
+  const button = document.getElementById("Runbtn");
+  button.disabled = true;
 }
