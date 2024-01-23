@@ -34,7 +34,7 @@ access_duration = timedelta(seconds=30)
 CORS(app)
 api = Api(app)
 
-ip_address='35.230.92.82'
+ip_address='34.165.39.231'
 
 hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)"}
 
@@ -55,7 +55,7 @@ Session(app)
 
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
-github_repository = 'compileTimeError'
+github_repository = 'SeleniumIntegration'
 github_personal_access_token_part1 = 'ghp_yL3wH9gGFOmdgcog'
 github_personal_access_token_part2 = '3wIh6IOZu2Era62DZcHE'
 github_personal_access_token=github_personal_access_token_part1+github_personal_access_token_part2
@@ -66,7 +66,7 @@ source_branch_name = "main"
 
 # Set the API URLs
 old_file_path = 'src/test/java/'  # Replace with the current file path
-old_file_path1 = 'seleniumExecution/src/main/java/App.java'  
+old_file_path1 = 'src/main/java/App.java'  
 new_file_path =''
 
 old_api_url = f'https://api.github.com/repos/{github_username}/{github_repository}/contents/'
@@ -86,6 +86,12 @@ def login1():
        else:
         return render_template('login.html')      
     
+
+
+
+@app.route('/demo')
+def demo():
+   return render_template('latest_ui.html')
 
 
 #Directs to Profile page
@@ -678,6 +684,11 @@ def login():
     if request.method == 'POST':
        
         # Clear previous session data
+        username=""
+        password=""
+        role=""
+        fetched_username=""
+        fetched_password=""
         session.pop('user', None)
         session.pop('password', None)
         session.pop('role', None)
@@ -691,7 +702,6 @@ def login():
         with open(json_file_path) as f:
               data = json.load(f)
               url =  data.get("loginApi", "") 
-        # url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/admin"
         response = requests.get(url)
         print(response)
         
@@ -699,29 +709,23 @@ def login():
             data = response.json()
             
             for item in data:
-                if username == item['userId']:
+                if username == item['userId'] and password == item['password']:
                     print("this is req role");
                     fetched_username = item['userId']
                     fetched_password = item['password']
-                    print(fetched_username)
-                    print(fetched_password)
-                    print(username)
-                    print(password)
-                    role = item['Role']
+                    role= item['Role']
+                    session['user'] = username
+                    session['password'] = password
+                    session['role'] = role
                     print(role+"this is req role");
                     break
-            
-            if username == fetched_username and password == fetched_password:
-              session['user'] = username
-              session['password'] = password
-              session['role'] = role
-              print(role);
                 
-            if role == 'Admin' or role == 'HR' or role == 'Interviewer':
-
-           
-            
+            if role == 'Admin':
              return redirect(url_for('protected', role=role))
+            else:
+             print("this is not admin")
+             return render_template('login.html')
+
         
        
     # Display login form
@@ -932,6 +936,7 @@ def languageSelection():
     logging.info(Selected_option+": "+Selected_value)
     response = requests.get('http://'+ip_address+'/languages/all')
     data = response.json()
+    print(data)
     return jsonify(data)   
 
 
@@ -1395,8 +1400,8 @@ def seleniumGithubAction():
         print(textareaValue) 
          # Define the paths to the YAML and Java files in your GitHub repository
         yaml_file_path = '.github/workflows/selenium.yml'  # Replace with the actual path to your YAML file
-        java_file_path = 'seleniumExecution/src/main/java/App.java'  # Replace with the actual path to your Java file
-        properties_file_path ='seleniumExecution/reportName.properties'
+        java_file_path = 'src/main/java/App.java'  # Replace with the actual path to your Java file
+        properties_file_path ='reportName.properties'
 
         # new_branch_name = formatted_time
         
@@ -1424,6 +1429,7 @@ def seleniumGithubAction():
         search_text = "beta1"
         search_text1 = "Report"
         replacement_text = new_branch_name
+        print(new_branch_name)
         replacement_text1 = "Report_"+new_branch_name+"_"+str(c)
         response = requests.post(f"https://api.github.com/repos/{github_username}/{github_repository}/git/refs", headers=headers, json=data)
 

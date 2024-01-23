@@ -77,6 +77,59 @@ function toggleContainers() {
   }
 }
 
+
+
+//popup dropdown
+// dropdownPopup.addEventListener("change", function() {
+//   console.log("helo ji")
+//   const selectedValue = dropdownPopup.value;
+//   const options = dropdownPopup.options;
+//   let selectedOptionText = '';
+//   for (let i = 0; i < options.length; i++) {
+//     if (options[i].value === selectedValue) {
+//       selectedOptionText = options[i].textContent;
+//       break;
+//     }
+//   }
+//   const Selected_value= `${selectedValue}`
+//   const Selected_option= `${selectedOptionText}`  
+//   console.log(`Selected value: ${selectedValue}`);
+//   console.log(`Selected option: ${selectedOptionText}`);
+
+//   if(Selected_option !== "Selenium")
+//   {  
+//     console.log("this is not selenium")
+//   fetch('/select_lang', {
+//   method: 'POST',
+//   headers: {
+//     'Content-Type': 'application/json'
+//   },
+//   body: JSON.stringify({
+//     Selected_value: Selected_value,
+//     Selected_option: Selected_option
+//   })
+// })
+// .then(response => response.json())
+// .then(data => {
+  
+//   // handle the response data here
+//   data.forEach(item => {
+//      // console.log(item.name.toString());
+//      if(item.name.toString() == hashMap[Selected_option].toString())
+//       {
+//       globalId=item.id;
+//       getValueFromServer(item.id.toString());
+     
+//    } 
+    
+//   })
+//   console.log(data);
+ 
+//   console.log(selectedValue);
+//   selenium = false
+// });
+//   }
+// })
 //drodown langugae selection
 
 dropdown.addEventListener("change", function() {
@@ -84,7 +137,6 @@ dropdown.addEventListener("change", function() {
   const options = dropdown.options;
   let selectedOptionText = '';
   console.log("hello")
-
   for (let i = 0; i < options.length; i++) {
     if (options[i].value === selectedValue) {
       selectedOptionText = options[i].textContent;
@@ -111,6 +163,7 @@ dropdown.addEventListener("change", function() {
 })
 .then(response => response.json())
 .then(data => {
+  console.log(data)
   
   // handle the response data here
   data.forEach(item => {
@@ -475,7 +528,6 @@ var submitBtn = document.getElementById('Executebtn');
         console.log("hello");
         console.log(selectedSubmission.SubmittedCode);
         console.log("hello");
-        
         textarea.value=selectedSubmission.SubmittedCode;
         input_area.value=selectedSubmission.Input_Parameter;
         result.value=selectedSubmission.Output;
@@ -695,6 +747,10 @@ function resetForm() {
   // Reset the textarea
   if (textarea.dataset.initialContent !== undefined) {
     textarea.value = textarea.dataset.initialContent;
+    output.value = "";
+    input.value = "";
+
+    
 
   } else {
     
@@ -721,7 +777,7 @@ function expandTextarea() {
   var closePopupButton = document.getElementById("closePopupButton");
 
   // Set the initial value of the expanded textarea
-  expandedTextarea.value = codeInput.value;
+  // expandedTextarea.value = codeInput.value;
 
   // Show the popup
   popupContainer.style.display = "flex";
@@ -729,7 +785,7 @@ function expandTextarea() {
   // Close the popup when the close button is clicked
   closePopupButton.addEventListener("click", function () {
     // Update the original textarea with the content from the expanded textarea
-    codeInput.value = expandedTextarea.value;
+    // codeInput.value = expandedTextarea.value;
 
     // Hide the popup
     popupContainer.style.display = "none";
