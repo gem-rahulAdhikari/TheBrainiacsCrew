@@ -1,0 +1,28 @@
+.sub-tab {
+  margin-top: 8px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  visibility: hidden;
+  opacity: 1;
+  transition: visibility 0.5s ease, opacity 0.5s ease;
+  margin-left: 10px;
+  text-align: center;
+}
+.editor-wrappe {
+  border: 1px solid black;
+  display: grid;
+  grid-template-columns: 3.5fr 6.5fr;
+  grid-gap: 1rem;
+}
+.toggle-editor {
+  display: grid;
+  grid-template-rows: 1fr 9fr;
+  gap: 1rem;
+  display: none;
+}
+
+.active {
+  background-color: white;
+  color: black;
+}

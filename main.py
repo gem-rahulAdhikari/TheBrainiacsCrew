@@ -34,7 +34,10 @@ access_duration = timedelta(seconds=30)
 CORS(app)
 api = Api(app)
 
-ip_address='34.165.39.231'
+# ip_address='34.165.39.231'
+ip_address='ce.judge0.com'
+
+
 
 hashMap = { "Python": "Python (3.8.1)", "Java": "Java (OpenJDK 13.0.1)", "C": "C (GCC 9.2.0)"}
 
@@ -56,6 +59,7 @@ Session(app)
 #Git hub credentials
 github_username = 'gem-rahulAdhikari'
 github_repository = 'SeleniumIntegration'
+github_repository1 = 'gemcode-restassured'
 github_personal_access_token_part1 = 'ghp_yL3wH9gGFOmdgcog'
 github_personal_access_token_part2 = '3wIh6IOZu2Era62DZcHE'
 github_personal_access_token=github_personal_access_token_part1+github_personal_access_token_part2
@@ -140,7 +144,7 @@ def editor():
      if keyStatus == 'F':
          return redirect(url_for('error'))
      
-     return render_template('index_updated.html',current_page='editor')
+     return render_template('latest_ui.html',current_page='editor')
 
 
 
@@ -935,6 +939,7 @@ def languageSelection():
     print(Selected_value)
     logging.info(Selected_option+": "+Selected_value)
     response = requests.get('http://'+ip_address+'/languages/all')
+    # response = requests.get('https://ce.judge0.com/languages/all')
     data = response.json()
     print(data)
     return jsonify(data)   
@@ -948,10 +953,10 @@ def runCode():
     stdin = request.get_json()['stdin']
     print(Selected_value)
     print("fetched value")
-    print(textarea_value)
     formatted_string = textarea_value.replace("\\n", "\n").replace("\\\"", "\"")
     print(formatted_string)
     print(stdin)
+    print("hello")
     headers = {
         'Content-Type': 'application/json',
         'X-Auth-Token': 'X-Auth-Token'
@@ -1326,7 +1331,257 @@ def getName(req_url):
              req_name=item['name']
              print(req_name)
              return req_name
+
+
+
+#rest assured api hit
           
+@app.route('/rest-assured-execution', methods=['GET','POST'])
+def restAssuredGithubAction():
+    url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput"
+    formatted_time=""
+    new_branch_name=""
+    if request.method == 'POST':
+        epoch_time = int(time.time())
+        epoch_time_seconds = int(time.time())
+        formatted_time = str(epoch_time_seconds)
+        print("inside the process")
+        c=0
+        data = request.get_json()
+        codeInput = data.get("text", "")
+        email = data.get("userName", "")
+        response = requests.get(url)
+        if response.status_code == 200:
+           data1 = response.json()
+           for item in data1:
+              if item['Email'] == email:
+                 c=c+1
+                 formatted_time=item['url']
+                 print("user already exist")
+                 break;
+
+
+        if c==0:
+          print("inside the user defination")
+          new_branch_name = formatted_time
+          post_url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/addSeleniumResult"
+          data_to_send = {
+                       "Submissions": [
+                           
+                           ],
+                              "Email":email ,
+                              "url": formatted_time,
+                              
+                       }
+          post_response = requests.post(post_url, json=data_to_send)
+          if post_response.status_code == 200:
+           print("User Add successfullly")
+          else:
+           print(f"POST request failed with status code: {post_response.status_code}")
+
+
+        else:
+           response = requests.get(url)
+           if response.status_code == 200:
+            data = response.json()
+            for item in data:
+               if item['Email'] == email:
+                  c=len(item['Submissions'])
+                  new_branch_name=item['url']   
+
+
+        print("inside post request")
+        
+          
+        textareaValue=codeInput
+        print(textareaValue) 
+         # Define the paths to the YAML and Java files in your GitHub repository
+        yaml_file_path = '.github/workflows/selenium.yml'  # Replace with the actual path to your YAML file
+        java_file_path = 'src/main/java/App.java'  # Replace with the actual path to your Java file
+        properties_file_path ='reportName.properties'
+        
+        # Make an authenticated request to the GitHub API to get the SHA of the source branch
+        headers = {
+            "Authorization": f"token {github_personal_access_token}",
+        } 
+
+
+        source_branch_name = "main"  # Replace with your source branch name
+        response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository1}/git/refs/heads/{source_branch_name}", headers=headers)
+        print(github_repository1)
+        print(response.status_code)
+        print("hello")
+        if response.status_code == 200:
+            sha = response.json()['object']['sha']
+            print(sha)
+        else:
+            return f"Failed to get the SHA of the source branch."
+
+        # Create a new branch based on the SHA of the source branch
+        data = {
+            "ref": f"refs/heads/{new_branch_name}",
+            "sha": sha,
+        }  
+
+
+        search_text = "beta1"
+        search_text1 = "Report"
+        replacement_text = new_branch_name
+        print(new_branch_name)
+        replacement_text1 = "Report_"+new_branch_name+"_"+str(c)
+        response = requests.post(f"https://api.github.com/repos/{github_username}/{github_repository1}/git/refs", headers=headers, json=data)
+
+    
+        latest_yaml_response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository1}/contents/{yaml_file_path}?ref={new_branch_name}", headers=headers)
+        latest_java_response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository1}/contents/{java_file_path}?ref={new_branch_name}", headers=headers)
+        latest_properties_response = requests.get(f"https://api.github.com/repos/{github_username}/{github_repository1}/contents/{properties_file_path}?ref={new_branch_name}", headers=headers)
+        print(latest_properties_response.status_code)
+        print(latest_java_response.status_code)
+        print(latest_properties_response.status_code)
+
+
+        if latest_yaml_response.status_code == 200 and latest_java_response.status_code == 200 and latest_properties_response.status_code == 200:
+            latest_yaml_content = latest_yaml_response.json()['content']
+            latest_java_content = latest_java_response.json()['content']
+            latest_properties_content = latest_properties_response.json()['content']
+
+            latest_yaml_sha = latest_yaml_response.json()['sha']
+            latest_java_sha = latest_java_response.json()['sha']
+            latest_properties_sha = latest_properties_response.json()['sha']
+            print(latest_properties_sha)
+
+            
+            current_java_content=base64.b64decode(latest_java_content).decode()
+            current_yaml_content=base64.b64decode(latest_yaml_content).decode()
+            current_properties_content=base64.b64decode(latest_properties_content).decode()
+
+            updated_yaml_content = current_yaml_content.replace(search_text, replacement_text)
+            updated_properties_content = current_properties_content.replace(search_text1, replacement_text1)
+
+
+            updated_content=textareaValue
+
+            encoded_java_content=base64.b64encode(updated_content.encode()).decode()
+            encoded_yaml_content=base64.b64encode(updated_yaml_content.encode()).decode()
+            encoded_properties_content=base64.b64encode(updated_properties_content.encode()).decode()
+            print("this is content to update")
+            print(encoded_properties_content)
+
+
+            yaml_data = {
+                'message': 'Update YAML and Java files',
+                'content': encoded_yaml_content,
+                'sha': latest_yaml_sha,
+                "branch": new_branch_name,
+                'path': yaml_file_path
+            }
+
+            java_data = {
+                'message': 'Update YAML and Java files',
+                'content': encoded_java_content,
+                'sha': latest_java_sha,
+                "branch": new_branch_name,
+                'path': java_file_path
+            }
+
+            properties_data = {
+                'message': 'Update properties and Java files',
+                'content': encoded_properties_content,
+                'sha': latest_properties_sha,
+                "branch": new_branch_name,
+                'path': properties_file_path
+            }
+
+            # Send the requests to update the YAML and Java files on GitHub
+            update_yaml_url = f'https://api.github.com/repos/{github_username}/{github_repository1}/contents/{yaml_file_path}'
+            update_java_url = f'https://api.github.com/repos/{github_username}/{github_repository1}/contents/{java_file_path}'
+            update_properties_url = f'https://api.github.com/repos/{github_username}/{github_repository1}/contents/{properties_file_path}'
+
+            response_properties = requests.put(update_properties_url, json=properties_data, headers=headers)
+            response_yaml = requests.put(update_yaml_url, json=yaml_data, headers=headers)
+            response_java = requests.put(update_java_url, json=java_data, headers=headers)
+            response_java_json = response_java.json()
+            response_properties_json = response_properties.json()
+            if response_java.status_code == 200:
+             response_json = response_java.json()
+             print("this is req response")
+             print(response_json)
+             print("this is req response")
+             if "commit" in response_json:
+              commit_data = response_json["commit"]
+              for key, value in commit_data.items():
+                if key == "sha":
+                 sha_value = value
+                 print("req sha");
+                 print(sha_value);
+                 print("req sha");
+
+
+              commit_status_url=f"https://api.github.com/repos/{github_username}/{github_repository1}/actions/runs?event=push&branch= {replacement_text}&commit={sha_value}" 
+            #   print(commit_status_url)
+            #   response1 = requests.get(commit_status_url, headers=headers)
+            #   time.sleep(5)
+            #   if response1.status_code == 200:
+            #       data = response1.json()
+            #       print(data)
+            #       print(data['total_count'])
+            #       latest_run = data['workflow_runs'][0]
+            #       print(latest_run['status'])
+            #       print(latest_run['head_sha'])
+                  
+              while True:
+                 response = requests.get(commit_status_url, headers=headers)
+                 if response.status_code == 200:
+                    data = response.json()
+                    if data['workflow_runs']:
+                       latest_run = data['workflow_runs'][0]
+                       if latest_run['status'] == 'completed':
+                          if latest_run['conclusion'] == 'success' or latest_run['conclusion'] == 'failure':
+                           print("Workflow completed successfully.")
+                          
+                           response = requests.get(url)
+                           if response.status_code == 200:
+                              data = response.json()
+                              print(data)
+                              for item in data:
+                                 if item['url'] == formatted_time:
+                                    print(item['url'])
+                                    print(formatted_time)
+                                    if 'Submissions' in item and item['Submissions'] and len(item['Submissions']) > 0:
+                                       submissions = item['Submissions']
+                                       count_submissions = len(submissions)
+                                       print(count_submissions)
+                                       lastSubmission = item['Submissions'][-1]
+                                       lastSubmissionOutput = lastSubmission.get('Output', None)
+                                       print(lastSubmissionOutput)
+                                       return jsonify({"result": lastSubmissionOutput})            
+                          else:
+                             print("Workflow completed with a failure.")
+                             return jsonify({"failure"}) 
+                          
+                    else:
+                       print("Workflow is still running...")
+
+                 else:
+                     print("Failed to fetch workflow run details.")  
+
+              time.sleep(2)   
+
+             else:
+              print("No 'commit' key found in the response JSON")
+            else:
+             print(f"Request to {update_java_url} failed with status code: {response_java.status_code}")
+
+
+     
+                    
+
+
+
+
+
+
+
 @app.route('/seleniumExecution', methods=['GET', 'POST'])
 def seleniumGithubAction():
     url = "https://us-east-1.aws.data.mongodb-api.com/app/application-0-awqqz/endpoint/getSeleniumOutput"
