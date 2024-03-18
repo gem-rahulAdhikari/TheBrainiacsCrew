@@ -25,6 +25,7 @@ var questionWrapper = document.querySelector(".question-wrapper");
 var mainEditorWrapper = document.querySelector(".main-editor-wrapper");
 var innerEditorWrapper = document.querySelector(".inner-editor-wrapper");
 var initialGridTemplateColumns = "40% 60%";
+var resultWrapper = document.querySelector(".result-wrapper");
 
 dropdown.addEventListener("change", function () {
   const selectedValue = dropdown.value;
@@ -72,6 +73,9 @@ dropdown.addEventListener("change", function () {
         selenium = false;
         RestAssured = false;
       });
+      resultWrapper.style.gridTemplateColumns = "1fr 1fr 1fr"; resultWrapper.style.gridTemplateColumns = "1fr 1fr 1fr";
+      // Show the first child (input/output div) when switching to 1fr 1fr 1fr layout
+      document.getElementById("result").style.display = "block";
   } else if (Selected_value === "Selenium") {
     selenium = true;
     RestAssured = false;
@@ -80,27 +84,10 @@ dropdown.addEventListener("change", function () {
     const currentURL = window.location.href;
     getValueFromServer("Selenium");
     console.log("Current URL:", currentURL);
-    const resultDiv = document.getElementById("result");
-    const outputResultDiv = document.getElementById("output-result");
-    const submitBtn = document.getElementById("Executebtn");
-    const buttonContainer = document.getElementById("toggle");
-    buttonContainer.style.display = "block";
-    buttonContainer.style.marginTop = "-11rem";
-    buttonContainer.style.width = "20px";
-    submitBtn.style.display = "none";
-    const toggleIconSpan = document.createElement("span");
-    const iconElement = document.createElement("i");
-    iconElement.classList.add("fa-solid", "fa-caret-down");
-    buttonContainer.appendChild(toggleIconSpan);
-    toggleIconSpan.appendChild(iconElement);
-    resultDiv.remove();
-    outputResultDiv.style.width = "45vw";
-    outputResultDiv.style.borderRadius = "2rem";
-    outputResultDiv.style.marginLeft = "2rem"; // Adjust the margin if needed
-    outputResultDiv.style.display = "block";
-    toggleIconSpan.onclick = function () {
-      toggleVisibility();
-    };
+    resultWrapper.style.gridTemplateColumns = "1fr 1fr";
+            // Hide the first child (input/output div) when switching to 1fr 1fr layout
+            document.getElementById("result").style.display = "none";
+  
   } else if (Selected_value === "Rest-Assured") {
     selenium = false;
     RestAssured = true;
@@ -109,46 +96,29 @@ dropdown.addEventListener("change", function () {
     const currentURL = window.location.href;
     getValueFromServer("Rest-Assured");
     console.log("Current URL:", currentURL);
-    const resultDiv = document.getElementById("result");
-    const outputResultDiv = document.getElementById("output-result");
-    const submitBtn = document.getElementById("Executebtn");
-    const buttonContainer = document.getElementById("toggle");
-    buttonContainer.style.display = "block";
-    buttonContainer.style.marginTop = "-11rem";
-    buttonContainer.style.width = "20px";
-    submitBtn.style.display = "none";
-    const toggleIconSpan = document.createElement("span");
-    const iconElement = document.createElement("i");
-    iconElement.classList.add("fa-solid", "fa-caret-down");
-    buttonContainer.appendChild(toggleIconSpan);
-    toggleIconSpan.appendChild(iconElement);
-    resultDiv.remove();
-    outputResultDiv.style.width = "45vw";
-    outputResultDiv.style.borderRadius = "2rem";
-    outputResultDiv.style.marginLeft = "2rem"; // Adjust the margin if needed
-    outputResultDiv.style.display = "block";
-    toggleIconSpan.onclick = function () {
-      toggleVisibility();
-    };
+    resultWrapper.style.gridTemplateColumns = "1fr 1fr";
+    // Hide the first child (input/output div) when switching to 1fr 1fr layout
+    document.getElementById("result").style.display = "none";
+    
   }
 });
 
-function toggleVisibility() {
-  console.log("hello div");
-  const outputResultDiv = document.getElementById("output-result");
-  const initialHeight = outputResultDiv.offsetHeight;
-  console.log(initialHeight);
-  if (initialHeight == 190) {
-    outputResultDiv.style.height = "0px";
-    outputResultDiv.style.overflow = "hidden";
-    console.log("Initial height is greater than 100 pixels");
-  } else {
-    // Perform action if initial height is 100 pixels or less
-    outputResultDiv.style.height = "190px";
-    outputResultDiv.style.overflow = "visible"; // Or remove overflow property altogether
-    console.log("Initial height is 100 pixels or less");
-  }
-}
+// function toggleVisibility() {
+//   console.log("hello div");
+//   const outputResultDiv = document.getElementById("output-result");
+//   const initialHeight = outputResultDiv.offsetHeight;
+//   console.log(initialHeight);
+//   if (initialHeight == 190) {
+//     outputResultDiv.style.height = "0px";
+//     outputResultDiv.style.overflow = "hidden";
+//     console.log("Initial height is greater than 100 pixels");
+//   } else {
+//     // Perform action if initial height is 100 pixels or less
+//     outputResultDiv.style.height = "190px";
+//     outputResultDiv.style.overflow = "visible"; // Or remove overflow property altogether
+//     console.log("Initial height is 100 pixels or less");
+//   }
+// }
 async function getValueFromServer(selectedValue) {
   console.log("getValuefromserver this is");
   console.log(selectedValue);
@@ -203,7 +173,7 @@ runBtn.addEventListener("click", function () {
 
   if (selenium === false && RestAssured === false) {
     console.log("this is not selenium");
-    fetch("/run", {
+    fetch("/runWithoutSubscription", {
       method: "POST",
       body: JSON.stringify({
         textareaValue: formattedValue,
@@ -388,7 +358,7 @@ submitBtn.addEventListener("click", function () {
   console.log(data1);
   console.log(textareaValue);
 
-  fetch("/submit", {
+  fetch("/submitWithoutSubscription", {
     method: "POST",
     body: JSON.stringify({
       textareaValue: formattedValue,

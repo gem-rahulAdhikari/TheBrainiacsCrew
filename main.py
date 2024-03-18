@@ -36,6 +36,7 @@ api = Api(app)
 
 # ip_address='34.165.39.231'
 ip_address='ce.judge0.com'
+ip_address1='judge0-ce.p.rapidapi.com'
 
 
 
@@ -946,6 +947,55 @@ def languageSelection():
 
 
 #This function is running the code and fetching the required response from api.
+@app.route('/runWithoutSubscription', methods=['POST'])
+def runCode1():
+   textarea_value = request.get_json()['textareaValue']
+   Selected_value = request.get_json()['Selected_value']
+   stdin = request.get_json()['stdin']
+   print(Selected_value)
+   print("fetched value")
+   formatted_string = textarea_value.replace("\\n", "\n").replace("\\\"", "\"")
+   print(formatted_string)
+   print(stdin)
+   print("hello")
+   headers = {
+        'Content-Type': 'application/json',
+        'X-RapidAPI-Key': '0fa9ac4b0fmshd2313e730df430ep18b1f3jsn93abfb36ef55',
+        'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+
+    }
+   # Create the JSON body for the request
+   json_body = {
+       'source_code':formatted_string,
+       'language_id': Selected_value,
+       'stdin': stdin,
+    #    'number_of_runs': None,
+    #    'expected_output': None,
+    #    'cpu_time_limit': None,
+    #    'cpu_extra_time': None,
+    #    'wall_time_limit': None,
+    #    'memory_limit': None,
+    #    'stack_limit': None,
+    #    'max_processes_and_or_threads': None,
+    #    'enable_per_process_and_thread_time_limit':None,
+    #    'enable_per_process_and_thread_memory_limit': None,
+    #    'max_file_size': None,
+    #    'enable_network': None
+    }
+   # Send the POST request with the headers and JSON body
+   response = requests.post('https://judge0-ce.p.rapidapi.com/submissions', headers=headers, json=json_body)
+   data = response.json()
+   print(data)
+   out=tockenGeneration(data['token'])
+   print("return output")
+   print(out)
+   logging.info("Code_Output"+":" +out)
+   return out
+
+
+
+
+
 @app.route('/run', methods=['POST'])
 def runCode():
     textarea_value = request.get_json()['textareaValue']
@@ -957,11 +1007,11 @@ def runCode():
     print(formatted_string)
     print(stdin)
     print("hello")
+   
     headers = {
         'Content-Type': 'application/json',
         'X-Auth-Token': 'X-Auth-Token'
     }
-
     # Create the JSON body for the request
     json_body = {
        'source_code':formatted_string,
@@ -991,6 +1041,66 @@ def runCode():
     print(out)
     logging.info("Code_Output"+":" +out)
     return out
+
+
+@app.route('/submitWithoutSubscription', methods=['POST'])
+def submit():
+    today = date.today()
+    date_string = today.strftime("%Y-%m-%d")
+    textarea_value = request.get_json()['textareaValue']
+    Selected_value = request.get_json()['Selected_value']
+    input_value = request.get_json()['inputValue']
+    output_value = request.get_json()['outputValue']
+    stdin = request.get_json()['stdin']
+    name = request.get_json()['name']
+    print("lello")
+    print(name)
+    print(Selected_value)
+    print(textarea_value)
+    formatted_string = textarea_value.replace("\\n", "\n").replace("\\\"", "\"")
+    print(today)
+    print("lello")
+    headers = {
+        'Content-Type': 'application/json',
+        'X-RapidAPI-Key': '0fa9ac4b0fmshd2313e730df430ep18b1f3jsn93abfb36ef55',
+        'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+
+    }
+   # Create the JSON body for the request
+    json_body = {
+       'source_code':formatted_string,
+       'language_id': Selected_value,
+       'stdin': stdin,
+    #    'number_of_runs': None,
+    #    'expected_output': None,
+    #    'cpu_time_limit': None,
+    #    'cpu_extra_time': None,
+    #    'wall_time_limit': None,
+    #    'memory_limit': None,
+    #    'stack_limit': None,
+    #    'max_processes_and_or_threads': None,
+    #    'enable_per_process_and_thread_time_limit':None,
+    #    'enable_per_process_and_thread_memory_limit': None,
+    #    'max_file_size': None,
+    #    'enable_network': None
+    }
+
+    response = requests.post('https://judge0-ce.p.rapidapi.com/submissions', headers=headers, json=json_body)
+
+    data = response.json()
+    out=tockenGeneration(data['token'])
+    logging.info("Code_Output"+":" +out)
+    print("heloooooooooo")
+    req_url=getUrl(name)
+    print("helloooo");
+    print(req_url)
+    req_name=getName(req_url)
+    print("heloo prya")
+    print(req_name)
+    updateVal(out,req_url,textarea_value,input_value,out,date_string)
+    return out
+    
+   
    
 
 #In this method we are getting result and saving the output in database.
