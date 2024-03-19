@@ -34,9 +34,9 @@ access_duration = timedelta(seconds=30)
 CORS(app)
 api = Api(app)
 
-# ip_address='34.165.39.231'
-ip_address='ce.judge0.com'
-ip_address1='judge0-ce.p.rapidapi.com'
+ip_address='35.230.76.232'
+# ip_address='ce.judge0.com'
+# ip_address1='judge0-ce.p.rapidapi.com'
 
 
 

@@ -103,22 +103,7 @@ dropdown.addEventListener("change", function () {
   }
 });
 
-// function toggleVisibility() {
-//   console.log("hello div");
-//   const outputResultDiv = document.getElementById("output-result");
-//   const initialHeight = outputResultDiv.offsetHeight;
-//   console.log(initialHeight);
-//   if (initialHeight == 190) {
-//     outputResultDiv.style.height = "0px";
-//     outputResultDiv.style.overflow = "hidden";
-//     console.log("Initial height is greater than 100 pixels");
-//   } else {
-//     // Perform action if initial height is 100 pixels or less
-//     outputResultDiv.style.height = "190px";
-//     outputResultDiv.style.overflow = "visible"; // Or remove overflow property altogether
-//     console.log("Initial height is 100 pixels or less");
-//   }
-// }
+
 async function getValueFromServer(selectedValue) {
   console.log("getValuefromserver this is");
   console.log(selectedValue);
@@ -173,7 +158,7 @@ runBtn.addEventListener("click", function () {
 
   if (selenium === false && RestAssured === false) {
     console.log("this is not selenium");
-    fetch("/runWithoutSubscription", {
+    fetch("/run", {
       method: "POST",
       body: JSON.stringify({
         textareaValue: formattedValue,
@@ -358,7 +343,7 @@ submitBtn.addEventListener("click", function () {
   console.log(data1);
   console.log(textareaValue);
 
-  fetch("/submitWithoutSubscription", {
+  fetch("/submit", {
     method: "POST",
     body: JSON.stringify({
       textareaValue: formattedValue,
