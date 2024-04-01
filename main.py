@@ -29,7 +29,7 @@ log_file = datetime.datetime.now().strftime('app_%Y-%m-%d.log')
 app = Flask(__name__, static_folder='static')
 
 active_keys = set()
-access_duration = timedelta(seconds=30)
+access_duration = timedelta(days=365)
 
 CORS(app)
 api = Api(app)
@@ -1460,15 +1460,15 @@ def restAssuredGithubAction():
         data = request.get_json()
         codeInput = data.get("text", "")
         email = data.get("userName", "")
-        response = requests.get(url)
-        if response.status_code == 200:
-           data1 = response.json()
-           for item in data1:
-              if item['Email'] == email:
-                 c=c+1
-                 formatted_time=item['url']
-                 print("user already exist")
-                 break;
+        # response = requests.get(url)
+        # if response.status_code == 200:
+        #    data1 = response.json()
+        #    for item in data1:
+        #       if item['Email'] == email:
+        #          c=c+1
+        #          formatted_time=item['url']
+        #          print("user already exist")
+        #          break;
 
 
         if c==0:
@@ -1706,15 +1706,15 @@ def seleniumGithubAction():
         data = request.get_json()
         codeInput = data.get("text", "")
         email = data.get("userName", "")
-        response = requests.get(url)
-        if response.status_code == 200:
-         data1 = response.json()
-         for item in data1:
-             if item['Email'] == email:
-                 c=c+1
-                 formatted_time=item['url']
-                 print("user already exist")
-                 break;
+        # response = requests.get(url)
+        # if response.status_code == 200:
+        #  data1 = response.json()
+        #  for item in data1:
+        #      if item['Email'] == email:
+        #          c=c+1
+        #          formatted_time=item['url']
+        #          print("user already exist")
+        #          break;
 
              
                  
